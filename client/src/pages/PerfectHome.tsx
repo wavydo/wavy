@@ -151,7 +151,7 @@ export default function PerfectHome() {
       ]}
       socials={[
         { kind: 'x', href: 'https://x.com/wavy' },
-        { kind: 'github', href: 'https://github.com/wavy' }
+        { kind: 'github', href: 'https://instagram.com/wavy.do' }
       ]}
       legal={[
         { label: 'Privacy', href: '/privacy' },
