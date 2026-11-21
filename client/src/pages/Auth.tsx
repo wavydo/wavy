@@ -168,25 +168,53 @@ export default function Auth() {
           .auth-left {
             order: 1;
             min-height: auto !important;
-            padding: 4rem 2rem 3rem 2rem !important;
-            justify-content: center !important;
+            padding: 2.5rem 2rem 0 2rem !important;
+            justify-content: flex-start !important;
+            text-align: center !important;
+            display: flex !important;
+            align-items: center !important;
+          }
+          .auth-left .auth-logo {
+            margin-bottom: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            width: 100% !important;
             text-align: center !important;
           }
-          .auth-left > div {
-            text-align: center !important;
-            margin: 0 auto !important;
-          }
-          .auth-left > div > * {
+          .auth-left .auth-logo img {
+            margin-bottom: -2.5rem !important;
             margin-left: auto !important;
             margin-right: auto !important;
+            max-width: 180px !important;
+            position: relative !important;
+            z-index: 2 !important;
+            display: block !important;
+            transform: translateX(0) !important;
+          }
+          .auth-left .auth-logo h1 {
+            position: relative !important;
+            z-index: 1 !important;
+            padding-top: 0 !important;
+            margin-top: -1.5rem !important;
+            margin-bottom: 0.25rem !important;
+            margin-left: 0 !important;
+            font-size: 32px !important;
+            text-align: center !important;
           }
           .auth-left .auth-logo p {
+            position: relative !important;
+            z-index: 1 !important;
+            font-size: 14px !important;
             max-width: 100% !important;
+            margin-bottom: 1.5rem !important;
+            margin-left: 0 !important;
+            text-align: center !important;
           }
           .auth-right {
             order: 2;
             min-height: auto !important;
-            padding: 3rem 2rem 4rem 2rem !important;
+            padding: 2rem 2rem 4rem 2rem !important;
           }
         }
       `}</style>
@@ -204,35 +232,33 @@ export default function Auth() {
             zIndex: 50,
             display: 'flex',
             alignItems: 'center',
-            gap: 8,
-            padding: '10px 16px',
-            background: 'rgba(255,255,255,0.9)',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(0,0,0,0.1)',
-            borderRadius: 12,
-            fontSize: 14,
+            gap: 6,
+            padding: 0,
+            margin: 0,
+            background: 'none',
+            border: 'none',
+            boxShadow: 'none',
+            fontSize: 13,
             fontWeight: 500,
-            color: '#16141f',
+            color: 'rgba(22,20,31,0.5)',
             textDecoration: 'none',
-            transition: 'all 0.2s'
+            transition: 'color 0.15s ease'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'white';
-            e.currentTarget.style.transform = 'translateX(-2px)';
+            e.currentTarget.style.color = '#16141f';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'rgba(255,255,255,0.9)';
-            e.currentTarget.style.transform = 'translateX(0)';
+            e.currentTarget.style.color = 'rgba(22,20,31,0.5)';
           }}
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M19 12H5M12 19l-7-7 7-7"/>
           </svg>
-          Back to home
+          <span>Back to home</span>
         </a>
         
         {/* Left Side - Logo */}
-        <div className="auth-left" style={{ flex: 1, background: '#fafafa', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', padding: '4rem 4rem 4rem 6rem', minHeight: '100vh', position: 'relative' }}>
+        <div className="auth-left" style={{ flex: 1, background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', padding: '4rem 4rem 4rem 6rem', minHeight: '100vh', position: 'relative' }}>
           <div className="auth-logo" style={{ textAlign: 'left', position: 'relative', zIndex: 2 }}>
             <img 
               src="/roko.png" 
@@ -241,7 +267,8 @@ export default function Auth() {
                 width: '100%',
                 maxWidth: 280,
                 height: 'auto',
-                marginBottom: '2rem'
+                marginBottom: '-1.5rem',
+                marginLeft: 'calc(-4rem - 10px)'
               }}
             />
             <h1 style={{ 
@@ -249,12 +276,19 @@ export default function Auth() {
               fontSize: 'clamp(32px, 5vw, 48px)', 
               fontWeight: 800, 
               color: '#16141f',
-              marginBottom: '1rem',
-              letterSpacing: '-0.02em'
+              marginBottom: '0.5rem',
+              letterSpacing: '-0.02em',
+              background: 'transparent'
             }}>
               wavy
             </h1>
-            <p style={{ fontSize: 'clamp(16px, 2vw, 18px)', color: 'rgba(22,20,31,0.6)', lineHeight: 1.6, maxWidth: 300 }}>
+            <p style={{ 
+              fontSize: 'clamp(16px, 2vw, 18px)', 
+              color: 'rgba(22,20,31,0.6)', 
+              lineHeight: 1.6, 
+              maxWidth: 300,
+              background: 'transparent'
+            }}>
               Discover places and offers around you
             </p>
           </div>
@@ -473,11 +507,11 @@ export default function Auth() {
             )}
 
             <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-              <p style={{ fontSize: 14, color: 'rgba(22,20,31,0.6)' }}>
-                {mode === 'login' ? "Don't have an account?" : 'Already have an account?'}{' '}
+              <p style={{ fontSize: 14, color: 'rgba(22,20,31,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, flexWrap: 'nowrap' }}>
+                <span>{mode === 'login' ? "Don't have an account?" : 'Already have an account?'}</span>
                 <button
                   onClick={() => { setMode(mode === 'login' ? 'signup' : 'login'); setError(''); }}
-                  style={{ background: 'none', border: 'none', color: '#5e79db', fontWeight: 600, cursor: 'pointer', fontSize: 14 }}
+                  style={{ background: 'none', border: 'none', color: '#5e79db', fontWeight: 600, cursor: 'pointer', fontSize: 14, padding: 0, whiteSpace: 'nowrap' }}
                 >
                   {mode === 'login' ? 'Sign up' : 'Sign in'}
                 </button>
