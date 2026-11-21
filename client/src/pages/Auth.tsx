@@ -165,17 +165,17 @@ export default function Auth() {
         }
         .auth-btn {
           width: 100%;
-          padding: 11px 16px;
-          border-radius: 12px;
-          font-size: 14px;
-          font-weight: 600;
+          padding: 9px 14px;
+          border-radius: 10px;
+          font-size: 13px;
+          font-weight: 500;
           cursor: pointer;
           transition: all 0.2s;
           border: none;
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 10px;
+          gap: 8px;
         }
         .auth-btn-primary {
           background: #16141f;
@@ -407,9 +407,9 @@ export default function Auth() {
             </div>
 
             {/* Social Buttons */}
-            <div style={{ display: 'grid', gap: 12, marginBottom: '2rem' }}>
+            <div style={{ display: 'grid', gap: 10, marginBottom: '2rem' }}>
               <button className="auth-btn auth-btn-social" onClick={() => console.log('Google')}>
-                <svg width="18" height="18" viewBox="0 0 24 24">
+                <svg width="16" height="16" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                   <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                   <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
@@ -419,14 +419,14 @@ export default function Auth() {
               </button>
 
               <button className="auth-btn auth-btn-social" onClick={() => console.log('Apple')}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.09l-.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
                 </svg>
                 Continue with Apple
               </button>
 
               <button className="auth-btn auth-btn-social" onClick={() => console.log('Passkey')}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <circle cx="12" cy="16" r="1"/>
                   <rect x="3" y="10" width="18" height="12" rx="2"/>
                   <path d="M7 10V7a5 5 0 0110 0v3"/>
