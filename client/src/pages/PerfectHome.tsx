@@ -43,11 +43,11 @@ export default function PerfectHome() {
       ]}
       backersLabel="Trusted by"
       backers={[
-        { name: 'Company A', glyph: 'ring' },
-        { name: 'Company B', glyph: 'bars' },
-        { name: 'Company C', glyph: 'wave' },
-        { name: 'Company D', glyph: 'leaf' },
-        { name: 'Company E', glyph: 'hex' }
+        { name: 'Ministerio de Trabajo', glyph: 'ring' },
+        { name: 'Perplexity', glyph: 'bars' },
+        { name: 'Dimension', glyph: 'wave' },
+        { name: 'Ramp', glyph: 'leaf' },
+        { name: 'Visa', glyph: 'hex' }
       ]}
       useCasesCopy={{
         kicker: 'Use Cases',
