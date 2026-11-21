@@ -140,6 +140,132 @@ export default function WavyLearnMore() {
         }
       `}</style>
 
+      {/* Mobile-specific responsive styles */}
+      <style>{`
+        @media (max-width: 860px) {
+          /* Bento grid - single column on mobile */}
+          .bento-section > div { grid-template-columns: 1fr !important; }
+          .bento-card { grid-column: span 1 !important; }
+          
+          /* Use cases - single column on mobile */}
+          #use-cases > div > div:last-child { grid-template-columns: 1fr !important; }
+          
+          /* Reduce padding on mobile */
+          .bento-section { padding: clamp(3rem,8vw,5rem) clamp(16px,4vw,24px) !important; }
+          #use-cases { padding: clamp(5rem,10vw,8rem) clamp(16px,4vw,24px) clamp(3rem,6vw,5rem) !important; }
+          
+          /* Adjust card padding on mobile */
+          .bento-card, .use-case-card { 
+            padding: clamp(1.8rem,4vw,2.5rem) clamp(1.5rem,4vw,2rem) !important; 
+          }
+          
+          /* Reduce visual heights on mobile */
+          .bento-card > div:nth-child(3) { min-height: 280px !important; }
+          
+          /* Proximity map - smaller on mobile */
+          .bento-card > div:nth-child(3) > div { height: 280px !important; }
+          
+          /* User marker - smaller */
+          .bento-card > div:nth-child(3) > div > div:nth-child(2) { 
+            width: 52px !important; 
+            height: 52px !important; 
+          }
+          .bento-card > div:nth-child(3) > div > div:nth-child(2) svg { 
+            width: 24px !important; 
+            height: 24px !important; 
+          }
+          
+          /* Place markers - smaller */
+          .bento-card > div:nth-child(3) > div > div:not(:nth-child(1)):not(:nth-child(2)) > div:first-child { 
+            width: 40px !important; 
+            height: 40px !important; 
+          }
+          .bento-card > div:nth-child(3) > div > div:not(:nth-child(1)):not(:nth-child(2)) > div:first-child svg,
+          .bento-card > div:nth-child(3) > div > div:not(:nth-child(1)):not(:nth-child(2)) > div:first-child [data-lucide] { 
+            width: 18px !important; 
+            height: 18px !important; 
+          }
+          .bento-card > div:nth-child(3) > div > div:not(:nth-child(1)):not(:nth-child(2)) > div:last-child { 
+            font-size: 10px !important; 
+            padding: 4px 10px !important; 
+          }
+          
+          /* Rewards card - adjust image container */
+          .bento-card:nth-child(2) > div:nth-child(3) > div {
+            min-height: 300px !important;
+          }
+          .bento-card:nth-child(2) > div:nth-child(3) > div > div:last-child {
+            padding: 1.5rem !important;
+          }
+          
+          /* Notifications - smaller cards */
+          .bento-card:nth-child(3) > div:nth-child(3) > div {
+            padding: 16px 18px !important;
+            margin-bottom: 12px !important;
+          }
+          .bento-card:nth-child(3) > div:nth-child(3) > div > div:first-child {
+            width: 40px !important;
+            height: 40px !important;
+          }
+          .bento-card:nth-child(3) > div:nth-child(3) > div > div:first-child [data-lucide] {
+            width: 20px !important;
+            height: 20px !important;
+          }
+          .bento-card:nth-child(3) > div:nth-child(3) > div > div:nth-child(2) > div:first-child {
+            font-size: 14px !important;
+          }
+          .bento-card:nth-child(3) > div:nth-child(3) > div > div:nth-child(2) > div:last-child {
+            font-size: 13px !important;
+          }
+          
+          /* Privacy settings card */
+          .bento-card:nth-child(4) > div:nth-child(3) > div {
+            padding: 2rem 1.5rem !important;
+          }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child {
+            margin-bottom: 2rem !important;
+          }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:first-child {
+            width: 48px !important;
+            height: 48px !important;
+          }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:first-child svg {
+            width: 24px !important;
+            height: 24px !important;
+          }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) {
+            padding: 16px 0 !important;
+          }
+          
+          /* Use case cards - adjust padding */
+          .use-case-card {
+            padding: 2rem 1.5rem !important;
+          }
+          .use-case-card > div:first-child {
+            width: 64px !important;
+            height: 64px !important;
+            margin-bottom: 2rem !important;
+          }
+          .use-case-card > div:first-child svg,
+          .use-case-card > div:first-child [data-lucide] {
+            width: 30px !important;
+            height: 30px !important;
+          }
+        }
+        
+        @media (max-width: 640px) {
+          /* Extra small screens - even more compact */
+          .bento-card, .use-case-card { 
+            padding: 1.5rem !important; 
+          }
+          
+          /* Hero section */
+          section:first-of-type {
+            padding: clamp(3rem,6vw,5rem) clamp(16px,4vw,24px) !important;
+          }
+        }
+      `}</style>
+
       {/* Navbar - EXACT COPY from landing */}
       <header className="lml-nav" data-scrolled={scrolled ? "true" : "false"}>
         <div className="lml-wrap">
