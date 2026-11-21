@@ -2,13 +2,17 @@ import { useEffect, useState } from 'react';
 
 export default function LoadingScreen() {
   const [isLoading, setIsLoading] = useState(true);
+  const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
     // Hide loading screen when page is fully loaded
     const handleLoad = () => {
       setTimeout(() => {
-        setIsLoading(false);
-      }, 500);
+        setFadeOut(true);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500); // Wait for fade animation to complete
+      }, 300);
     };
 
     if (document.readyState === 'complete') {
@@ -33,6 +37,7 @@ export default function LoadingScreen() {
       alignItems: 'center',
       justifyContent: 'center',
       zIndex: 9999,
+      opacity: fadeOut ? 0 : 1,
       transition: 'opacity 0.5s ease-out'
     }}>
       <style>{`
