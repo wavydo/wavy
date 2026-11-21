@@ -1,0 +1,389 @@
+import { useState } from 'react';
+import { useLocation } from 'wouter';
+import { useMutation } from '@tanstack/react-query';
+
+export default function Register() {
+  const [, setLocation] = useLocation();
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    password: '',
+    phone: '',
+    address: '',
+    city: '',
+  });
+  const [error, setError] = useState('');
+
+  const registerMutation = useMutation({
+    mutationFn: async (data: typeof formData) => {
+      const res = await fetch('/api/auth/register/user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+        credentials: 'include',
+      });
+      
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Registration failed');
+      }
+      
+      return res.json();
+    },
+    onSuccess: () => {
+      setLocation('/dashboard/user');
+    },
+    onError: (error: Error) => {
+      setError(error.message);
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    registerMutation.mutate(formData);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+  return (
+    <div style={{
+      minHeight: '100vh',
+      background: '#000',
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      {/* Video Background */}
+      <video 
+        src="/b1b.mp4" 
+        autoPlay 
+        playsInline 
+        muted 
+        loop 
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          objectFit: 'cover',
+          zIndex: 0
+        }}
+      />
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        background: 'rgba(0,0,0,0.6)',
+        zIndex: 1
+      }}></div>
+
+      {/* Content */}
+      <div style={{
+        position: 'relative',
+        zIndex: 10,
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '2rem'
+      }}>
+        <div style={{
+          width: '100%',
+          maxWidth: '500px'
+        }}>
+          <div style={{
+            marginBottom: '3rem',
+            textAlign: 'center'
+          }}>
+            <h1 style={{
+              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+              fontWeight: 200,
+              color: '#fff',
+              marginBottom: '0.5rem',
+              letterSpacing: '-0.02em'
+            }}>
+              Únete a TAPP
+            </h1>
+            <p style={{
+              color: 'rgba(255,255,255,0.5)',
+              fontSize: '0.95rem',
+              fontWeight: 300
+            }}>
+              Crea tu cuenta y empieza a ahorrar
+            </p>
+          </div>
+
+          {error && (
+            <div style={{
+              padding: '1rem',
+              background: 'rgba(239, 68, 68, 0.1)',
+              border: '1px solid rgba(239, 68, 68, 0.2)',
+              borderRadius: '12px',
+              color: 'rgba(239, 68, 68, 0.9)',
+              fontSize: '0.9rem',
+              marginBottom: '2rem',
+              textAlign: 'center'
+            }}>
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <input
+              type="text"
+              name="fullName"
+              value={formData.fullName}
+              onChange={handleChange}
+              placeholder="Nombre completo"
+              required
+              style={{
+                width: '100%',
+                padding: '1rem 1.25rem',
+                background: 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: '12px',
+                color: '#fff',
+                fontSize: '0.95rem',
+                outline: 'none',
+                transition: 'all 0.2s',
+                fontWeight: 300
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = 'rgba(255,255,255,0.2)';
+                e.target.style.background = 'rgba(255,255,255,0.08)';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = 'rgba(255,255,255,0.1)';
+                e.target.style.background = 'rgba(255,255,255,0.05)';
+              }}
+            />
+
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email"
+              required
+              style={{
+                width: '100%',
+                padding: '1rem 1.25rem',
+                background: 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: '12px',
+                color: '#fff',
+                fontSize: '0.95rem',
+                outline: 'none',
+                transition: 'all 0.2s',
+                fontWeight: 300
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = 'rgba(255,255,255,0.2)';
+                e.target.style.background = 'rgba(255,255,255,0.08)';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = 'rgba(255,255,255,0.1)';
+                e.target.style.background = 'rgba(255,255,255,0.05)';
+              }}
+            />
+
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Contraseña (mínimo 6 caracteres)"
+              required
+              minLength={6}
+              style={{
+                width: '100%',
+                padding: '1rem 1.25rem',
+                background: 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: '12px',
+                color: '#fff',
+                fontSize: '0.95rem',
+                outline: 'none',
+                transition: 'all 0.2s',
+                fontWeight: 300
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = 'rgba(255,255,255,0.2)';
+                e.target.style.background = 'rgba(255,255,255,0.08)';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = 'rgba(255,255,255,0.1)';
+                e.target.style.background = 'rgba(255,255,255,0.05)';
+              }}
+            />
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="Teléfono"
+                style={{
+                  width: '100%',
+                  padding: '1rem 1.25rem',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: '12px',
+                  color: '#fff',
+                  fontSize: '0.95rem',
+                  outline: 'none',
+                  transition: 'all 0.2s',
+                  fontWeight: 300
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = 'rgba(255,255,255,0.2)';
+                  e.target.style.background = 'rgba(255,255,255,0.08)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = 'rgba(255,255,255,0.1)';
+                  e.target.style.background = 'rgba(255,255,255,0.05)';
+                }}
+              />
+
+              <input
+                type="text"
+                name="city"
+                value={formData.city}
+                onChange={handleChange}
+                placeholder="Ciudad"
+                style={{
+                  width: '100%',
+                  padding: '1rem 1.25rem',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: '12px',
+                  color: '#fff',
+                  fontSize: '0.95rem',
+                  outline: 'none',
+                  transition: 'all 0.2s',
+                  fontWeight: 300
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = 'rgba(255,255,255,0.2)';
+                  e.target.style.background = 'rgba(255,255,255,0.08)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = 'rgba(255,255,255,0.1)';
+                  e.target.style.background = 'rgba(255,255,255,0.05)';
+                }}
+              />
+            </div>
+
+            <input
+              type="text"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              placeholder="Dirección"
+              style={{
+                width: '100%',
+                padding: '1rem 1.25rem',
+                background: 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: '12px',
+                color: '#fff',
+                fontSize: '0.95rem',
+                outline: 'none',
+                transition: 'all 0.2s',
+                fontWeight: 300
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = 'rgba(255,255,255,0.2)';
+                e.target.style.background = 'rgba(255,255,255,0.08)';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = 'rgba(255,255,255,0.1)';
+                e.target.style.background = 'rgba(255,255,255,0.05)';
+              }}
+            />
+
+            <button
+              type="submit"
+              disabled={registerMutation.isPending}
+              style={{
+                width: '100%',
+                padding: '1.1rem',
+                marginTop: '0.5rem',
+                background: '#fff',
+                border: 'none',
+                borderRadius: '12px',
+                color: '#000',
+                fontSize: '0.95rem',
+                fontWeight: 600,
+                cursor: registerMutation.isPending ? 'not-allowed' : 'pointer',
+                opacity: registerMutation.isPending ? 0.7 : 1,
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => {
+                if (!registerMutation.isPending) {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(255,255,255,0.2)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            >
+              {registerMutation.isPending ? 'Creando cuenta...' : 'Crear Cuenta'}
+            </button>
+          </form>
+
+          <div style={{
+            marginTop: '2rem',
+            textAlign: 'center'
+          }}>
+            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem', fontWeight: 300 }}>
+              ¿Ya tienes cuenta?{' '}
+              <a
+                href="/auth"
+                style={{
+                  color: '#fff',
+                  textDecoration: 'none',
+                  fontWeight: 500,
+                  borderBottom: '1px solid rgba(255,255,255,0.3)',
+                  transition: 'border-color 0.2s'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.borderColor = '#fff'}
+                onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'}
+              >
+                Inicia sesión
+              </a>
+            </p>
+            <button
+              onClick={() => setLocation('/')}
+              style={{
+                marginTop: '1.5rem',
+                background: 'none',
+                border: 'none',
+                color: 'rgba(255,255,255,0.3)',
+                fontSize: '0.85rem',
+                cursor: 'pointer',
+                fontWeight: 300,
+                transition: 'color 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.6)'}
+              onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.3)'}
+            >
+              ← Volver
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

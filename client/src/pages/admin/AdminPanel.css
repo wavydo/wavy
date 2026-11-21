@@ -1,0 +1,977 @@
+/* Admin Panel - usa los mismos estilos del Dashboard */
+
+/* Forzar grid de una sola columna en admin panel */
+.admin-panel .dashboard-content-wrapper {
+  grid-template-columns: 1fr !important;
+}
+
+.admin-panel .dashboard-content-main {
+  width: 100%;
+  max-width: 100%;
+  padding-inline: 30px;
+}
+
+/* SIDEBAR - Force styles con especificidad alta */
+.admin-panel .dashboard-sidebar,
+.dashboard-page-container .dashboard-sidebar {
+  background: url('https://raw.githubusercontent.com/shyamtala003/finance_dashboard/%40sjtala/images/bg2.png') !important;
+  background-attachment: fixed !important;
+  background-size: 100% !important;
+  background-repeat: no-repeat !important;
+  background-position-y: 20% !important;
+  background-position-x: 20% !important;
+  background-color: #f5f5f5 !important;
+}
+
+.dashboard-sidebar .logo span {
+  color: #0e1116 !important;
+  font-weight: 200 !important;
+}
+
+.dashboard-sidebar .nav_links a.nav_link {
+  color: #a1a3af !important;
+}
+
+.dashboard-sidebar .nav_links a.nav_link:hover,
+.dashboard-sidebar .nav_links a.nav_link.active {
+  color: #0e1116 !important;
+  background: rgba(0, 0, 0, 0.05) !important;
+}
+
+.dashboard-sidebar .nav_link_icon svg {
+  stroke: #a1a3af !important;
+}
+
+.dashboard-sidebar .nav_links a.nav_link:hover .nav_link_icon svg,
+.dashboard-sidebar .nav_links a.nav_link.active .nav_link_icon svg {
+  stroke: #0e1116 !important;
+}
+
+.dashboard-sidebar .life_cover_text .title {
+  color: #0e1116 !important;
+}
+
+.dashboard-sidebar .life_cover_text .desc {
+  color: #464646 !important;
+}
+
+.dashboard-sidebar .profile .img_with_name .name {
+  color: #0e1116 !important;
+}
+
+.dashboard-sidebar .profile .img_with_name .occupation {
+  color: #5b6472 !important;
+}
+
+.dashboard-sidebar .profile .icon {
+  fill: #5b6472 !important;
+}
+
+/* Asegurar que TODO el texto sea negro por defecto */
+.admin-overview,
+.admin-transactions,
+.admin-users,
+.admin-table,
+.admin-stat-card,
+.category-title,
+.admin-loading,
+.dashboard-topbar .overview_text .title,
+.dashboard-topbar .overview_text .desc {
+  color: #0e1116;
+}
+
+/* Override para el topbar específicamente */
+.dashboard-topbar .overview_text .title {
+  color: #0e1116 !important;
+  font-size: 36px;
+  font-weight: 300;
+  font-family: 'Poppins', sans-serif;
+}
+
+.dashboard-topbar .overview_text .desc {
+  color: #5b6472 !important;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.admin-overview {
+  width: 100%;
+}
+
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.admin-stat-card {
+  background: #ffffff;
+  padding: 28px 32px;
+  border-radius: 20px;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  box-shadow: 0 1px 2px rgba(14, 17, 22, 0.04);
+  text-align: center;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.admin-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(14, 17, 22, 0.08);
+}
+
+.admin-stat-card .stat-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+.admin-stat-card .stat-value {
+  font-size: 36px;
+  font-weight: 600;
+  color: #0e1116;
+  margin-bottom: 8px;
+  font-family: 'SF Mono', ui-monospace, 'Courier New', monospace;
+}
+
+.admin-stat-card .stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #5b6472;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.admin-quick-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.admin-action-btn {
+  flex: 1;
+  min-width: 200px;
+  padding: 14px 24px;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 12px;
+  color: #0e1116;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.admin-action-btn:hover {
+  background: rgba(14, 17, 22, 0.02);
+  border-color: rgba(15, 23, 42, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Transactions & Users */
+.admin-transactions,
+.admin-users,
+.admin-issuing,
+.admin-establishments {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Asegurar que los tabs de issuing usen ancho completo */
+.admin-issuing .admin-table-container {
+  width: 100%;
+  max-width: 100%;
+}
+
+.admin-issuing .admin-table {
+  width: 100%;
+  table-layout: auto;
+}
+
+.admin-search-bar {
+  margin-bottom: 24px;
+}
+
+.admin-search-input {
+  width: 100%;
+  padding: 14px 18px;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+  color: #0e1116;
+  outline: none;
+  transition: all 180ms ease;
+}
+
+.admin-search-input::placeholder {
+  color: #9ca3af;
+}
+
+.admin-search-input:focus {
+  border-color: #4a56e2;
+  box-shadow: 0 0 0 3px rgba(74, 86, 226, 0.1);
+}
+
+.user-category {
+  margin-bottom: 32px;
+}
+
+.category-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #0e1116;
+  margin-bottom: 16px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.admin-table-container {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(14, 17, 22, 0.04);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Poppins', sans-serif;
+}
+
+.admin-table thead {
+  background: rgba(14, 17, 22, 0.02);
+}
+
+.admin-table th {
+  padding: 14px 20px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  color: #5b6472;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.admin-table td {
+  padding: 16px 20px;
+  font-size: 14px;
+  color: #0e1116;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.04);
+}
+
+.admin-table tbody tr {
+  transition: background 120ms ease;
+}
+
+.admin-table tbody tr:hover {
+  background: rgba(14, 17, 22, 0.01);
+}
+
+.admin-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.mono-text {
+  font-family: 'SF Mono', ui-monospace, 'Courier New', monospace;
+  font-size: 13px;
+  color: #5b6472;
+  font-weight: 500;
+}
+
+.amount-text {
+  font-family: 'SF Mono', ui-monospace, 'Courier New', monospace;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0e1116;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.status-completed {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+.status-pending {
+  background: rgba(251, 191, 36, 0.1);
+  color: #f59e0b;
+}
+
+.status-failed {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.status-active {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+.status-suspended {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: all 160ms ease;
+  border: 1px solid transparent;
+}
+
+.view-btn {
+  background: rgba(14, 17, 22, 0.04);
+  color: #0e1116;
+}
+
+.view-btn:hover {
+  background: rgba(14, 17, 22, 0.08);
+}
+
+.details-btn {
+  background: rgba(74, 86, 226, 0.1);
+  color: #4a56e2;
+  border-color: rgba(74, 86, 226, 0.2);
+}
+
+.details-btn:hover {
+  background: rgba(74, 86, 226, 0.15);
+  border-color: rgba(74, 86, 226, 0.3);
+}
+
+.reverse-btn {
+  background: rgba(251, 191, 36, 0.1);
+  color: #f59e0b;
+  padding: 6px 8px;
+}
+
+.reverse-btn:hover {
+  background: rgba(251, 191, 36, 0.15);
+}
+
+.warning-btn {
+  background: rgba(251, 191, 36, 0.1);
+  color: #f59e0b;
+  border-color: rgba(251, 191, 36, 0.2);
+}
+
+.warning-btn:hover {
+  background: rgba(251, 191, 36, 0.15);
+  border-color: rgba(251, 191, 36, 0.3);
+}
+
+.suspend-btn {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  padding: 6px 8px;
+}
+
+.suspend-btn:hover {
+  background: rgba(239, 68, 68, 0.15);
+}
+
+.admin-loading {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 15px;
+  color: #5b6472;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .admin-stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .admin-quick-actions {
+    flex-direction: column;
+  }
+  
+  .admin-action-btn {
+    min-width: 100%;
+  }
+  
+  .admin-table-container {
+    overflow-x: auto;
+  }
+  
+  .admin-table {
+    min-width: 800px;
+  }
+}
+
+/* Admin Logout Section */
+.admin-logout-section {
+  margin-top: auto;
+  padding: 20px;
+  border-top: 1px solid rgba(195, 195, 195, 0.3);
+}
+
+.admin-logout-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 20px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  color: #ef4444;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.admin-logout-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.5);
+  transform: translateY(-1px);
+}
+
+.admin-logout-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-content {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 32px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: scaleIn 0.2s ease;
+}
+
+.modal-content h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #0e1116;
+  margin: 0 0 24px 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.detail-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.detail-grid .detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.detail-grid .detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-grid .detail-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #5b6472;
+}
+
+.detail-grid .detail-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: #0e1116;
+  text-align: right;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.modal-btn {
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: all 160ms ease;
+  border: none;
+}
+
+.cancel-btn {
+  background: rgba(14, 17, 22, 0.04);
+  color: #0e1116;
+}
+
+.cancel-btn:hover {
+  background: rgba(14, 17, 22, 0.08);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-content {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 32px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: scaleIn 0.2s ease;
+}
+
+.modal-content h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #0e1116;
+  margin: 0 0 24px 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.detail-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.detail-grid .detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.detail-grid .detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-grid .detail-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #5b6472;
+}
+
+.detail-grid .detail-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: #0e1116;
+  text-align: right;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.modal-btn {
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: all 160ms ease;
+  border: none;
+}
+
+.cancel-btn {
+  background: rgba(14, 17, 22, 0.04);
+  color: #0e1116;
+}
+
+.cancel-btn:hover {
+  background: rgba(14, 17, 22, 0.08);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+/* Fix para eliminar espacio en blanco abajo */
+.dashboard-page-container.admin-panel {
+  min-height: 100vh;
+  height: auto;
+  overflow-y: auto;
+}
+
+.dashboard-page-container.admin-panel .dashboard-main-content {
+  min-height: auto;
+  height: auto;
+  padding-bottom: 40px;
+}
+
+/* Asegurar que el contenido no tenga altura fija */
+.admin-overview,
+.admin-transactions,
+.admin-users {
+  min-height: auto;
+  height: auto;
+}
+
+
+/* Dispute Resolution Modal */
+.modal-btn.primary-btn {
+  background: #0e1116;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.modal-btn.primary-btn:hover {
+  background: #2d3748;
+}
+
+.modal-btn.primary-btn:disabled {
+  background: #cbd5e0;
+  color: #a0aec0;
+  cursor: not-allowed;
+}
+
+.modal-btn.secondary-btn {
+  background: #f7fafc;
+  color: #2d3748;
+  border: 2px solid #e2e8f0;
+  font-weight: 500;
+}
+
+.modal-btn.secondary-btn:hover {
+  background: #edf2f7;
+  border-color: #cbd5e0;
+}
+
+.modal-btn.cancel-btn {
+  background: #f7fafc;
+  color: #718096;
+  border: 1px solid #e2e8f0;
+}
+
+.modal-btn.cancel-btn:hover {
+  background: #edf2f7;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.detail-grid {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: #5b6472;
+  font-size: 13px;
+}
+
+.detail-value {
+  color: #0e1116;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* Status badges para reversed y suspended */
+.status-reversed {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.status-resolved {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+
+/* ==================== DATABASE TABLE SCROLL FIX ==================== */
+.db-table-scroll-container {
+  overflow-x: scroll !important;
+  overflow-y: auto !important;
+  max-height: 60vh !important;
+  width: 100% !important;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  -webkit-overflow-scrolling: touch;
+  display: block !important;
+  position: relative !important;
+}
+
+.db-editable-table {
+  border-collapse: collapse !important;
+  font-family: 'Poppins', sans-serif;
+  display: table !important;
+  table-layout: auto !important;
+  min-width: max-content !important;
+}
+
+.db-editable-table thead {
+  background: #fff !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 10 !important;
+}
+
+.db-editable-table th {
+  padding: 14px 20px !important;
+  text-align: left !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: #5b6472 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06) !important;
+  white-space: nowrap !important;
+  background: #fff !important;
+  min-width: 120px !important;
+}
+
+.db-editable-table td {
+  padding: 16px 20px !important;
+  font-size: 14px !important;
+  color: #0e1116 !important;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.04) !important;
+  white-space: nowrap !important;
+  min-width: 120px !important;
+  max-width: 400px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.db-editable-table tbody tr {
+  transition: background 120ms ease;
+}
+
+.db-editable-table tbody tr:hover {
+  background: rgba(14, 17, 22, 0.01) !important;
+}
+
+.db-editable-table tbody tr:last-child td {
+  border-bottom: none !important;
+}
+
+/* ==================== FIX MODAL INPUTS Y Z-INDEX ==================== */
+.modal-overlay {
+  z-index: 9999 !important;
+}
+
+.modal-content {
+  position: relative !important;
+  z-index: 10000 !important;
+}
+
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
+  background: #ffffff !important;
+  color: #0e1116 !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 14px !important;
+  position: relative !important;
+  z-index: 10001 !important;
+  box-sizing: border-box !important;
+}
+
+.modal-content input::placeholder,
+.modal-content textarea::placeholder {
+  color: #9ca3af !important;
+  opacity: 1 !important;
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus,
+.modal-content select:focus {
+  outline: none !important;
+  border-color: #4a56e2 !important;
+  box-shadow: 0 0 0 3px rgba(74, 86, 226, 0.1) !important;
+}
+
+.modal-body {
+  position: relative !important;
+  z-index: 10001 !important;
+}
+
+.modal-title {
+  position: relative !important;
+  z-index: 10001 !important;
+}
+
+.modal-actions {
+  position: relative !important;
+  z-index: 10001 !important;
+}
+
+.confirm-btn {
+  background: #10b981 !important;
+  color: #ffffff !important;
+  font-weight: 500 !important;
+}
+
+.confirm-btn:hover {
+  background: #059669 !important;
+}
+
+/* ==================== SUPPORT TAB FIXES ==================== */
+.admin-support {
+  width: 100% !important;
+  max-width: none !important;
+  color: #0e1116 !important;
+}
+
+.admin-support * {
+  font-family: 'Poppins', sans-serif !important;
+  color: inherit;
+}
+
+.admin-support h3,
+.admin-support p,
+.admin-support div,
+.admin-support span,
+.admin-support button,
+.admin-support select,
+.admin-support input {
+  color: #0e1116 !important;
+}
+
+.admin-support button {
+  cursor: pointer !important;
+}
+
+.admin-support .dashboard-content-main {
+  padding-inline: 0 !important;
+  max-width: 100% !important;
+}
+
+/* Override para content wrapper en support tab */
+.admin-panel .dashboard-content-wrapper {
+  padding: 0 !important;
+}
+
+.admin-panel main {
+  padding: 0 !important;
+}
+
+/* Filter buttons */
+.admin-support .filter-btn {
+  padding: 0.625rem 1.25rem !important;
+  border-radius: 8px !important;
+  border: 1px solid #e5e7eb !important;
+  background: #fff !important;
+  color: #64748b !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  transition: all 0.2s ease !important;
+}
+
+.admin-support .filter-btn.active {
+  background: #0e1116 !important;
+  color: #fff !important;
+}
+
+.admin-support .filter-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}

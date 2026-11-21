@@ -1,0 +1,988 @@
+/* ====================================================================
+   SUPPORT CHAT MODAL - DISEÑO DE CLASE MUNDIAL
+   ==================================================================== */
+
+/* Reset completo para el modal */
+.tapp-support-modal-overlay,
+.tapp-support-modal-overlay * {
+  all: initial;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+}
+
+/* IMPORTANTE: Restaurar estilos después del reset para botones y spans */
+.tapp-support-modal-overlay button,
+.tapp-support-modal-overlay span {
+  all: revert;
+  box-sizing: border-box !important;
+}
+
+/* Forzar render correcto de SVG Phosphor icons */
+.tapp-support-modal-overlay svg {
+  display: inline-block !important;
+  vertical-align: middle !important;
+  width: 1em !important;
+  height: 1em !important;
+  fill: currentColor !important;
+  flex-shrink: 0 !important;
+}
+
+.tapp-support-modal-overlay svg * {
+  vector-effect: none !important;
+}
+
+.tapp-support-btn svg,
+.tapp-support-banner-btn svg,
+.tapp-support-send-btn svg,
+.tapp-support-modal-close svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.tapp-support-message-banner svg {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+/* Overlay del modal */
+.tapp-support-modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: rgba(0, 0, 0, 0.7) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 999999 !important;
+  padding: 2rem !important;
+}
+
+/* Contenedor del modal */
+.tapp-support-modal-container {
+  background: #ffffff !important;
+  border-radius: 16px !important;
+  width: 98% !important;
+  max-width: 1600px !important;
+  height: 95vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Header del modal */
+.tapp-support-modal-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 1.5rem 2rem !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  background: #ffffff !important;
+}
+
+.tapp-support-modal-title {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+}
+
+.tapp-support-modal-subtitle {
+  font-size: 0.875rem !important;
+  color: #64748b !important;
+  margin: 0 !important;
+  line-height: 1.4 !important;
+  margin-left: 8px !important;
+}
+
+.tapp-support-modal-close {
+  width: 40px !important;
+  height: 40px !important;
+  border: none !important;
+  background: #f1f5f9 !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 10px !important;
+  color: #000000 !important;
+  line-height: 1 !important;
+  transition: all 0.2s !important;
+  padding: 0 !important;
+  font-size: 24px !important;
+  font-weight: bold !important;
+}
+
+.tapp-support-modal-close:hover {
+  background: #e2e8f0 !important;
+  color: #000000 !important;
+}
+
+/* Barra de acciones */
+.tapp-support-modal-actions {
+  display: flex !important;
+  gap: 1rem !important;
+  padding: 1rem 2rem !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  background: #f8fafc !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+}
+
+.tapp-support-modal-actions-left {
+  display: flex !important;
+  gap: 0.75rem !important;
+  flex-wrap: wrap !important;
+}
+
+.tapp-support-modal-actions-right {
+  display: flex !important;
+  gap: 0.75rem !important;
+  flex-wrap: wrap !important;
+  margin-left: auto !important;
+}
+
+/* Selects y botones de acción */
+.tapp-support-select {
+  padding: 0.625rem 0.875rem !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+  min-width: 130px !important;
+  outline: none !important;
+}
+
+.tapp-support-select:hover {
+  border-color: #6366f1 !important;
+}
+
+.tapp-support-select:focus {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1) !important;
+}
+
+.tapp-support-btn {
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-weight: bold !important;
+  color: white !important;
+  background-color: #171717 !important;
+  padding: 1em 2em !important;
+  border: none !important;
+  border-radius: 0.6rem !important;
+  position: relative !important;
+  cursor: pointer !important;
+  overflow: hidden !important;
+  font-size: 0.875rem !important;
+}
+
+.tapp-support-btn-danger {
+  background-color: #171717 !important;
+  color: white !important;
+}
+
+/* Círculos animados - azul pastel para todos excepto danger */
+.tapp-support-btn span:not(:nth-child(6)) {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  height: 30px !important;
+  width: 30px !important;
+  background-color: #93c5fd !important;
+  border-radius: 50% !important;
+  transition: 0.6s ease !important;
+}
+
+.tapp-support-btn-danger span:not(:nth-child(6)) {
+  background-color: #f87171 !important;
+}
+
+.tapp-support-btn span:nth-child(6) {
+  position: relative !important;
+  color: white !important;
+}
+
+.tapp-support-btn span:nth-child(1) {
+  transform: translate(-3.3em, -4em) !important;
+}
+
+.tapp-support-btn span:nth-child(2) {
+  transform: translate(-6em, 1.3em) !important;
+}
+
+.tapp-support-btn span:nth-child(3) {
+  transform: translate(-0.2em, 1.8em) !important;
+}
+
+.tapp-support-btn span:nth-child(4) {
+  transform: translate(3.5em, 1.4em) !important;
+}
+
+.tapp-support-btn span:nth-child(5) {
+  transform: translate(3.5em, -3.8em) !important;
+}
+
+.tapp-support-btn:hover span:not(:nth-child(6)) {
+  transform: translate(-50%, -50%) scale(4) !important;
+  transition: 1.5s ease !important;
+}
+
+/* Panel de info del usuario */
+.tapp-support-user-info {
+  padding: 1rem 2rem !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  background: #f8fafc !important;
+}
+
+.tapp-support-user-info-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  gap: 1rem !important;
+}
+
+.tapp-support-user-info-item {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.25rem !important;
+}
+
+.tapp-support-user-info-label {
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  color: #64748b !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  margin: 0 !important;
+}
+
+.tapp-support-user-info-value {
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  color: #0f172a !important;
+  margin: 0 !important;
+}
+
+/* Banners rápidos */
+.tapp-support-banners {
+  padding: 0.75rem 2rem !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  background: #ffffff !important;
+}
+
+.tapp-support-banners-title {
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  color: #64748b !important;
+  margin: 0 0 0.5rem 0 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+.tapp-support-banners-grid {
+  display: flex !important;
+  gap: 0.5rem !important;
+  flex-wrap: wrap !important;
+}
+
+.tapp-support-banner-btn {
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-weight: bold !important;
+  color: white !important;
+  background-color: #171717 !important;
+  padding: 1em 2em !important;
+  border: none !important;
+  border-radius: 0.6rem !important;
+  position: relative !important;
+  cursor: pointer !important;
+  overflow: hidden !important;
+  font-size: 0.8125rem !important;
+}
+
+/* Círculos animados - azul pastel para todos */
+.tapp-support-banner-btn span:not(:nth-child(6)) {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  height: 30px !important;
+  width: 30px !important;
+  background-color: #93c5fd !important;
+  border-radius: 50% !important;
+  transition: 0.6s ease !important;
+}
+
+.tapp-support-banner-btn span:nth-child(6) {
+  position: relative !important;
+  color: white !important;
+}
+
+.tapp-support-banner-btn span:nth-child(1) {
+  transform: translate(-3.3em, -4em) !important;
+}
+
+.tapp-support-banner-btn span:nth-child(2) {
+  transform: translate(-6em, 1.3em) !important;
+}
+
+.tapp-support-banner-btn span:nth-child(3) {
+  transform: translate(-0.2em, 1.8em) !important;
+}
+
+.tapp-support-banner-btn span:nth-child(4) {
+  transform: translate(3.5em, 1.4em) !important;
+}
+
+.tapp-support-banner-btn span:nth-child(5) {
+  transform: translate(3.5em, -3.8em) !important;
+}
+
+.tapp-support-banner-btn:hover span:not(:nth-child(6)) {
+  transform: translate(-50%, -50%) scale(4) !important;
+  transition: 1.5s ease !important;
+}
+
+/* Área de mensajes */
+.tapp-support-messages-container {
+  flex: 1 !important;
+  overflow-y: auto !important;
+  padding: 1.5rem 2rem !important;
+  background: #f8fafc !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+}
+
+.tapp-support-message {
+  display: flex !important;
+  gap: 12px !important;
+  align-items: flex-start !important;
+  max-width: 70% !important;
+}
+
+.tapp-support-message.user {
+  align-self: flex-start !important;
+}
+
+.tapp-support-message.admin {
+  align-self: flex-end !important;
+  flex-direction: row-reverse !important;
+}
+
+.message-avatar {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  flex-shrink: 0 !important;
+  margin-top: 4px !important;
+}
+
+.message-avatar.user {
+  background: #6366f1 !important;
+}
+
+.message-avatar.admin {
+  background: #ffffff !important;
+  border: 2px solid #e5e7eb !important;
+}
+
+.tapp-support-message-bubble {
+  padding: 10px 14px !important;
+  border-radius: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  max-width: 100% !important;
+  word-wrap: break-word !important;
+}
+
+.tapp-support-message-bubble.user {
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  border-bottom-left-radius: 4px !important;
+}
+
+.tapp-support-message-bubble.admin {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  border-bottom-right-radius: 4px !important;
+}
+
+.tapp-support-message-sender {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+  color: #6b7280 !important;
+}
+
+.tapp-support-message-bubble.admin .tapp-support-message-sender {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.tapp-support-message-content {
+  font-size: 15px !important;
+  line-height: 1.4 !important;
+  margin: 0 !important;
+}
+
+.tapp-support-message-bubble.user .tapp-support-message-content {
+  color: #0f172a !important;
+}
+
+.tapp-support-message-bubble.admin .tapp-support-message-content {
+  color: #ffffff !important;
+}
+
+.tapp-support-message-time {
+  font-size: 11px !important;
+  margin: 0 !important;
+  color: #9ca3af !important;
+}
+
+.tapp-support-message-bubble.admin .tapp-support-message-time {
+  color: rgba(255, 255, 255, 0.6) !important;
+  text-align: right !important;
+}
+
+/* Banner message */
+.tapp-support-message-banner {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 12px 16px !important;
+  border-radius: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  border: 1px solid !important;
+  align-self: stretch !important;
+}
+
+.tapp-support-message-banner svg {
+  flex-shrink: 0 !important;
+}
+
+.tapp-support-message-banner.blue {
+  background: #dbeafe !important;
+  color: #1e40af !important;
+  border-color: #93c5fd !important;
+}
+
+.tapp-support-message-banner.green {
+  background: #d1fae5 !important;
+  color: #065f46 !important;
+  border-color: #6ee7b7 !important;
+}
+
+.tapp-support-message-banner.yellow {
+  background: #fef3c7 !important;
+  color: #92400e !important;
+  border-color: #fde68a !important;
+}
+
+.tapp-support-message-banner.red {
+  background: #fee2e2 !important;
+  color: #991b1b !important;
+  border-color: #fca5a5 !important;
+}
+
+/* Loading */
+.tapp-support-loading {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 2rem !important;
+  color: #64748b !important;
+  font-size: 0.875rem !important;
+  gap: 12px !important;
+}
+
+/* Typing indicator */
+.tapp-support-typing-indicator {
+  display: flex !important;
+  gap: 12px !important;
+  align-items: flex-start !important;
+}
+
+.tapp-support-typing-bubble {
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 16px !important;
+  padding: 0.875rem 1.125rem !important;
+  border-bottom-left-radius: 4px !important;
+}
+
+.tapp-support-typing-dots {
+  display: flex !important;
+  gap: 4px !important;
+  align-items: center !important;
+}
+
+.tapp-support-typing-dot {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background: #94a3b8 !important;
+  animation: tapp-typing-bounce 1.4s infinite ease-in-out !important;
+  display: block !important;
+}
+
+.tapp-support-typing-dot:nth-child(1) {
+  animation-delay: 0s !important;
+}
+
+.tapp-support-typing-dot:nth-child(2) {
+  animation-delay: 0.2s !important;
+}
+
+.tapp-support-typing-dot:nth-child(3) {
+  animation-delay: 0.4s !important;
+}
+
+@keyframes tapp-typing-bounce {
+  0%, 60%, 100% {
+    transform: translateY(0) !important;
+    opacity: 0.4 !important;
+  }
+  30% {
+    transform: translateY(-8px) !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Área de input */
+.tapp-support-input-area {
+  padding: 1rem 2rem !important;
+  border-top: 1px solid #e5e7eb !important;
+  background: #ffffff !important;
+}
+
+.tapp-support-input-wrapper {
+  display: flex !important;
+  gap: 0.75rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.tapp-support-input {
+  flex: 1 !important;
+  padding: 0.875rem 1rem !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  font-size: 0.9375rem !important;
+  color: #0f172a !important;
+  outline: none !important;
+  transition: all 0.2s !important;
+  background: #ffffff !important;
+}
+
+.tapp-support-input:focus {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1) !important;
+}
+
+.tapp-support-input::placeholder {
+  color: #94a3b8 !important;
+}
+
+.tapp-support-send-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.875rem 1.5rem !important;
+  border: none !important;
+  border-radius: 8px !important;
+  background: #0f172a !important;
+  color: #ffffff !important;
+  font-size: 0.9375rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+  white-space: nowrap !important;
+}
+
+.tapp-support-send-btn:hover {
+  background: #1e293b !important;
+}
+
+.tapp-support-send-btn:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+
+/* Notas internas */
+.tapp-support-notes {
+  padding-top: 1rem !important;
+  border-top: 1px solid #e5e7eb !important;
+}
+
+.tapp-support-notes-toggle {
+  width: 100% !important;
+  text-align: left !important;
+  padding: 0.5rem 0 !important;
+  border: none !important;
+  background: transparent !important;
+  color: #64748b !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: color 0.2s !important;
+}
+
+.tapp-support-notes-toggle:hover {
+  color: #0f172a !important;
+}
+
+.tapp-support-notes-content {
+  margin-top: 0.75rem !important;
+}
+
+.tapp-support-notes-textarea {
+  width: 100% !important;
+  padding: 0.75rem !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  font-size: 0.875rem !important;
+  color: #0f172a !important;
+  outline: none !important;
+  resize: vertical !important;
+  min-height: 80px !important;
+  margin-bottom: 0.5rem !important;
+  font-family: inherit !important;
+}
+
+.tapp-support-notes-textarea:focus {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1) !important;
+}
+
+.tapp-support-notes-save {
+  padding: 0.5rem 1rem !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+}
+
+.tapp-support-notes-save:hover {
+  background: #f8fafc !important;
+  border-color: #6366f1 !important;
+  color: #6366f1 !important;
+}
+
+/* Scrollbar */
+.tapp-support-messages-container::-webkit-scrollbar {
+  width: 8px !important;
+}
+
+.tapp-support-messages-container::-webkit-scrollbar-track {
+  background: #f1f5f9 !important;
+  border-radius: 4px !important;
+}
+
+.tapp-support-messages-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1 !important;
+  border-radius: 4px !important;
+}
+
+.tapp-support-messages-container::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8 !important;
+}
+
+/* ====================================================================
+   BANNER MODAL
+   ==================================================================== */
+
+.banner-modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: rgba(0, 0, 0, 0.5) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 9999999 !important;
+  padding: 2rem !important;
+}
+
+.banner-modal-container {
+  background: #ffffff !important;
+  border-radius: 16px !important;
+  width: 100% !important;
+  max-width: 600px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+}
+
+.banner-modal-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 1.5rem !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.banner-modal-title {
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+  margin: 0 !important;
+}
+
+.banner-modal-close {
+  width: 32px !important;
+  height: 32px !important;
+  border: none !important;
+  background: #f1f5f9 !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 8px !important;
+  color: #64748b !important;
+  transition: all 0.2s !important;
+  padding: 0 !important;
+}
+
+.banner-modal-close:hover {
+  background: #e2e8f0 !important;
+}
+
+.banner-modal-content {
+  padding: 1.5rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1.5rem !important;
+}
+
+.banner-options-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 0.75rem !important;
+}
+
+.banner-option {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 1rem !important;
+  border: 2px solid !important;
+  border-radius: 12px !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+  font-weight: 600 !important;
+}
+
+.banner-option:hover {
+  transform: translateY(-2px) !important;
+}
+
+.banner-option.selected {
+  transform: scale(1.02) !important;
+}
+
+.banner-message-input-group {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+
+.banner-message-input-group label {
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+}
+
+.banner-message-input-group input {
+  padding: 0.75rem !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  font-size: 0.9375rem !important;
+  font-family: inherit !important;
+  outline: none !important;
+  transition: all 0.2s !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.banner-message-input-group input:focus,
+.banner-message-input-group textarea:focus {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1) !important;
+}
+
+.banner-message-input-group textarea {
+  padding: 0.75rem !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  font-size: 0.9375rem !important;
+  font-family: inherit !important;
+  resize: vertical !important;
+  outline: none !important;
+  transition: all 0.2s !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.banner-title-input {
+  padding: 0.75rem !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  font-size: 0.9375rem !important;
+  font-family: inherit !important;
+  outline: none !important;
+  transition: all 0.2s !important;
+  width: 100% !important;
+  font-weight: 600 !important;
+}
+
+.banner-title-input:focus {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1) !important;
+}
+
+.char-count {
+  font-size: 0.75rem !important;
+  color: #94a3b8 !important;
+  text-align: right !important;
+}
+
+.banner-preview {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+
+.preview-label {
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  color: #64748b !important;
+  text-transform: uppercase !important;
+}
+
+.preview-banner {
+  padding: 0.875rem 1.125rem !important;
+  border-radius: 12px !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 12px !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+}
+
+.preview-banner svg {
+  flex-shrink: 0 !important;
+  margin-top: 2px !important;
+}
+
+.preview-banner-text {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  flex: 1 !important;
+}
+
+.preview-banner-title {
+  font-weight: 700 !important;
+  font-size: 0.9375rem !important;
+  line-height: 1.3 !important;
+}
+
+.preview-banner-description {
+  font-weight: 500 !important;
+  font-size: 0.8125rem !important;
+  line-height: 1.4 !important;
+  opacity: 0.9 !important;
+}
+
+/* Banner content in chat */
+.banner-content {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  flex: 1 !important;
+}
+
+.banner-title {
+  font-weight: 700 !important;
+  font-size: 0.9375rem !important;
+  line-height: 1.3 !important;
+}
+
+.banner-description {
+  font-weight: 500 !important;
+  font-size: 0.8125rem !important;
+  line-height: 1.4 !important;
+  opacity: 0.9 !important;
+}
+
+.banner-modal-footer {
+  display: flex !important;
+  justify-content: flex-end !important;
+  gap: 0.75rem !important;
+  padding: 1.5rem !important;
+  border-top: 1px solid #e5e7eb !important;
+}
+
+.banner-modal-btn-cancel {
+  padding: 0.625rem 1.25rem !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  color: #64748b !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+}
+
+.banner-modal-btn-cancel:hover {
+  background: #f8fafc !important;
+}
+
+.banner-modal-btn-send {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.625rem 1.25rem !important;
+  border: none !important;
+  border-radius: 8px !important;
+  background: #6366f1 !important;
+  color: #ffffff !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+}
+
+.banner-modal-btn-send:hover {
+  background: #4f46e5 !important;
+}
+
+.banner-modal-btn-send:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}

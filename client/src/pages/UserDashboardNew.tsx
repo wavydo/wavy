@@ -1,0 +1,409 @@
+import { useState, useEffect } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useLocation } from 'wouter';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCards, Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-cards';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import './UserDashboard.css';
+
+export default function UserDashboardNew() {
+  const [, setLocation] = useLocation();
+  const [showSidebar, setShowSidebar] = useState(false);
+  const queryClient = useQueryClient();
+
+  const { data: userData, isLoading } = useQuery({
+    queryKey: ['userDashboard'],
+    queryFn: async () => {
+      const res = await fetch('/api/user/dashboard', { credentials: 'include' });
+      if (!res.ok) {
+        if (res.status === 401) {
+          setLocation('/auth');
+        }
+        throw new Error('Not authenticated');
+      }
+      return res.json();
+    },
+  });
+
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', {
+      method: 'POST',
+      credentials: 'include',
+    });
+    queryClient.clear();
+    setLocation('/auth');
+  };
+
+  useEffect(() => {
+    // Apply light class to body
+    document.body.className = 'light';
+    
+    // Hide everything except this dashboard
+    const root = document.getElementById('root');
+    const appContainer = document.querySelector('.app-container');
+    const header = appContainer?.querySelector('header');
+    
+    // Store original values
+    const originalRootClass = root?.className || '';
+    const originalAppClass = appContainer?.className || '';
+    const originalHeaderDisplay = header ? (header as HTMLElement).style.display : '';
+    
+    // Hide header
+    if (header) {
+      (header as HTMLElement).style.display = 'none';
+    }
+    
+    // Clear classes
+    if (root) {
+      root.className = '';
+    }
+    if (appContainer) {
+      appContainer.className = '';
+    }
+    
+    return () => {
+      // Restore everything
+      document.body.className = '';
+      if (root) {
+        root.className = originalRootClass;
+      }
+      if (appContainer) {
+        appContainer.className = originalAppClass;
+      }
+      if (header) {
+        (header as HTMLElement).style.display = originalHeaderDisplay;
+      }
+    };
+  }, []);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    return false;
+  };
+
+  if (isLoading) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        background: '#e7eaf2',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container">
+      <nav className={`sidebar ${showSidebar ? 'show_sidebar' : ''}`} id="sidebar">
+        <button id="btn_close" onClick={() => setShowSidebar(false)}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+            <path fill="none" d="M0 0h24v24H0z" />
+            <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+          </svg>
+        </button>
+
+        <div className="logo">
+          <img src="https://raw.githubusercontent.com/shyamtala003/finance_dashboard/%40sjtala/images/logo.webp" alt="" />
+          <span>Finpay</span>
+        </div>
+
+        <div className="nav_links">
+          <a href="#" className="nav_link active" aria-label="overview">
+            <div className="nav_link_icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path className="icon" d="M13 21V11h8v10h-8zM3 13V3h8v10H3zm6-2V5H5v6h4zM3 21v-6h8v6H3zm2-2h4v-2H5v2zm10 0h4v-6h-4v6zM13 3h8v6h-8V3zm2 2v2h4V5h-4z" />
+              </svg>
+            </div>
+            <div className="nav_link_text">overview</div>
+          </a>
+
+          <a href="#" className="nav_link" aria-label="reports">
+            <div className="nav_link_icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path className="icon" d="M12.414 5H21a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h7.414l2 2zM4 5v14h16V7h-8.414l-2-2H4zm7 4h2v8h-2V9zm4 3h2v5h-2v-5zm-8 2h2v3H7v-3z" />
+              </svg>
+            </div>
+            <div className="nav_link_text">reports</div>
+          </a>
+
+          <a href="#" className="nav_link" aria-label="cards">
+            <div className="nav_link_icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path className="icon" d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm17 8H4v8h16v-8zm0-2V5H4v4h16zm-6 6h4v2h-4v-2z" />
+              </svg>
+            </div>
+            <div className="nav_link_text">cards</div>
+          </a>
+
+          <a href="#" className="nav_link" aria-label="support help">
+            <div className="nav_link_icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path className="icon" d="M9.366 10.682a10.556 10.556 0 0 0 3.952 3.952l.884-1.238a1 1 0 0 1 1.294-.296 11.422 11.422 0 0 0 4.583 1.364 1 1 0 0 1 .921.997v4.462a1 1 0 0 1-.898.995c-.53.055-1.064.082-1.602.082C9.94 21 3 14.06 3 5.5c0-.538.027-1.072.082-1.602A1 1 0 0 1 4.077 3h4.462a1 1 0 0 1 .997.921A11.422 11.422 0 0 0 10.9 8.504a1 1 0 0 1-.296 1.294l-1.238.884zm-2.522-.657l1.9-1.357A13.41 13.41 0 0 1 7.647 5H5.01c-.006.166-.009.333-.009.5C5 12.956 11.044 19 18.5 19c.167 0 .334-.003.5-.01v-2.637a13.41 13.41 0 0 1-3.668-1.097l-1.357 1.9a12.442 12.442 0 0 1-1.588-.75l-.058-.033a12.556 12.556 0 0 1-4.702-4.702l-.033-.058a12.442 12.442 0 0 1-.75-1.588z" />
+              </svg>
+            </div>
+            <div className="nav_link_text">support</div>
+          </a>
+        </div>
+
+        <div className="life_cover_offer">
+          <img src="https://raw.githubusercontent.com/shyamtala003/finance_dashboard/%40sjtala/images/women.svg" alt="" />
+          <div className="life_cover_text">
+            <p className="title">Congratulations!</p>
+            <p className="desc">You'r eligible for instant Life cover upto 2,00,000 without any medical test for documentation</p>
+          </div>
+          <a href="#" aria-label="grab offer">buy now</a>
+        </div>
+
+        <div className="profile" onClick={handleLogout}>
+          <div className="img_with_name">
+            <img src="https://raw.githubusercontent.com/shyamtala003/finance_dashboard/%40sjtala/images/profile_pic.webp" alt="" />
+            <div className="profile_text">
+              <p className="name">{userData?.user?.fullName || 'shyam tala'}</p>
+              <p className="occupation">Business</p>
+            </div>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <path fill="none" d="M0 0h24v24H0z" />
+            <path className="icon" d="M13.172 12l-4.95-4.95 1.414-1.414L16 12l-6.364 6.364-1.414-1.414z" />
+          </svg>
+        </div>
+      </nav>
+
+      <section className="main_content">
+        <div className="topbar">
+          <button id="menu_btn" onClick={() => setShowSidebar(true)}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M3 4h18v2H3V4zm0 7h12v2H3v-2zm0 7h18v2H3v-2z" />
+            </svg>
+          </button>
+          <div className="overview_text">
+            <p className="title">Overview</p>
+            <p className="desc">Hi Shyam, welcome back!</p>
+          </div>
+
+          <div className="topbar_icons">
+            <a href="#" aria-label="search things" className="topbar_icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path d="M11 2c4.968 0 9 4.032 9 9s-4.032 9-9 9-9-4.032-9-9 4.032-9 9-9zm0 16c3.867 0 7-3.133 7-7 0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7zm8.485.071l2.829 2.828-1.415 1.415-2.828-2.829 1.414-1.414z" />
+              </svg>
+            </a>
+
+            <a href="#" aria-label="notification bell" className="topbar_icon alert">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path d="M22 20H2v-2h1v-6.969C3 6.043 7.03 2 12 2s9 4.043 9 9.031V18h1v2zM5 18h14v-6.969C19 7.148 15.866 4 12 4s-7 3.148-7 7.031V18zm4.5 3h5a2.5 2.5 0 1 1-5 0z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <section>
+          <main>
+            <div className="overview_text">
+              <p className="title">Overview</p>
+              <p className="desc">Hi Shyam, welcome back!</p>
+            </div>
+
+            <div className="bank_balance_card">
+              <p>your balance</p>
+              <p className="balance">₹40,25,600.00</p>
+              <div className="account_no">
+                <span>Saving A/C : <span className="no">xxxxxxx1234</span></span>
+                <button className="view_account_no" aria-label="show_ac">
+                  <img src="https://raw.githubusercontent.com/shyamtala003/finance_dashboard/%40sjtala/images/eye-off-line.svg" alt="" />
+                </button>
+              </div>
+            </div>
+
+            <div className="button_group">
+              <button className="r_transaction" aria-label="show_transaction">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                  <path fill="none" d="M0 0h24v24H0z" />
+                  <path d="M16 16v-4l5 5-5 5v-4H4v-2h12zM8 2v3.999L20 6v2H8v4L3 7l5-5z" fill="rgba(255,255,255,1)" />
+                </svg>
+                <span>recent transactions</span>
+              </button>
+
+              <button className="s_analysis" aria-label="show_analysis">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                  <path fill="none" d="M0 0h24v24H0z" />
+                  <path className="icon" d="M11 .543c.33-.029.663-.043 1-.043C18.351.5 23.5 5.649 23.5 12c0 .337-.014.67-.043 1h-1.506c-.502 5.053-4.766 9-9.951 9-5.523 0-10-4.477-10-10 0-5.185 3.947-9.449 9-9.95V.542zM11 13V4.062A8.001 8.001 0 0 0 12 20a8.001 8.001 0 0 0 7.938-7H11zm10.448-2A9.503 9.503 0 0 0 13 2.552V11h8.448z" />
+                </svg>
+                <span>spend analysis</span>
+              </button>
+            </div>
+
+            <div className="transaction_info">
+              <div className="transaction_date">Today | 22nd jan, 2020</div>
+
+              <div className="transaction_data">
+                <div className="get_send_money">
+                  <span className="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path d="M5 11h14v2H5z" fill="rgba(255,0,0,1)" />
+                    </svg>
+                  </span>
+                  <div className="trasaction_details">
+                    <p className="transaction_metadata">Transfer to <span>zomato</span></p>
+                    <p>Online food order</p>
+                  </div>
+                </div>
+                <p className="transaction_value">₹1,250.60</p>
+              </div>
+
+              <div className="transaction_data">
+                <div className="get_send_money">
+                  <span className="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" fill="#24cca7" />
+                    </svg>
+                  </span>
+                  <div className="trasaction_details">
+                    <p className="transaction_metadata">Received via paypal from <span>Inueron</span></p>
+                    <p>Project payment</p>
+                  </div>
+                </div>
+                <p className="transaction_value">₹42,840.00</p>
+              </div>
+            </div>
+
+            <div className="transaction_info">
+              <div className="transaction_date">Yesterday | 21nd jan, 2020</div>
+
+              <div className="transaction_data">
+                <div className="get_send_money">
+                  <span className="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path d="M5 11h14v2H5z" fill="rgba(255,0,0,1)" />
+                    </svg>
+                  </span>
+                  <div className="trasaction_details">
+                    <p className="transaction_metadata">Transfer to <span>nike</span></p>
+                    <p>Shopping</p>
+                  </div>
+                </div>
+                <p className="transaction_value">₹13,250.60</p>
+              </div>
+
+              <div className="transaction_data">
+                <div className="get_send_money">
+                  <span className="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" fill="#24cca7" />
+                    </svg>
+                  </span>
+                  <div className="trasaction_details">
+                    <p className="transaction_metadata">Received via paytm from <span>PW skills</span></p>
+                    <p>Project payment</p>
+                  </div>
+                </div>
+                <p className="transaction_value">₹1,42,840.00</p>
+              </div>
+            </div>
+
+            <button className="show_more" aria-label="show_more">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+              </svg>
+            </button>
+          </main>
+
+          <aside>
+            <div className="transfer_money_section">
+              <p className="title">quick transfer</p>
+              <div className="button_group">
+                <button className="via_no" aria-label="via_no">via mobile no.</button>
+                <button className="via_ac" aria-label="via_ac">via account no.</button>
+              </div>
+
+              <form onSubmit={handleSubmit}>
+                <div className="phone_no_info">
+                  <label htmlFor="phone_no">
+                    <img src="https://raw.githubusercontent.com/shyamtala003/finance_dashboard/%40sjtala/images/india.png" alt="" />
+                    &nbsp;+91
+                  </label>
+                  <input type="number" name="phone_no" id="phone_no" placeholder="92934929331" />
+                  <img src="https://raw.githubusercontent.com/shyamtala003/finance_dashboard/%40sjtala/images/profile_pic.webp" alt="" />
+                </div>
+
+                <div className="amount">
+                  <div>
+                    <label htmlFor="rupees">₹</label>
+                    <input type="number" name="phone_no" id="rupees" placeholder="30,550.00" />
+                  </div>
+                  <span>INR</span>
+                </div>
+
+                <input type="submit" value="send to john" />
+              </form>
+            </div>
+
+            <div className="cards">
+              <div className="title_with_button">
+                <p className="title">your cards</p>
+                <div className="sliber_controller">
+                  <div className="swipe_next">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 18c4.42 0 8-3.58 8-8s-3.58-8-8-8-8 3.58-8 8 3.58 8 8 8zm0-9h4v2h-4v3l-4-4 4-4v3z" />
+                    </svg>
+                  </div>
+
+                  <div className="swipe_previous">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path d="M12 11V8l4 4-4 4v-3H8v-2h4zm0-9c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 18c4.42 0 8-3.58 8-8s-3.58-8-8-8-8 3.58-8 8 3.58 8 8 8z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <Swiper
+                effect="cards"
+                grabCursor={true}
+                modules={[EffectCards, Navigation, Pagination]}
+                navigation={{
+                  nextEl: '.swipe_next',
+                  prevEl: '.swipe_previous',
+                }}
+                pagination={{
+                  el: '.swiper-page',
+                  clickable: true,
+                }}
+                className="mySwiper"
+              >
+                <SwiperSlide>
+                  <img src="https://raw.githubusercontent.com/shyamtala003/finance_dashboard/%40sjtala/images/card1.webp" alt="" />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <img src="https://raw.githubusercontent.com/shyamtala003/finance_dashboard/%40sjtala/images/card2.webp" alt="" />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <img src="https://raw.githubusercontent.com/shyamtala003/finance_dashboard/%40sjtala/images/card3.webp" alt="" />
+                </SwiperSlide>
+              </Swiper>
+              <div className="swiper-page"></div>
+            </div>
+          </aside>
+        </section>
+      </section>
+    </div>
+  );
+}

@@ -1,0 +1,611 @@
+import { useState, useEffect } from 'react';
+import './SupportModal.css';
+
+interface SupportChat {
+  id: string;
+  userId: string;
+  status: 'open' | 'closed' | 'escalated';
+  priority: 'low' | 'normal' | 'high' | 'urgent';
+  subject?: string;
+  category?: string;
+  userEmail: string;
+  userName: string;
+  userPhone?: string;
+  deviceInfo?: string;
+  locationInfo?: string;
+  adminNotes?: string;
+  unreadCount: number;
+  lastMessageAt: string;
+  createdAt: string;
+}
+
+export default function SupportTab() {
+  const [chats, setChats] = useState<SupportChat[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [filter, setFilter] = useState<'all' | 'open' | 'closed'>('all');
+  const [selectedChat, setSelectedChat] = useState<SupportChat | null>(null);
+  const [messages, setMessages] = useState<any[]>([]);
+  const [isLoadingMessages, setIsLoadingMessages] = useState(false);
+  const [replyText, setReplyText] = useState('');
+  const [isSending, setIsSending] = useState(false);
+  const [adminNotes, setAdminNotes] = useState('');
+  const [showUserInfo, setShowUserInfo] = useState(false);
+  const [showNotes, setShowNotes] = useState(false);
+  const [isUserTyping, setIsUserTyping] = useState(false);
+  const typingTimeoutRef = useState<any>(null);
+  const messageCountRef = useState(0);
+
+  useEffect(() => {
+    loadChats();
+    const interval = setInterval(loadChats, 5000);
+    return () => clearInterval(interval);
+  }, [filter]);
+
+  // Auto-refresh messages and typing when modal is open
+  useEffect(() => {
+    if (!selectedChat) return;
+    
+    const interval = setInterval(() => {
+      loadMessages(selectedChat.id, true); // Silent reload
+      checkUserTyping(selectedChat.id);
+    }, 3000);
+    
+    return () => clearInterval(interval);
+  }, [selectedChat]); // Removí messages de las dependencias
+
+  const loadChats = async () => {
+    try {
+      setIsLoading(true);
+      const url = filter === 'all' 
+        ? '/api/admin/support/chats' 
+        : `/api/admin/support/chats?status=${filter}`;
+      
+      const response = await fetch(url, { credentials: 'include' });
+      if (response.ok) {
+        const data = await response.json();
+        setChats(data.chats || []);
+      }
+    } catch (error) {
+      console.error('Error loading chats:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const loadMessages = async (chatId: string, silent: boolean = false) => {
+    try {
+      if (!silent) setIsLoadingMessages(true);
+      const response = await fetch(`/api/admin/support/chat/${chatId}/messages`, {
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        
+        // Solo actualizar si la cantidad de mensajes cambió
+        if (data.messages.length !== messageCountRef[0]) {
+          messageCountRef[0] = data.messages.length;
+          setMessages(data.messages || []);
+          setTimeout(() => {
+            const container = document.getElementById('tapp-messages-scroll');
+            if (container) container.scrollTop = container.scrollHeight;
+          }, 100);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading messages:', error);
+    } finally {
+      if (!silent) setIsLoadingMessages(false);
+    }
+  };
+
+  const checkUserTyping = async (chatId: string) => {
+    try {
+      const response = await fetch(`/api/admin/support/chat/${chatId}/typing`, {
+        credentials: 'include',
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setIsUserTyping(data.isTyping);
+      }
+    } catch (error) {
+      // Silently fail
+    }
+  };
+
+  const notifyTyping = async () => {
+    if (!selectedChat) return;
+    
+    try {
+      await fetch(`/api/admin/support/chat/${selectedChat.id}/typing`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+    } catch (error) {
+      // Silently fail
+    }
+  };
+
+  const handleReplyTextChange = (text: string) => {
+    setReplyText(text);
+    
+    // Notificar que estoy escribiendo
+    if (typingTimeoutRef[0]) {
+      clearTimeout(typingTimeoutRef[0]);
+    }
+    
+    notifyTyping();
+    
+    // Resetear después de 2 segundos de inactividad
+    typingTimeoutRef[0] = setTimeout(() => {
+      // El indicador expirará automáticamente en el backend
+    }, 2000);
+  };
+
+  const openChat = (chat: SupportChat) => {
+    setSelectedChat(chat);
+    setAdminNotes(chat.adminNotes || '');
+    loadMessages(chat.id);
+  };
+
+  const closeModal = () => {
+    setSelectedChat(null);
+    setMessages([]);
+    setReplyText('');
+    setAdminNotes('');
+    setShowUserInfo(false);
+    setShowNotes(false);
+  };
+
+  const sendMessage = async () => {
+    if (!selectedChat || !replyText.trim()) return;
+
+    try {
+      setIsSending(true);
+      const response = await fetch(`/api/admin/support/chat/${selectedChat.id}/messages`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: replyText, messageType: 'text' }),
+      });
+
+      if (response.ok) {
+        setReplyText('');
+        await loadMessages(selectedChat.id);
+        await loadChats();
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  const sendBanner = async (content: string, color: string) => {
+    if (!selectedChat) return;
+    try {
+      const response = await fetch(`/api/admin/support/chat/${selectedChat.id}/messages`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content, messageType: 'banner', bannerColor: color }),
+      });
+      if (response.ok) {
+        await loadMessages(selectedChat.id);
+        await loadChats();
+      }
+    } catch (error) {
+      console.error('Error sending banner:', error);
+    }
+  };
+
+  const updateChatStatus = async (status: 'open' | 'closed' | 'escalated') => {
+    if (!selectedChat) return;
+    try {
+      const response = await fetch(`/api/admin/support/chat/${selectedChat.id}`, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+      });
+      if (response.ok) {
+        await loadChats();
+        setSelectedChat({ ...selectedChat, status });
+        const msgs = {
+          closed: 'Este chat ha sido cerrado. Gracias por contactarnos.',
+          escalated: 'Tu caso ha sido escalado a un supervisor.',
+          open: 'Tu chat ha sido reabierto.',
+        };
+        await sendBanner(msgs[status], status === 'closed' ? 'green' : status === 'escalated' ? 'red' : 'blue');
+      }
+    } catch (error) {
+      console.error('Error updating status:', error);
+    }
+  };
+
+  const updatePriority = async (priority: 'low' | 'normal' | 'high' | 'urgent') => {
+    if (!selectedChat) return;
+    try {
+      const response = await fetch(`/api/admin/support/chat/${selectedChat.id}`, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ priority }),
+      });
+      if (response.ok) {
+        await loadChats();
+        setSelectedChat({ ...selectedChat, priority });
+      }
+    } catch (error) {
+      console.error('Error updating priority:', error);
+    }
+  };
+
+  const saveNotes = async () => {
+    if (!selectedChat) return;
+    try {
+      const response = await fetch(`/api/admin/support/chat/${selectedChat.id}`, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ adminNotes }),
+      });
+      if (response.ok) {
+        alert('Notas guardadas');
+        await loadChats();
+      }
+    } catch (error) {
+      console.error('Error saving notes:', error);
+    }
+  };
+
+  const deleteChat = async () => {
+    if (!selectedChat || !confirm('¿Eliminar este chat permanentemente?')) return;
+    try {
+      const response = await fetch(`/api/admin/support/chat/${selectedChat.id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+      if (response.ok) {
+        alert('Chat eliminado');
+        closeModal();
+        await loadChats();
+      }
+    } catch (error) {
+      console.error('Error deleting chat:', error);
+    }
+  };
+
+  const openUserProfile = () => {
+    if (!selectedChat) return;
+    window.open(`/admin?tab=users&userId=${selectedChat.userId}`, '_blank');
+  };
+
+  const openChats = chats.filter(c => c.status === 'open' || c.status === 'escalated');
+  const urgentChats = chats.filter(c => c.priority === 'urgent' || c.priority === 'high');
+  const closedToday = chats.filter(c => {
+    if (c.status !== 'closed') return false;
+    return new Date(c.lastMessageAt).toDateString() === new Date().toDateString();
+  });
+
+  return (
+    <div className="admin-support" style={{ padding: '2rem', width: '100%', boxSizing: 'border-box' }}>
+      {/* Header */}
+      <div style={{ 
+        padding: '1.5rem', 
+        background: '#fff', 
+        borderRadius: '12px', 
+        marginBottom: '1.5rem',
+        border: '1px solid #e5e7eb',
+      }}>
+        <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.125rem', fontWeight: '600', color: '#0e1116' }}>
+          Sistema de Soporte
+        </h3>
+        <p style={{ margin: 0, color: '#64748b', fontSize: '0.875rem' }}>
+          Gestiona consultas de soporte en tiempo real
+        </p>
+      </div>
+
+      {/* Stats */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginBottom: '1.5rem', width: '100%' }}>
+        {[
+          { label: 'Activos', value: openChats.length, color: '#0ea5e9' },
+          { label: 'Urgentes', value: urgentChats.length, color: '#ef4444' },
+          { label: 'Resueltos Hoy', value: closedToday.length, color: '#10b981' },
+          { label: 'Total', value: chats.length, color: '#8b5cf6' },
+        ].map((stat, i) => (
+          <div key={i} style={{ padding: '1.25rem', background: '#fff', borderRadius: '12px', border: '1px solid #e5e7eb' }}>
+            <div style={{ fontSize: '1.75rem', fontWeight: '700', color: stat.color, marginBottom: '0.5rem' }}>
+              {stat.value}
+            </div>
+            <div style={{ fontSize: '0.875rem', color: '#64748b', fontWeight: '500' }}>
+              {stat.label}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Filters */}
+      <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.5rem' }}>
+        {[
+          { value: 'all', label: 'Todos', count: chats.length },
+          { value: 'open', label: 'Abiertos', count: openChats.length },
+          { value: 'closed', label: 'Cerrados', count: chats.length - openChats.length },
+        ].map(f => (
+          <button 
+            key={f.value}
+            onClick={() => setFilter(f.value as any)}
+            className={`filter-btn ${filter === f.value ? 'active' : ''}`}
+          >
+            {f.label} ({f.count})
+          </button>
+        ))}
+      </div>
+
+      {/* Chats List */}
+      {isLoading ? (
+        <div style={{ textAlign: 'center', padding: '4rem', background: '#fff', borderRadius: '12px', border: '1px solid #e5e7eb' }}>
+          <div style={{ color: '#64748b', fontSize: '0.875rem' }}>Cargando...</div>
+        </div>
+      ) : chats.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '4rem', background: '#fff', borderRadius: '12px', border: '1px solid #e5e7eb' }}>
+          <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: '#0e1116', marginBottom: '0.5rem' }}>
+            No hay chats
+          </h3>
+          <p style={{ color: '#64748b', fontSize: '0.875rem', margin: 0 }}>
+            Los chats aparecerán cuando los usuarios contacten soporte
+          </p>
+        </div>
+      ) : (
+        <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e5e7eb', overflow: 'hidden' }}>
+          {chats.map((chat, idx) => (
+            <div 
+              key={chat.id}
+              style={{
+                padding: '1.25rem 1.5rem',
+                borderBottom: idx < chats.length - 1 ? '1px solid #f3f4f6' : 'none',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                cursor: 'pointer',
+              }}
+              onClick={() => openChat(chat)}
+            >
+              <div style={{ flex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                  <span style={{ fontWeight: '600', color: '#0e1116', fontSize: '0.9375rem' }}>
+                    {chat.userName}
+                  </span>
+                  <span style={{ 
+                    padding: '0.25rem 0.625rem',
+                    borderRadius: '6px',
+                    fontSize: '0.6875rem',
+                    fontWeight: '600',
+                    textTransform: 'uppercase',
+                    background: chat.status === 'open' ? '#dbeafe' : chat.status === 'escalated' ? '#fee2e2' : '#f3f4f6',
+                    color: chat.status === 'open' ? '#1e40af' : chat.status === 'escalated' ? '#991b1b' : '#64748b',
+                  }}>
+                    {chat.status}
+                  </span>
+                  {chat.priority !== 'normal' && (
+                    <span style={{ 
+                      padding: '0.25rem 0.625rem',
+                      borderRadius: '6px',
+                      fontSize: '0.6875rem',
+                      fontWeight: '600',
+                      textTransform: 'uppercase',
+                      background: chat.priority === 'urgent' ? '#fef3c7' : '#fee2e2',
+                      color: chat.priority === 'urgent' ? '#92400e' : '#991b1b',
+                    }}>
+                      {chat.priority}
+                    </span>
+                  )}
+                  {chat.unreadCount > 0 && (
+                    <span style={{
+                      background: '#ef4444',
+                      color: '#fff',
+                      borderRadius: '10px',
+                      padding: '0.125rem 0.5rem',
+                      fontSize: '0.6875rem',
+                      fontWeight: '700',
+                    }}>
+                      {chat.unreadCount}
+                    </span>
+                  )}
+                </div>
+                <div style={{ color: '#64748b', fontSize: '0.8125rem', marginBottom: '0.25rem' }}>
+                  {chat.userEmail}
+                </div>
+                <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>
+                  {chat.subject} • {new Date(chat.lastMessageAt).toLocaleString('es-ES', { 
+                    day: 'numeric', 
+                    month: 'short', 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                  })}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* MODAL AISLADO */}
+      {selectedChat && (
+        <div className="tapp-support-modal-overlay" onClick={closeModal}>
+          <div className="tapp-support-modal-container" onClick={(e) => e.stopPropagation()}>
+            
+            {/* Header */}
+            <div className="tapp-support-modal-header">
+              <div className="tapp-support-modal-header-info">
+                <h3 className="tapp-support-modal-title">{selectedChat.userName}</h3>
+                <p className="tapp-support-modal-subtitle">{selectedChat.userEmail} • {selectedChat.subject}</p>
+              </div>
+              <button className="tapp-support-modal-close" onClick={closeModal}>×</button>
+            </div>
+
+            {/* Actions */}
+            <div className="tapp-support-modal-actions">
+              <div className="tapp-support-modal-actions-left">
+                <select className="tapp-support-select" value={selectedChat.status} onChange={(e) => updateChatStatus(e.target.value as any)}>
+                  <option value="open">Abierto</option>
+                  <option value="escalated">Escalado</option>
+                  <option value="closed">Cerrado</option>
+                </select>
+
+                <select className="tapp-support-select" value={selectedChat.priority} onChange={(e) => updatePriority(e.target.value as any)}>
+                  <option value="low">Baja</option>
+                  <option value="normal">Normal</option>
+                  <option value="high">Alta</option>
+                  <option value="urgent">Urgente</option>
+                </select>
+              </div>
+
+              <div className="tapp-support-modal-actions-right">
+                <button className="tapp-support-btn" onClick={() => setShowUserInfo(!showUserInfo)}>
+                  <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                  Info Usuario
+                </button>
+                <button className="tapp-support-btn" onClick={openUserProfile}>
+                  <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                  Ver Perfil
+                </button>
+                <button className="tapp-support-btn tapp-support-btn-danger" onClick={deleteChat}>
+                  <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                  Eliminar
+                </button>
+              </div>
+            </div>
+
+            {/* User Info */}
+            {showUserInfo && (
+              <div className="tapp-support-user-info">
+                <div className="tapp-support-user-info-grid">
+                  <div className="tapp-support-user-info-item">
+                    <div className="tapp-support-user-info-label">Teléfono</div>
+                    <div className="tapp-support-user-info-value">{selectedChat.userPhone || 'No disponible'}</div>
+                  </div>
+                  <div className="tapp-support-user-info-item">
+                    <div className="tapp-support-user-info-label">Dispositivo</div>
+                    <div className="tapp-support-user-info-value">{selectedChat.deviceInfo ? 'Disponible' : 'No disponible'}</div>
+                  </div>
+                  <div className="tapp-support-user-info-item">
+                    <div className="tapp-support-user-info-label">Creado</div>
+                    <div className="tapp-support-user-info-value">
+                      {new Date(selectedChat.createdAt).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Quick Banners */}
+            <div className="tapp-support-banners">
+              <div className="tapp-support-banners-title">Enviar Cinta Rápida:</div>
+              <div className="tapp-support-banners-grid">
+                <button className="tapp-support-banner-btn" onClick={() => sendBanner('Trabajando en ello', 'blue')}>
+                  Trabajando en ello
+                </button>
+                <button className="tapp-support-banner-btn" onClick={() => sendBanner('Caso resuelto', 'green')}>
+                  Caso resuelto
+                </button>
+                <button className="tapp-support-banner-btn" onClick={() => sendBanner('Necesitamos más info', 'yellow')}>
+                  Necesitamos más info
+                </button>
+                <button className="tapp-support-banner-btn" onClick={() => {
+                  const msg = prompt('Mensaje personalizado:');
+                  if (msg) sendBanner(msg, 'blue');
+                }}>
+                  Personalizada
+                </button>
+              </div>
+            </div>
+
+            {/* Messages */}
+            <div id="tapp-messages-scroll" className="tapp-support-messages-container">
+              {isLoadingMessages ? (
+                <div className="tapp-support-loading">Cargando mensajes...</div>
+              ) : messages.length === 0 ? (
+                <div className="tapp-support-loading">No hay mensajes</div>
+              ) : (
+                messages.map((msg) => (
+                  <div key={msg.id} className={`tapp-support-message ${msg.senderType}`}>
+                    {msg.messageType === 'banner' ? (
+                      <div className={`tapp-support-message-banner ${msg.bannerColor}`}>
+                        {msg.content}
+                      </div>
+                    ) : (
+                      <div className={`tapp-support-message-bubble ${msg.senderType}`}>
+                        <div className="tapp-support-message-sender">{msg.senderName}</div>
+                        <div className="tapp-support-message-content">{msg.content}</div>
+                        <div className="tapp-support-message-time">
+                          {new Date(msg.createdAt).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))
+              )}
+              
+              {/* Typing Indicator */}
+              {isUserTyping && (
+                <div className="tapp-support-typing-indicator">
+                  <div className="tapp-support-typing-bubble">
+                    <div className="tapp-support-typing-dots">
+                      <span className="tapp-support-typing-dot"></span>
+                      <span className="tapp-support-typing-dot"></span>
+                      <span className="tapp-support-typing-dot"></span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Input Area */}
+            <div className="tapp-support-input-area">
+              <div className="tapp-support-input-wrapper">
+                <input
+                  type="text"
+                  className="tapp-support-input"
+                  value={replyText}
+                  onChange={(e) => handleReplyTextChange(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
+                  placeholder="Escribe tu respuesta..."
+                  disabled={selectedChat.status === 'closed'}
+                />
+                <button
+                  className="tapp-support-send-btn"
+                  onClick={sendMessage}
+                  disabled={!replyText.trim() || isSending || selectedChat.status === 'closed'}
+                >
+                  {isSending ? 'Enviando...' : 'Enviar'}
+                </button>
+              </div>
+
+              {/* Notes */}
+              <div className="tapp-support-notes">
+                <button className="tapp-support-notes-toggle" onClick={() => setShowNotes(!showNotes)}>
+                  {showNotes ? '▼' : '▶'} Notas Internas (solo admin)
+                </button>
+                {showNotes && (
+                  <div className="tapp-support-notes-content">
+                    <textarea
+                      className="tapp-support-notes-textarea"
+                      value={adminNotes}
+                      onChange={(e) => setAdminNotes(e.target.value)}
+                      placeholder="Notas privadas..."
+                    />
+                    <button className="tapp-support-notes-save" onClick={saveNotes}>
+                      Guardar Notas
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

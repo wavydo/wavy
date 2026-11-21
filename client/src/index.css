@@ -1,0 +1,462 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* LIGHT MODE */
+:root {
+  --button-outline: rgba(0,0,0, .10);
+  --badge-outline: rgba(0,0,0, .05);
+  --opaque-button-border-intensity: -8;
+  --elevate-1: rgba(0,0,0, .03);
+  --elevate-2: rgba(0,0,0, .08);
+  --background: 0 0% 100%;
+  --foreground: 0 0% 10%;
+  --border: 0 0% 91%;
+  --card: 0 0% 98%;
+  --card-foreground: 0 0% 10%;
+  --card-border: 0 0% 94%;
+  --sidebar: 0 0% 96%;
+  --sidebar-foreground: 0 0% 10%;
+  --sidebar-border: 0 0% 92%;
+  --sidebar-primary: 210 85% 45%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 210 15% 88%;
+  --sidebar-accent-foreground: 0 0% 10%;
+  --sidebar-ring: 210 85% 45%;
+  --popover: 0 0% 95%;
+  --popover-foreground: 0 0% 10%;
+  --popover-border: 0 0% 90%;
+  --primary: 210 85% 55%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 0 0% 90%;
+  --secondary-foreground: 0 0% 10%;
+  --muted: 210 8% 92%;
+  --muted-foreground: 0 0% 35%;
+  --accent: 210 12% 94%;
+  --accent-foreground: 0 0% 10%;
+  --destructive: 0 72% 48%;
+  --destructive-foreground: 0 0% 98%;
+  --input: 0 0% 65%;
+  --ring: 210 85% 45%;
+  --radius: .5rem;
+}
+
+.dark {
+  --button-outline: rgba(255,255,255, .10);
+  --badge-outline: rgba(255,255,255, .05);
+  --opaque-button-border-intensity: 9;
+  --elevate-1: rgba(255,255,255, .04);
+  --elevate-2: rgba(255,255,255, .09);
+  --background: 0 0% 8%;
+  --foreground: 0 0% 95%;
+  --border: 0 0% 18%;
+  --card: 0 0% 10%;
+  --card-foreground: 0 0% 95%;
+  --card-border: 0 0% 14%;
+  --sidebar: 0 0% 12%;
+  --sidebar-foreground: 0 0% 95%;
+  --sidebar-border: 0 0% 16%;
+  --sidebar-primary: 210 85% 55%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 210 15% 18%;
+  --sidebar-accent-foreground: 0 0% 95%;
+  --sidebar-ring: 210 85% 55%;
+  --popover: 0 0% 14%;
+  --popover-foreground: 0 0% 95%;
+  --popover-border: 0 0% 18%;
+  --primary: 210 85% 55%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 0 0% 18%;
+  --secondary-foreground: 0 0% 95%;
+  --muted: 210 8% 20%;
+  --muted-foreground: 0 0% 70%;
+  --accent: 210 12% 16%;
+  --accent-foreground: 0 0% 95%;
+  --destructive: 0 72% 48%;
+  --destructive-foreground: 0 0% 98%;
+  --input: 0 0% 35%;
+  --ring: 210 85% 55%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    width: 100%;
+    height: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    background-color: #080808;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-width: 320px;
+    font-size: 18px;
+    color: #fff;
+    cursor: url('/pointer.png'), auto;
+  }
+  
+  /* Dashboard pages override - prevents black flash during navigation */
+  body.dashboard-active {
+    background-color: #f8f9fa !important;
+    background: #f8f9fa !important;
+  }
+  
+  /* Add padding for bottom nav in mobile dashboard pages */
+  @media (max-width: 768px) {
+    body.dashboard-active {
+      padding-bottom: 110px !important;
+    }
+  }
+  
+  /* Override body styles for business dashboard */
+  body:has(.business-dashboard-wrapper) {
+    background-color: #f8f9fa !important;
+    cursor: auto !important;
+  }
+  
+  button, a {
+    cursor: url('/hand.png'), pointer !important;
+  }
+  
+  /* Override button/link cursors for business dashboard */
+  .business-dashboard-wrapper button,
+  .business-dashboard-wrapper a {
+    cursor: pointer !important;
+  }
+  
+  input, textarea {
+    cursor: url('/text.png'), text !important;
+  }
+  
+  /* Override input cursors for business dashboard */
+  .business-dashboard-wrapper input,
+  .business-dashboard-wrapper textarea {
+    cursor: text !important;
+  }
+
+  #root {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Exclude dashboard from global section styles */
+  section:not(.dashboard-main-container section):not(.dashboard-main-container *) {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@layer utilities {
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translate(-50%, 100%);
+      opacity: 0;
+    }
+    to {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+  }
+}
+
+
+/* Hero Section Responsive Layout */
+@media (max-width: 1023px) {
+  /* Mobile/Tablet: texto arriba, card centro */
+  .hero-text-section {
+    top: 15% !important;
+    left: 5% !important;
+    transform: none !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Desktop: texto izquierda, card derecha, misma altura */
+  .hero-text-section {
+    top: 50% !important;
+    left: 8% !important;
+    transform: translateY(-50%) !important;
+    max-width: 600px !important;
+  }
+  
+  .hero-text-section h1 {
+    font-size: 5rem !important;
+    margin-bottom: 2rem !important;
+  }
+  
+  .hero-text-section p {
+    font-size: 1.5rem !important;
+    max-width: 550px !important;
+  }
+}
+
+/* Card Responsive Position */
+@media (min-width: 1024px) {
+  .tapp-card-container {
+    left: auto !important;
+    right: 10% !important;
+    transform: translateY(-50%) !important;
+    max-width: 550px !important;
+  }
+}
+
+/* Flip animation for card icon */
+@keyframes flipAnimation {
+  0%, 100% {
+    transform: perspective(400px) rotateY(0deg);
+    opacity: 1;
+  }
+  25% {
+    transform: perspective(400px) rotateY(-90deg);
+    opacity: 0.7;
+  }
+  50% {
+    transform: perspective(400px) rotateY(-180deg);
+    opacity: 1;
+  }
+  75% {
+    transform: perspective(400px) rotateY(-270deg);
+    opacity: 0.7;
+  }
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Floating animation for credit card */
+@keyframes floatingCard {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateY(0px);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-12px);
+  }
+}
+
+@media (min-width: 1024px) {
+  @keyframes floatingCardDesktop {
+    0%, 100% {
+      transform: translateY(-50%) translateY(0px);
+    }
+    50% {
+      transform: translateY(-50%) translateY(-12px);
+    }
+  }
+}
+
+/* Scroll reveal animations - More immersive */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(80px) scale(0.95);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-60px) scale(0.95);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(60px) scale(0.95);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+    filter: blur(15px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+.animate-on-scroll {
+  opacity: 0;
+  will-change: transform, opacity, filter;
+}
+
+.animate-on-scroll.visible {
+  animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-on-scroll.visible.from-left {
+  animation: fadeInLeft 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-on-scroll.visible.from-right {
+  animation: fadeInRight 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-on-scroll.visible.scale-in {
+  animation: scaleIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-on-scroll.visible.delay-1 {
+  animation-delay: 0.15s;
+}
+
+.animate-on-scroll.visible.delay-2 {
+  animation-delay: 0.3s;
+}
+
+.animate-on-scroll.visible.delay-3 {
+  animation-delay: 0.45s;
+}
+
+.animate-on-scroll.visible.delay-4 {
+  animation-delay: 0.6s;
+}
+
+
+/* Apply desktop animation at desktop breakpoint */
+@media (min-width: 1024px) {
+  .tapp-card-container {
+    animation: floatingCardDesktop 4s ease-in-out infinite !important;
+  }
+}
+
+/* Pulsing glow animation */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Features card split layout */
+@media (min-width: 1024px) {
+  .features-card-split > div {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* About Section Responsive Grid */
+@media (min-width: 1024px) {
+  .about-split-layout {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* Features Section Responsive Grid */
+@media (min-width: 640px) {
+  .feature-card {
+    grid-column: span 6 !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .feature-card {
+    grid-column: span 4 !important;
+  }
+}
+
+
+
+/* Hide Wallet link in sidebar */
+.nav_link[aria-label="wallet"] {
+  display: none !important;
+}
+
+/* Ensure body has padding for bottom nav on mobile */
+@media (max-width: 768px) {
+  body.dashboard-active {
+    padding-bottom: calc(80px + env(safe-area-inset-bottom)) !important;
+  }
+}
+
+
+/* Fix overflow issues in mobile dashboard */
+@media (max-width: 768px) {
+  /* Don't restrict overflow on dashboard main - let cards show */
+  .benefits-page-container,
+  .events-page-container,
+  .explore-page-container,
+  .cards-page-container {
+    overflow-x: hidden !important;
+    overflow-y: auto !important; /* Allow vertical scroll */
+    width: 100% !important;
+    max-width: 100vw !important;
+  }
+  
+  .container,
+  .benefits-main-content,
+  .events-main-content,
+  .cards-main-content,
+  .explore-main-content {
+    overflow-x: hidden !important;
+    overflow-y: auto !important; /* Allow vertical scroll */
+    width: 100% !important;
+    max-width: 100vw !important;
+  }
+  
+  /* Ensure sidebar doesn't cause overflow when closed */
+  .sidebar:not(.active),
+  .benefits-sidebar:not(.active),
+  .events-sidebar:not(.active),
+  .cards-sidebar:not(.active),
+  .explore-sidebar:not(.active) {
+    transform: translateX(-100%) !important;
+  }
+}

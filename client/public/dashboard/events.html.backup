@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - TAPP</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            border: none;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        :root {
+            --font-inter: 'Inter', -apple-system, sans-serif;
+            --ink: #0e1116;
+            --muted: #5b6472;
+            --surface: #ffffff;
+            --bg: #f8f9fa;
+            --text-grey: #a1a3af;
+            --border: rgba(15, 23, 42, 0.08);
+            --border-strong: rgba(15, 23, 42, 0.12);
+            --accent-blue: #2563eb;
+            --accent-purple: #7c3aed;
+            --accent-pink: #ec4899;
+        }
+
+        body {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            background: var(--bg);
+            overflow-x: hidden;
+            font-family: var(--font-inter);
+        }
+
+        @media screen and (min-width: 1024px) {
+            body {
+                zoom: 0.85;
+                -moz-transform: scale(0.85);
+                -moz-transform-origin: 0 0;
+            }
+        }
+
+        /* Background gradients */
+        body::after {
+            content: '';
+            position: fixed;
+            top: -10%;
+            right: -5%;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, transparent 70%);
+            filter: blur(80px);
+            z-index: -2;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            bottom: -10%;
+            left: -5%;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 70%);
+            filter: blur(80px);
+            z-index: -1;
+            animation: float 25s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(5deg); }
+            66% { transform: translate(-20px, 20px) rotate(-5deg); }
+        }
+
+        /* Container with sidebar */
+        .container {
+            position: relative;
+            width: 100vw;
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            z-index: 10;
+        }
+
+        /* Sidebar - Same as Benefits */
+        nav {
+            position: relative;
+            width: 280px;
+            height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            background: url('https://raw.githubusercontent.com/shyamtala003/finance_dashboard/%40sjtala/images/bg2.png');
+            background-attachment: fixed;
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position-y: 20%;
+            background-position-x: 20%;
+            border-right: 2px solid rgba(195, 195, 195, 0.8);
+            font-family: var(--font-inter);
+            z-index: 99;
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav.sidebar #btn_close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: none;
+            place-content: center;
+            padding: 8px;
+            background: #ffffff;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        nav .logo {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 20px;
+            flex-shrink: 0;
+        }
+
+        nav .logo svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        nav .logo span {
+            font-weight: 200;
+            font-size: 24px;
+            letter-spacing: 0.1em;
+            text-transform: lowercase;
+        }
+
+        .nav_links {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .nav_links a.nav_link {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--text-grey);
+            font-size: 15px;
+            text-transform: capitalize;
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            margin: 4px 12px;
+        }
+
+        .nav_link_icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav_link_icon svg {
+            stroke: var(--text-grey);
+            transition: stroke 0.3s ease;
+        }
+
+        .nav_links a.nav_link:hover .nav_link_text,
+        .nav_links a.active .nav_link_text {
+            color: var(--ink);
+        }
+
+        .nav_links a.nav_link:hover .nav_link_icon svg,
+        .nav_links a.active .nav_link_icon svg {
+            stroke: var(--ink);
+        }
+
+        .nav_links a.active {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .life_cover_offer {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            flex-shrink: 0;
+        }
+
+        .life_cover_offer img {
+            width: 130px;
+            height: 150px;
+        }
+
+        .life_cover_offer .life_cover_text {
+            padding-inline: 20px;
+            margin-top: 20px;
+        }
+
+        .life_cover_text p.title {
+            font-size: 14px;
+            color: var(--ink);
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .life_cover_text p.desc {
+            font-size: 12px;
+            color: #464646;
+            font-weight: 400;
+            text-align: center;
+        }
+
+        .life_cover_offer a {
+            margin-top: 20px;
+            margin-inline: 20px;
+            width: 85%;
+            padding: 10px 20px;
+            color: #0e1116;
+            border: 1px solid rgba(15, 23, 42, 0.12);
+            border-radius: 999px;
+            text-transform: none;
+            text-align: center;
+            font-weight: 500;
+            font-size: 13px;
+            transition: all 180ms ease;
+        }
+
+        .life_cover_offer a:hover {
+            background: #0e1116;
+            color: #ffffff;
+            border-color: #0e1116;
+        }
+
+        .profile {
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 85%;
+            padding: 16px;
+            background: #ffffff;
+            border-radius: 30px;
+            transition: all 180ms ease;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .profile .img_with_name {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .profile .img_with_name img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .profile .img_with_name p.name {
+            color: #0e1116;
+            font-weight: 600;
+            text-transform: none;
+            line-height: 14px;
+            font-size: 14px;
+        }
+
+        .profile .img_with_name p.occupation {
+            color: #5b6472;
+            text-transform: none;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .profile .icon {
+            fill: #5b6472;
+            transition: fill 180ms ease;
+        }
+
+        .profile:hover {
+            background: rgba(14, 17, 22, 0.04);
+        }
+
+        .profile:hover .icon {
+            fill: #0e1116;
+        }
+
+        /* Main content */
+        .main-content {
+            width: 100%;
+            min-height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* Mobile menu button */
+        #menu_btn {
+            position: fixed;
+            top: 24px;
+            left: 24px;
+            width: 44px;
+            height: 44px;
+            display: none;
+            place-items: center;
+            background: #ffffff;
+            padding: 10px;
+            border-radius: 14px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(14, 17, 22, 0.08);
+            z-index: 100;
+            transition: all 180ms ease;
+        }
+
+        #menu_btn:hover {
+            background: rgba(14, 17, 22, 0.04);
+            border-color: var(--border-strong);
+        }
+
+        #menu_btn svg {
+            fill: var(--ink);
+        }
+
+        /* Events page styling */
+        .events-container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 48px 60px;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 60px;
+        }
+
+        .page-title-group {
+            text-align: right;
+            margin-left: auto;
+        }
+
+        .page-title {
+            font-size: 56px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+            color: var(--ink);
+        }
+
+        .page-subtitle {
+            font-size: 18px;
+            color: var(--muted);
+            line-height: 1.6;
+            max-width: 700px;
+            margin-left: auto;
+        }
+
+        /* Display Cards with Skew Effect */
+        .display-cards-section {
+            margin-bottom: 80px;
+            display: grid;
+            grid-template-columns: 1fr 450px;
+            gap: 40px;
+            align-items: center;
+        }
+
+        /* Stats Cards Left - TAPP Style */
+        .stats-sidebar-left {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .stat-mini-card {
+            position: relative;
+            background: #ffffff;
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            border-radius: 20px;
+            padding: 24px 26px;
+            box-shadow: 0 2px 8px rgba(14, 17, 22, 0.04);
+            transition: all 280ms cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .stat-mini-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(14, 17, 22, 0.12);
+            border-color: rgba(15, 23, 42, 0.12);
+        }
+
+        .stat-mini-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-mini-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #6b7280;
+        }
+
+        .stat-mini-tag {
+            font-family: 'SF Mono', 'Courier New', monospace;
+            font-size: 10px;
+            font-weight: 700;
+            background: #000000;
+            color: #ffffff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-mini-value {
+            font-family: 'SF Mono', 'Courier New', monospace;
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: #0e1116;
+            line-height: 1;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-mini-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-family: 'SF Mono', 'Courier New', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            color: #10b981;
+            letter-spacing: -0.01em;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-mini-change svg {
+            width: 12px;
+            height: 12px;
+            fill: currentColor;
+        }
+
+        .stat-mini-change.negative {
+            color: #ef4444;
+        }
+
+        .stat-mini-change.negative svg {
+            transform: rotate(180deg);
+        }
+
+        .stat-mini-caption {
+            margin-top: 10px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #6b7280;
+            position: relative;
+            z-index: 2;
+        }
+
+        .display-cards-grid {
+            display: grid;
+            grid-template-areas: 'stack';
+            place-items: center;
+            min-height: 280px;
+            position: relative;
+        }
+
+        .display-card {
+            grid-area: stack;
+            position: relative;
+            display: flex;
+            height: 200px;
+            width: min(450px, 90%);
+            transform: skewY(-4deg);
+            flex-direction: column;
+            justify-content: space-between;
+            border-radius: 20px;
+            border: 2px solid var(--border);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+            backdrop-filter: blur(20px);
+            padding: 24px;
+            transition: all 700ms cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+        }
+
+        .display-card::after {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: -5%;
+            height: 110%;
+            width: 400px;
+            background: linear-gradient(to left, var(--bg) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .display-card:nth-child(1) {
+            z-index: 3;
+            filter: grayscale(0);
+        }
+
+        .display-card:nth-child(2) {
+            z-index: 2;
+            transform: skewY(-4deg) translateX(100px) translateY(50px);
+            filter: grayscale(100%);
+        }
+
+        .display-card:nth-child(3) {
+            z-index: 1;
+            transform: skewY(-4deg) translateX(200px) translateY(100px);
+            filter: grayscale(100%);
+        }
+
+        .display-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 18px;
+            background: rgba(var(--bg), 0.5);
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            transition: opacity 700ms ease;
+        }
+
+        .display-card:nth-child(2)::before,
+        .display-card:nth-child(3)::before {
+            opacity: 1;
+        }
+
+        .display-card:nth-child(1):hover {
+            transform: skewY(-4deg) translateY(-40px);
+            border-color: rgba(37, 99, 235, 0.3);
+        }
+
+        .display-card:nth-child(2):hover {
+            transform: skewY(-4deg) translateX(100px) translateY(-10px);
+            filter: grayscale(0);
+        }
+
+        .display-card:nth-child(2):hover::before {
+            opacity: 0;
+        }
+
+        .display-card:nth-child(3):hover {
+            transform: skewY(-4deg) translateX(200px) translateY(50px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 999px;
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .card-icon svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .card-badge {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--accent-blue);
+        }
+
+        .card-description {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--ink);
+            white-space: nowrap;
+        }
+
+        .card-date {
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        /* Events Grid */
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 28px;
+            margin-bottom: 60px;
+        }
+
+        .event-card {
+            position: relative;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 320ms cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+        }
+
+        .event-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--border-strong);
+            box-shadow: 0 20px 60px rgba(14, 17, 22, 0.12);
+        }
+
+        .event-image {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+        }
+
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 400ms ease;
+        }
+
+        .event-card:hover .event-image img {
+            transform: scale(1.08);
+        }
+
+        .event-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(14, 17, 22, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .event-badge svg {
+            width: 11px;
+            height: 11px;
+        }
+
+        .event-badge.vip {
+            background: rgba(14, 17, 22, 0.9);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            box-shadow: 0 0 0 1px rgba(236, 72, 153, 0.1), 0 4px 12px rgba(236, 72, 153, 0.2);
+        }
+
+        .event-badge.free {
+            background: rgba(14, 17, 22, 0.9);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.1), 0 4px 12px rgba(16, 185, 129, 0.2);
+        }
+
+        .event-content {
+            padding: 24px;
+        }
+
+        .event-date-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .event-date-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 84px;
+            height: 84px;
+            flex-shrink: 0;
+        }
+
+        .event-date-box::before,
+        .event-date-box::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #0e1116;
+            border: 1px solid rgba(14, 17, 22, 0.2);
+            transform: translate(-50%, -100%) scale(0);
+            animation: push_401 2s infinite linear;
+        }
+
+        .event-date-box::after {
+            animation-delay: 1s;
+        }
+
+        @keyframes push_401 {
+            0%, 50% {
+                transform: translate(-50%, 0%) scale(1);
+            }
+            100% {
+                transform: translate(-50%, -100%) scale(0);
+            }
+        }
+
+        .event-date-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 16px;
+        }
+
+        .event-day {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1;
+        }
+
+        .event-month {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #ffffff;
+        }
+
+        .event-time-info {
+            flex: 1;
+        }
+
+        .event-time {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+
+        .event-location {
+            font-size: 12px;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .event-location svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .event-title {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--ink);
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .event-description {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+
+        .event-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .event-attendees {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .attendees-avatars {
+            display: flex;
+            align-items: center;
+        }
+
+        .attendees-avatars img {
+            width: 28px;
+            height: 28px;
+            border-radius: 999px;
+            border: 2px solid var(--surface);
+            margin-left: -8px;
+        }
+
+        .attendees-avatars img:first-child {
+            margin-left: 0;
+        }
+
+        .attendees-count {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--muted);
+        }
+
+        .event-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0 18px;
+            height: 36px;
+            border-radius: 999px;
+            background: var(--ink);
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 180ms ease;
+        }
+
+        .event-button:hover {
+            background: #1a1f28;
+            transform: translateY(-2px);
+        }
+
+        /* Filters Section */
+        .filters-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 18px;
+            border-radius: 999px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 180ms ease;
+        }
+
+        .filter-chip:hover {
+            border-color: var(--border-strong);
+            color: var(--ink);
+        }
+
+        .filter-chip.active {
+            background: var(--ink);
+            border-color: var(--ink);
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            body {
+                zoom: 1;
+            }
+
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                position: fixed;
+                left: -100%;
+                top: 0;
+                height: 100vh;
+                z-index: 999;
+                transition: left 0.3s ease;
+                background: #ffffff;
+            }
+
+            nav.active {
+                left: 0;
+            }
+
+            nav.sidebar #btn_close {
+                display: grid;
+            }
+
+            #menu_btn {
+                display: grid;
+            }
+
+            .events-container {
+                padding: 64px 20px 32px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 24px;
+            }
+
+            .page-title {
+                font-size: 32px;
+            }
+
+            .page-subtitle {
+                font-size: 15px;
+            }
+
+            .events-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .display-cards-section {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .stats-sidebar-left,
+            .info-sidebar-right {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+
+            .display-cards-grid {
+                min-height: 240px;
+            }
+
+            .display-card {
+                width: min(380px, 90%);
+                height: 180px;
+            }
+
+            .display-card:nth-child(2) {
+                transform: skewY(-4deg) translateX(60px) translateY(40px);
+            }
+
+            .display-card:nth-child(3) {
+                transform: skewY(-4deg) translateX(120px) translateY(80px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <button id="btn_close">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+                </svg>
+            </button>
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="2.5" fill="currentColor" />
+                    <path d="M16 9C12.134 9 9 12.134 9 16C9 19.866 12.134 23 16 23" 
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+                    <path d="M16 5C9.925 5 5 9.925 5 16C5 22.075 9.925 27 16 27" 
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+                </svg>
+                <span>tapp</span>
+            </div>
+            <div class="nav_links">
+                <a href="/dashboard/user" class="nav_link" aria-label="dashboard">
+                    <div class="nav_link_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7"/>
+                            <rect x="14" y="3" width="7" height="7"/>
+                            <rect x="14" y="14" width="7" height="7"/>
+                            <rect x="3" y="14" width="7" height="7"/>
+                        </svg>
+                    </div>
+                    <div class="nav_link_text">Dashboard</div>
+                </a>
+                <a href="/dashboard/benefits" class="nav_link" aria-label="benefits">
+                    <div class="nav_link_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 7h-9"/>
+                            <path d="M14 17H5"/>
+                            <circle cx="17" cy="17" r="3"/>
+                            <circle cx="7" cy="7" r="3"/>
+                        </svg>
+                    </div>
+                    <div class="nav_link_text">Benefits</div>
+                </a>
+                <a href="/dashboard/events" class="nav_link active" aria-label="events">
+                    <div class="nav_link_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                    </div>
+                    <div class="nav_link_text">Events</div>
+                </a>
+                <a href="/dashboard/explore" class="nav_link" aria-label="explore">
+                    <div class="nav_link_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                        </svg>
+                    </div>
+                    <div class="nav_link_text">Explore</div>
+                </a>
+                <a href="#" class="nav_link" aria-label="cards">
+                    <div class="nav_link_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="5" width="20" height="14" rx="2"/>
+                            <line x1="2" y1="10" x2="22" y2="10"/>
+                        </svg>
+                    </div>
+                    <div class="nav_link_text">Cards</div>
+                </a>
+                <a href="#" class="nav_link" aria-label="wallet">
+                    <div class="nav_link_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/>
+                            <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/>
+                            <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/>
+                        </svg>
+                    </div>
+                    <div class="nav_link_text">Wallet</div>
+                </a>
+                <a href="#" class="nav_link" aria-label="settings">
+                    <div class="nav_link_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                        </svg>
+                    </div>
+                    <div class="nav_link_text">Settings</div>
+                </a>
+            </div>
+            <div class="life_cover_offer">
+                <img src="https://raw.githubusercontent.com/shyamtala003/finance_dashboard/%40sjtala/images/women.svg" alt="" />
+                <div class="life_cover_text">
+                    <p class="title">Congratulations!</p>
+                    <p class="desc">You'r eligible for instant Life cover upto 2,00,000 without any medical test for documentation</p>
+                </div>
+                <a href="#">buy now</a>
+            </div>
+            <div class="profile">
+                <div class="img_with_name">
+                    <img src="https://raw.githubusercontent.com/shyamtala003/finance_dashboard/%40sjtala/images/profile_pic.webp" alt="">
+                    <div>
+                        <p class="name">shyam tala</p>
+                        <p class="occupation">Bussiness</p>
+                    </div>
+                </div>
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                    <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z"/>
+                    <path d="M12 6a3.5 3.5 0 0 0-3.5 3.5h2A1.5 1.5 0 1 1 12 11a1 1 0 0 0-1 1v2h2v-1.16A3.49 3.49 0 0 0 12 6zm-1 9h2v2h-2z"/>
+                </svg>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Mobile menu button -->
+            <button id="menu_btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18">
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M3 4h18v2H3V4zm0 7h12v2H3v-2zm0 7h18v2H3v-2z" />
+                </svg>
+            </button>
+
+            <div class="events-container">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="page-title-group">
+                        <h1 class="page-title">Upcoming Events</h1>
+                        <p class="page-subtitle">Exclusive experiences and gatherings across the TAPP network</p>
+                    </div>
+                </div>
+
+                <!-- Display Cards Section with Skew Effect -->
+                <div class="display-cards-section">
+                    <!-- Left Stats -->
+                    <div class="stats-sidebar-left">
+                        <div class="stat-mini-card">
+                            <div class="stat-mini-header">
+                                <span class="stat-mini-label">Total Events</span>
+                                <span class="stat-mini-tag">LIVE</span>
+                            </div>
+                            <div class="stat-mini-value">48</div>
+                            <div class="stat-mini-change">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                                    <polyline points="17 6 23 6 23 12"/>
+                                </svg>
+                                +12 this month
+                            </div>
+                            <p class="stat-mini-caption">Upcoming events across your network</p>
+                        </div>
+                        <div class="stat-mini-card">
+                            <div class="stat-mini-header">
+                                <span class="stat-mini-label">Your RSVPs</span>
+                                <span class="stat-mini-tag">RSVP</span>
+                            </div>
+                            <div class="stat-mini-value">7</div>
+                            <div class="stat-mini-change">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                                    <polyline points="17 6 23 6 23 12"/>
+                                </svg>
+                                3 this week
+                            </div>
+                            <p class="stat-mini-caption">Events you've confirmed attendance</p>
+                        </div>
+                    </div>
+
+                    <!-- Right Display Cards -->
+                    <div class="display-cards-grid">
+                        <div class="display-card">
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                        <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+                                    </svg>
+                                </div>
+                                <p class="card-badge">Featured</p>
+                            </div>
+                            <p class="card-description">Salsa Night at Zona Colonial</p>
+                            <p class="card-date">Tonight at 9PM</p>
+                        </div>
+                        <div class="display-card">
+                            <div class="card-header">
+                                <div class="card-icon" style="background: #7c3aed;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <path d="M12 6v6l4 2"/>
+                                    </svg>
+                                </div>
+                                <p class="card-badge" style="color: #7c3aed;">This Week</p>
+                            </div>
+                            <p class="card-description">Wine Tasting Experience</p>
+                            <p class="card-date">Friday at 7PM</p>
+                        </div>
+                        <div class="display-card">
+                            <div class="card-header">
+                                <div class="card-icon" style="background: #ec4899;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                    </svg>
+                                </div>
+                                <p class="card-badge" style="color: #ec4899;">Popular</p>
+                            </div>
+                            <p class="card-description">Rooftop Jazz Session</p>
+                            <p class="card-date">Saturday at 8PM</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="filters-section">
+                    <div class="filter-chip active">All Events</div>
+                    <div class="filter-chip">This Week</div>
+                    <div class="filter-chip">VIP Only</div>
+                    <div class="filter-chip">Free Entry</div>
+                    <div class="filter-chip">Music & Arts</div>
+                    <div class="filter-chip">Food & Dining</div>
+                </div>
+
+                <!-- Events Grid -->
+                <div class="events-grid">
+                    <!-- Event Card 1 -->
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&h=600&fit=crop" alt="Event">
+                            <div class="event-badge vip">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                                VIP
+                            </div>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-date-section">
+                                <div class="event-date-box">
+                                    <div class="event-date-content">
+                                        <div class="event-day">28</div>
+                                        <div class="event-month">AUG</div>
+                                    </div>
+                                </div>
+                                <div class="event-time-info">
+                                    <div class="event-time">Tonight • 9:00 PM - 2:00 AM</div>
+                                    <div class="event-location">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                            <circle cx="12" cy="10" r="3"/>
+                                        </svg>
+                                        Zona Colonial, Santo Domingo
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 class="event-title">Salsa Night Under the Stars</h3>
+                            <p class="event-description">
+                                Live band, professional dancers, and exclusive cocktails for TAPP VIP members.
+                            </p>
+                            <div class="event-footer">
+                                <div class="event-attendees">
+                                    <div class="attendees-avatars">
+                                        <img src="https://i.pravatar.cc/150?img=1" alt="">
+                                        <img src="https://i.pravatar.cc/150?img=2" alt="">
+                                        <img src="https://i.pravatar.cc/150?img=3" alt="">
+                                    </div>
+                                    <span class="attendees-count">+48 going</span>
+                                </div>
+                                <a href="#" class="event-button">Reserve Spot</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 2 -->
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&h=600&fit=crop" alt="Event">
+                            <div class="event-badge free">FREE ENTRY</div>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-date-section">
+                                <div class="event-date-box">
+                                    <div class="event-date-content">
+                                        <div class="event-day">29</div>
+                                        <div class="event-month">AUG</div>
+                                    </div>
+                                </div>
+                                <div class="event-time-info">
+                                    <div class="event-time">Tomorrow • 7:00 PM - 11:00 PM</div>
+                                    <div class="event-location">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                            <circle cx="12" cy="10" r="3"/>
+                                        </svg>
+                                        Piantini
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 class="event-title">Wine Tasting Experience</h3>
+                            <p class="event-description">
+                                Discover premium wines from around the world. Complimentary for TAPP members.
+                            </p>
+                            <div class="event-footer">
+                                <div class="event-attendees">
+                                    <div class="attendees-avatars">
+                                        <img src="https://i.pravatar.cc/150?img=4" alt="">
+                                        <img src="https://i.pravatar.cc/150?img=5" alt="">
+                                    </div>
+                                    <span class="attendees-count">+22 going</span>
+                                </div>
+                                <a href="#" class="event-button">Join Event</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 3 -->
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=800&h=600&fit=crop" alt="Event">
+                            <div class="event-badge">MEMBER EXCLUSIVE</div>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-date-section">
+                                <div class="event-date-box">
+                                    <div class="event-date-content">
+                                        <div class="event-day">30</div>
+                                        <div class="event-month">AUG</div>
+                                    </div>
+                                </div>
+                                <div class="event-time-info">
+                                    <div class="event-time">Saturday • 8:00 PM - 12:00 AM</div>
+                                    <div class="event-location">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                            <circle cx="12" cy="10" r="3"/>
+                                        </svg>
+                                        Naco
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 class="event-title">Rooftop Jazz Session</h3>
+                            <p class="event-description">
+                                Intimate live performance with stunning city views. Limited capacity event.
+                            </p>
+                            <div class="event-footer">
+                                <div class="event-attendees">
+                                    <div class="attendees-avatars">
+                                        <img src="https://i.pravatar.cc/150?img=6" alt="">
+                                        <img src="https://i.pravatar.cc/150?img=7" alt="">
+                                        <img src="https://i.pravatar.cc/150?img=8" alt="">
+                                        <img src="https://i.pravatar.cc/150?img=9" alt="">
+                                    </div>
+                                    <span class="attendees-count">+35 going</span>
+                                </div>
+                                <a href="#" class="event-button">Get Tickets</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 4 -->
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&h=600&fit=crop" alt="Event">
+                            <div class="event-badge">FOOD & DINING</div>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-date-section">
+                                <div class="event-date-box">
+                                    <div class="event-date-content">
+                                        <div class="event-day">31</div>
+                                        <div class="event-month">AUG</div>
+                                    </div>
+                                </div>
+                                <div class="event-time-info">
+                                    <div class="event-time">Sunday • 12:00 PM - 4:00 PM</div>
+                                    <div class="event-location">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                            <circle cx="12" cy="10" r="3"/>
+                                        </svg>
+                                        Gazcue
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 class="event-title">Chef's Table Brunch</h3>
+                            <p class="event-description">
+                                Exclusive 5-course tasting menu prepared by award-winning chefs.
+                            </p>
+                            <div class="event-footer">
+                                <div class="event-attendees">
+                                    <div class="attendees-avatars">
+                                        <img src="https://i.pravatar.cc/150?img=10" alt="">
+                                        <img src="https://i.pravatar.cc/150?img=11" alt="">
+                                    </div>
+                                    <span class="attendees-count">+15 going</span>
+                                </div>
+                                <a href="#" class="event-button">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 5 -->
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=800&h=600&fit=crop" alt="Event">
+                            <div class="event-badge vip">VIP</div>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-date-section">
+                                <div class="event-date-box">
+                                    <div class="event-date-content">
+                                        <div class="event-day">02</div>
+                                        <div class="event-month">SEP</div>
+                                    </div>
+                                </div>
+                                <div class="event-time-info">
+                                    <div class="event-time">Next Week • 10:00 PM - 3:00 AM</div>
+                                    <div class="event-location">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                            <circle cx="12" cy="10" r="3"/>
+                                        </svg>
+                                        Bella Vista
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 class="event-title">Private Rooftop Party</h3>
+                            <p class="event-description">
+                                Exclusive members-only celebration with world-class DJs and premium open bar.
+                            </p>
+                            <div class="event-footer">
+                                <div class="event-attendees">
+                                    <div class="attendees-avatars">
+                                        <img src="https://i.pravatar.cc/150?img=12" alt="">
+                                        <img src="https://i.pravatar.cc/150?img=13" alt="">
+                                        <img src="https://i.pravatar.cc/150?img=14" alt="">
+                                    </div>
+                                    <span class="attendees-count">+67 going</span>
+                                </div>
+                                <a href="#" class="event-button">RSVP Now</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 6 -->
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&h=600&fit=crop" alt="Event">
+                            <div class="event-badge free">FREE ENTRY</div>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-date-section">
+                                <div class="event-date-box">
+                                    <div class="event-date-content">
+                                        <div class="event-day">05</div>
+                                        <div class="event-month">SEP</div>
+                                    </div>
+                                </div>
+                                <div class="event-time-info">
+                                    <div class="event-time">Next Week • 6:00 PM - 9:00 PM</div>
+                                    <div class="event-location">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                            <circle cx="12" cy="10" r="3"/>
+                                        </svg>
+                        Museo de Arte Moderno
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 class="event-title">Art Gallery Opening</h3>
+                            <p class="event-description">
+                                Contemporary art exhibition featuring local and international artists.
+                            </p>
+                            <div class="event-footer">
+                                <div class="event-attendees">
+                                    <div class="attendees-avatars">
+                                        <img src="https://i.pravatar.cc/150?img=15" alt="">
+                                        <img src="https://i.pravatar.cc/150?img=16" alt="">
+                                    </div>
+                                    <span class="attendees-count">+28 going</span>
+                                </div>
+                                <a href="#" class="event-button">Register</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menu_btn');
+        const closeBtn = document.getElementById('btn_close');
+        const sidebar = document.getElementById('sidebar');
+
+        if (menuBtn) {
+            menuBtn.addEventListener('click', () => {
+                sidebar.classList.add('active');
+            });
+        }
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+            });
+        }
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', (e) => {
+            if (sidebar.classList.contains('active') && 
+                !sidebar.contains(e.target) && 
+                !menuBtn.contains(e.target)) {
+                sidebar.classList.remove('active');
+            }
+        });
+
+        // Filter chips
+        const filterChips = document.querySelectorAll('.filter-chip');
+        filterChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                filterChips.forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+            });
+        });
+    </script>
+    
+    <!-- API and Events functionality -->
+    <script src="/js/api.js"></script>
+    <script src="/dashboard/js/events.js"></script>
+</body>
+</html>

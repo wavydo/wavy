@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAPP Business - Dashboard</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            border: none;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        :root {
+            --font-inter: 'Inter', -apple-system, sans-serif;
+            --ink: #0e1116;
+            --muted: #5b6472;
+            --surface: #ffffff;
+            --bg: #f8f9fa;
+            --text-grey: #a1a3af;
+            --border: rgba(15, 23, 42, 0.08);
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: var(--font-inter);
+            background: var(--bg);
+            color: var(--ink);
+            overflow-x: hidden;
+        }
+
+        @media screen and (min-width: 1024px) {
+            body {
+                zoom: 0.85;
+            }
+        }
+
+        .container {
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* Sidebar */
+        nav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: #ffffff;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 24px 20px;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .logo span {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: lowercase;
+        }
+
+        .business-badge {
+            margin-left: auto;
+            padding: 4px 8px;
+            background: rgba(14, 17, 22, 0.06);
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--muted);
+        }
+
+        .nav_links {
+            flex: 1;
+            padding: 10px 12px;
+        }
+
+        .nav_link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            margin-bottom: 4px;
+            border-radius: 10px;
+            color: var(--muted);
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 180ms ease;
+        }
+
+        .nav_link:hover {
+            background: rgba(14, 17, 22, 0.04);
+            color: var(--ink);
+        }
+
+        .nav_link.active {
+            background: rgba(14, 17, 22, 0.06);
+            color: var(--ink);
+        }
+
+        .nav_link svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+        }
+
+        .nav-section-title {
+            padding: 20px 16px 8px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-grey);
+        }
+
+        .life_cover_offer {
+            margin: 20px;
+            padding: 20px;
+            background: rgba(14, 17, 22, 0.02);
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .life_cover_offer img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 12px;
+        }
+
+        .life_cover_text .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 6px;
+        }
+
+        .life_cover_text .desc {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .life_cover_offer a {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--ink);
+            color: #ffffff;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 180ms ease;
+        }
+
+        .life_cover_offer a:hover {
+            background: #1a1f28;
+            transform: translateY(-1px);
+        }
+
+        .profile {
+            padding: 16px 20px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile .name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .profile .occupation {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+            padding: 32px 40px 32px 40px;
+            width: calc(100% - 280px);
+            box-sizing: border-box;
+            max-width: 1600px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            font-size: 15px;
+            color: var(--muted);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+            width: 100%;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 8px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .stat-change {
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stat-change.positive {
+            color: var(--success);
+        }
+
+        .stat-change.negative {
+            color: var(--error);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+            width: 100%;
+        }
+
+        .action-btn {
+            padding: 16px 20px;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ink);
+            cursor: pointer;
+            transition: all 180ms ease;
+        }
+
+        .action-btn:hover {
+            border-color: var(--ink);
+            transform: translateY(-2px);
+        }
+
+        .action-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+        }
+
+        /* Mobile Menu */
+        #menu_btn {
+            display: none;
+            position: fixed;
+            top: 24px;
+            left: 24px;
+            width: 44px;
+            height: 44px;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        #btn_close {
+            display: none;
+        }
+
+        @media (max-width: 1024px) {
+            body {
+                zoom: 1;
+            }
+
+            .container {
+                display: block;
+            }
+
+            nav {
+                left: -100%;
+                transition: left 0.3s ease;
+                background: #ffffff;
+            }
+
+            nav.active {
+                left: 0;
+            }
+
+            #btn_close {
+                display: block;
+                position: absolute;
+                top: 24px;
+                right: 20px;
+                padding: 8px;
+                background: transparent;
+                cursor: pointer;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 80px 20px 32px;
+                width: 100%;
+            }
+
+            #menu_btn {
+                display: flex;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <nav id="sidebar">
+            <button id="btn_close" onclick="closeSidebar()">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <circle cx="16" cy="16" r="2.5" fill="currentColor" />
+                    <path d="M16 9C12.134 9 9 12.134 9 16C9 19.866 12.134 23 16 23" 
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+                    <path d="M16 5C9.925 5 5 9.925 5 16C5 22.075 9.925 27 16 27" 
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+                </svg>
+                <span>tapp</span>
+                <span class="business-badge">Business</span>
+            </div>
+
+            <div class="nav_links">
+                <a href="/company" class="nav_link active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                    <span>Overview</span>
+                </a>
+
+                <div class="nav-section-title">Manage</div>
+
+                <a href="/company/perks" class="nav_link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <circle cx="12" cy="8" r="6"/>
+                        <path d="M15.5 15.5L19 19"/>
+                    </svg>
+                    <span>Perks & Discounts</span>
+                </a>
+
+                <a href="/company/events" class="nav_link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                    </svg>
+                    <span>Events</span>
+                </a>
+
+                <a href="/company/drops" class="nav_link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                    </svg>
+                    <span>TAPP Drops</span>
+                </a>
+
+                <a href="/company/campaigns" class="nav_link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    <span>Campaigns</span>
+                </a>
+
+                <div class="nav-section-title">Customers</div>
+
+                <a href="/company/customers" class="nav_link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    <span>Customers</span>
+                </a>
+
+                <a href="/company/analytics" class="nav_link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <line x1="18" y1="20" x2="18" y2="10"/>
+                        <line x1="12" y1="20" x2="12" y2="4"/>
+                        <line x1="6" y1="20" x2="6" y2="14"/>
+                    </svg>
+                    <span>Analytics</span>
+                </a>
+
+                <div class="nav-section-title">Settings</div>
+
+                <a href="/company/rewards" class="nav_link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 16v-4"/>
+                        <path d="M12 8h.01"/>
+                    </svg>
+                    <span>Reward Settings</span>
+                </a>
+
+                <a href="/company/settings" class="nav_link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M12 1v6m0 6v6M6 12H1m6 0h6m6 0h5"/>
+                    </svg>
+                    <span>Business Settings</span>
+                </a>
+            </div>
+
+            <div class="life_cover_offer">
+                <img src="https://raw.githubusercontent.com/shyamtala003/finance_dashboard/%40sjtala/images/women.svg" alt="" />
+                <div class="life_cover_text">
+                    <p class="title">¿Eres elegible?</p>
+                    <p class="desc">Obtén tu tarjeta TAPP y empieza a disfrutar beneficios exclusivos</p>
+                </div>
+                <a href="#">Solicitar</a>
+            </div>
+
+            <div class="profile">
+                <img src="https://raw.githubusercontent.com/shyamtala003/finance_dashboard/%40sjtala/images/profile_pic.webp" alt="">
+                <div>
+                    <p class="name">shyam tala</p>
+                    <p class="occupation">Bussiness</p>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu Button -->
+        <button id="menu_btn" onclick="openSidebar()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Overview</h1>
+                <p class="page-subtitle">Track your business performance and manage your TAPP presence</p>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Monthly Revenue</div>
+                    <div class="stat-value" data-stat="monthlyRevenue">Loading...</div>
+                    <div class="stat-change positive">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                            <polyline points="18 15 12 9 6 15"/>
+                        </svg>
+                        This month
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Monthly Transactions</div>
+                    <div class="stat-value" data-stat="monthlyTransactions">Loading...</div>
+                    <div class="stat-change positive">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                            <polyline points="18 15 12 9 6 15"/>
+                        </svg>
+                        This month
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Monthly Customers</div>
+                    <div class="stat-value" data-stat="monthlyCustomers">Loading...</div>
+                    <div class="stat-change positive">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                            <polyline points="18 15 12 9 6 15"/>
+                        </svg>
+                        This month
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Total Customers</div>
+                    <div class="stat-value" data-stat="totalCustomers">Loading...</div>
+                    <div class="stat-change positive">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                            <polyline points="18 15 12 9 6 15"/>
+                        </svg>
+                        All time
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Active Perks</div>
+                    <div class="stat-value" data-stat="activePerks">Loading...</div>
+                    <div class="stat-change">
+                        Currently active
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Upcoming Events</div>
+                    <div class="stat-value" data-stat="upcomingEvents">Loading...</div>
+                    <div class="stat-change">
+                        Scheduled
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">Quick Actions</h2>
+            <div class="quick-actions">
+                <button class="action-btn" onclick="window.location.href='/company/perks'">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="8" x2="12" y2="16"/>
+                        <line x1="8" y1="12" x2="16" y2="12"/>
+                    </svg>
+                    Create Perk
+                </button>
+
+                <button class="action-btn" onclick="window.location.href='/company/events'">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                    </svg>
+                    New Event
+                </button>
+
+                <button class="action-btn" onclick="window.location.href='/company/drops'">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                    </svg>
+                    Launch Drop
+                </button>
+
+                <button class="action-btn" onclick="window.location.href='/company/analytics'">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <line x1="18" y1="20" x2="18" y2="10"/>
+                        <line x1="12" y1="20" x2="12" y2="4"/>
+                        <line x1="6" y1="20" x2="6" y2="14"/>
+                    </svg>
+                    View Analytics
+                </button>
+            </div>
+
+            <!-- Recent Transactions -->
+            <h2 style="font-size: 20px; font-weight: 700; margin: 32px 0 16px;">Recent Transactions</h2>
+            <div style="background: #ffffff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden;">
+                <div class="recent-transactions-list">
+                    <div style="padding: 40px; text-align: center; color: var(--muted);">
+                        <p>Loading transactions...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openSidebar() {
+            document.getElementById('sidebar').classList.add('active');
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('active');
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const menuBtn = document.getElementById('menu_btn');
+            
+            if (window.innerWidth <= 1024) {
+                if (!sidebar.contains(event.target) && !menuBtn.contains(event.target)) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+    </script>
+    
+    <!-- API and Overview functionality -->
+    <script src="/js/api.js"></script>
+    <script src="/company/js/overview.js"></script>
+</body>
+</html>

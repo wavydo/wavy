@@ -1,0 +1,3390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finpay</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
+
+.light {
+    --font-poppins: 'Poppins', sans-serif;
+    --font-arial:'arial';
+    --text-black: #000000;
+    --text-white: #e9eafc;
+    --text-grey: #a1a3af;
+    --text-dark-grey: #464646;
+    --text-primary: #4a56e2;
+    --btn-primary: #4a56e2;
+    --btn-secondary: #24cca7;
+    --bg: #e7eaf2;
+    --bg-circle-1: #ffd8d1;
+    --bg-circle-2: #c5b9ff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    border: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    position: relative;
+    width: 100%;
+    max-height: 100vh;
+    background: var(--bg);
+    z-index: -3;
+    overflow: hidden;
+}
+
+@media screen and (min-width: 1024px) {
+    body {
+        zoom: 0.85;
+    }
+}
+
+body::after {
+    content: '';
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: var(--bg-circle-1);
+    filter: blur(100px);
+    z-index: -2;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    bottom: 0%;
+    left: 0%;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: transparent;
+    filter: blur(100px);
+    z-index: -1;
+}
+
+/* Remove glows on mobile */
+@media (max-width: 1024px) {
+    body::after,
+    body::before {
+        display: none;
+    }
+}
+
+.container {
+    position: relative;
+    width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    z-index: 10;
+}
+
+nav {
+    position: relative;
+    width: 280px;
+    max-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background: url('https://raw.githubusercontent.com/shyamtala003/finance_dashboard/%40sjtala/images/bg2.png');
+    background-attachment: fixed;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position-y: 20%;
+    background-position-x: 20%;
+    border-right: 2px solid rgba(195, 195, 195, 0.8);
+    font-family: var(--font-poppins);
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+}
+
+nav.sidebar #btn_close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: none;
+    place-content: center;
+    padding: 8px;
+    background: #ffffff;
+    border-radius: 8px;
+}
+
+nav .logo {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 20px;
+    flex-shrink: 0;
+}
+
+nav .logo svg {
+    width: 40px;
+    height: 40px;
+}
+
+nav .logo span {
+    font-weight: 200;
+    font-size: 24px;
+    letter-spacing: 0.1em;
+    text-transform: lowercase;
+}
+
+.nav_links {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.nav_links a.nav_link {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--text-grey);
+    font-size: 15px;
+    text-transform: capitalize;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    margin: 4px 12px;
+}
+
+.nav_link_icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav_link_icon svg {
+    stroke: var(--text-grey);
+    transition: stroke 0.3s ease;
+}
+
+a.nav_link svg .icon {
+    fill: var(--text-grey);
+}
+
+.nav_links a.nav_link:hover .nav_link_text,
+.nav_links a.active .nav_link_text {
+    color: var(--text-black);
+}
+
+.nav_links a.nav_link:hover .nav_link_icon svg,
+.nav_links a.active .nav_link_icon svg {
+    stroke: var(--text-black);
+}
+
+.nav_links a.active {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.nav_links a.nav_link:hover svg .icon,
+.nav_links a.active svg .icon {
+    fill: var(--btn-primary);
+}
+
+.life_cover_offer {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.life_cover_offer img {
+    width: 130px;
+    height: 150px;
+}
+
+.life_cover_offer .life_cover_text {
+    padding-inline: 20px;
+    margin-top: 20px;
+}
+
+.life_cover_text p.title {
+    font-size: 14px;
+    color: var(--text-black);
+    font-weight: 600;
+    text-align: center;
+}
+
+.life_cover_text p.desc {
+    font-size: 12px;
+    color: var(--text-dark-grey);
+    font-weight: 400;
+    text-align: center;
+}
+
+.life_cover_offer a {
+    margin-top: 20px;
+    margin-inline: 20px;
+    width: 85%;
+    padding: 10px 20px;
+    color: #0e1116;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    border-radius: 999px;
+    text-transform: none;
+    text-align: center;
+    font-weight: 500;
+    font-size: 13px;
+    transition: all 180ms ease;
+}
+
+.life_cover_offer a:hover {
+    background: #0e1116;
+    color: #ffffff;
+    border-color: #0e1116;
+}
+
+.profile {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 85%;
+    padding: 16px;
+    background: #ffffff;
+    border-radius: 30px;
+    transition: 1s ease;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.profile .img_with_name {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.profile .img_with_name img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.profile .img_with_name p.name {
+    color: #0e1116;
+    font-weight: 600;
+    text-transform: none;
+    line-height: 14px;
+    font-size: 14px;
+}
+
+.profile .img_with_name p.occupation {
+    color: #5b6472;
+    text-transform: none;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.profile .icon {
+    fill: #5b6472;
+    transition: fill 180ms ease;
+}
+
+.profile:hover {
+    background: rgba(14, 17, 22, 0.04);
+    border-color: rgba(15, 23, 42, 0.12);
+}
+
+.profile:hover .icon {
+    fill: #0e1116;
+}
+
+section.main_content {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background: transparent;
+}
+
+section.main_content .topbar {
+    width: 100%;
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-poppins);
+}
+
+.topbar #menu_btn {
+    width: 32px;
+    height: 32px;
+    display: none;
+    place-items: center;
+    background: #ffffff;
+    padding: 8px;
+    border-radius: 12px;
+}
+
+.topbar .overview_text p.title {
+    font-size: 36px;
+    font-weight: 300;
+}
+
+.topbar .overview_text p.desc {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.topbar .topbar_icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+}
+
+.topbar .topbar_icons a {
+    display: grid;
+    place-items: center;
+    padding: 8px;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    transition: all 180ms ease;
+}
+
+.topbar .topbar_icons a:hover {
+    background: rgba(14, 17, 22, 0.02);
+    border-color: rgba(15, 23, 42, 0.1);
+}
+
+.topbar .topbar_icons a.alert {
+    position: relative;
+}
+
+.topbar .topbar_icons a.alert::after {
+    content: '';
+    position: absolute;
+    top: 15%;
+    right: 20%;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #0e1116;
+    border: 1.5px solid #ffffff;
+}
+
+main .overview_text {
+    display: none;
+}
+
+section.main_content section {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    font-family: var(--font-poppins);
+}
+
+section.main_content section main {
+    width: 100%;
+    padding-inline: 20px;
+}
+
+/* Balance Card - Clean & Minimal */
+main .bank_balance_card {
+    background: #ffffff;
+    padding: 32px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-radius: 20px;
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    box-shadow: 0 1px 2px rgba(14, 17, 22, 0.04);
+}
+
+.bank_balance_card .balance_label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 2px;
+}
+
+.bank_balance_card p.balance {
+    font-family: 'SF Mono', ui-monospace, 'Courier New', monospace;
+    font-size: 48px;
+    font-weight: 600;
+    color: #0e1116;
+    letter-spacing: -0.025em;
+    line-height: 1;
+    margin: 0 0 16px 0;
+    font-variant-numeric: tabular-nums;
+}
+
+.bank_balance_card .account_no {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 0;
+    margin-top: 4px;
+    background: transparent;
+    border: none;
+    transition: all 200ms ease;
+}
+
+.bank_balance_card .account_info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.bank_balance_card .account_label {
+    font-size: 11px;
+    color: #a1a3af;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+
+.bank_balance_card .account_number {
+    font-size: 13px;
+    color: #5b6472;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    font-family: 'SF Mono', ui-monospace, 'Courier New', monospace;
+    font-variant-numeric: tabular-nums;
+}
+
+.bank_balance_card .account_number.hidden {
+    font-family: 'SF Mono', ui-monospace, 'Courier New', monospace;
+    letter-spacing: 0.2em;
+}
+
+.bank_balance_card .account_number.hidden::after {
+    content: '•••••••••';
+}
+
+.bank_balance_card .account_actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.bank_balance_card .account_btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 160ms ease;
+    flex-shrink: 0;
+}
+
+.bank_balance_card .account_btn:hover {
+    background: rgba(14, 17, 22, 0.04);
+}
+
+.bank_balance_card .account_btn svg {
+    stroke: #a1a3af;
+    transition: stroke 160ms ease;
+}
+
+.bank_balance_card .account_btn:hover svg {
+    stroke: #5b6472;
+}
+
+.bank_balance_card .copy_account_btn.copied {
+    background: rgba(16, 185, 129, 0.08);
+}
+
+.bank_balance_card .copy_account_btn.copied svg {
+    stroke: #10b981;
+}
+
+/* Tooltip for copy feedback */
+.account_actions {
+    position: relative;
+}
+
+.copy-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    right: 0;
+    background: #0e1116;
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease;
+}
+
+.copy-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    right: 12px;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid #0e1116;
+}
+
+
+.copy-tooltip.show {
+    opacity: 1;
+}
+
+/* Clean segmented control for time periods */
+main .time-period-tabs {
+    margin-top: 30px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px;
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 999px;
+    box-shadow: 0 1px 1px rgba(14, 17, 22, 0.04);
+    font-family: var(--font-poppins);
+}
+
+main .time-period-tabs input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+main .time-period-tabs label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    padding: 0 18px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #5b6472;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
+                color 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+main .time-period-tabs label:hover {
+    color: #0e1116;
+}
+
+main .time-period-tabs input:checked + label {
+    background: #0e1116;
+    color: #ffffff;
+    box-shadow: 0 1px 1px rgba(14, 17, 22, 0.06);
+}
+
+/* Premium notification card */
+.tapp-notice-card {
+    margin-top: 30px;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 18px;
+    box-shadow: 0 1px 1px rgba(14, 17, 22, 0.04);
+}
+
+.tapp-notice-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.tapp-notice-icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: #f3f6fa;
+    border-radius: 14px;
+    color: #0e1116;
+}
+
+.tapp-notice-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.tapp-notice-badge {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 10px;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #5b6472;
+    background: rgba(243, 246, 250, 1);
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    border-radius: 999px;
+}
+
+.tapp-notice-title {
+    margin: 0 0 6px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #0e1116;
+}
+
+.tapp-notice-desc {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #5b6472;
+}
+
+.tapp-notice-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.tapp-notice-btn {
+    height: 34px;
+    padding: 0 16px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 999px;
+    background: transparent;
+    color: #0e1116;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 180ms ease;
+}
+
+.tapp-notice-btn:hover {
+    background: rgba(14, 17, 22, 0.04);
+}
+
+.tapp-notice-btn.primary {
+    background: #0e1116;
+    color: #ffffff;
+    border-color: #0e1116;
+}
+
+.tapp-notice-btn.primary:hover {
+    background: #1a1f28;
+}
+
+/* Aether Glass Card */
+.aether-card {
+    position: relative;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 24px;
+    box-shadow: 
+        inset 1.5px 1.5px 0 0 rgba(255, 255, 255, 0.9),
+        inset -1px -1px 0 0 rgba(255, 255, 255, 0.55),
+        inset 0 0 0 1px rgba(15, 23, 42, 0.04),
+        0 2px 4px rgba(15, 23, 42, 0.06),
+        0 22px 44px -14px rgba(15, 23, 42, 0.22);
+    margin-top: 30px;
+}
+
+.aether-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.45) 0%,
+        rgba(255, 255, 255, 0) 24%,
+        rgba(255, 255, 255, 0) 76%,
+        rgba(255, 255, 255, 0.22) 100%
+    );
+    mix-blend-mode: screen;
+}
+
+.aether-card__header,
+.aether-card__title,
+.aether-card__body,
+.aether-card__footer {
+    position: relative;
+    z-index: 1;
+}
+
+.aether-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.aether-card__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #0e1116;
+    color: #f5f5f7;
+    box-shadow: 
+        0 4px 10px rgba(15, 23, 42, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.aether-card__icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.aether-card__badge {
+    display: inline-flex;
+    align-items: center;
+    height: 24px;
+    padding: 0 10px;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #54545a;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 9999px;
+    box-shadow: 
+        inset 1.5px 1.5px 0 0 rgba(255, 255, 255, 0.9),
+        inset -1px -1px 0 0 rgba(255, 255, 255, 0.55);
+}
+
+.aether-card__title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    color: #1d1d1f;
+}
+
+.aether-card__body {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #54545a;
+}
+
+.aether-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.aether-card__meta {
+    font-family: ui-monospace, 'SF Mono', 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #86868b;
+}
+
+.aether-card__action {
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    color: #54545a;
+    background: transparent;
+    border: none;
+    border-radius: 9999px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: color 220ms ease, background 220ms ease;
+}
+
+.aether-card__action:hover {
+    color: #1d1d1f;
+    background: rgba(255, 255, 255, 0.35);
+}
+
+/* Network Stats Card */
+.network-stats-card {
+    margin-top: 30px;
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 20px;
+    box-shadow: 0 1px 1px rgba(14, 17, 22, 0.04);
+}
+
+.network-stats-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.network-stats-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0e1116;
+    margin: 0;
+}
+
+.network-stats-period {
+    font-size: 11px;
+    font-weight: 500;
+    color: #5b6472;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.network-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.network-stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.network-stat-label {
+    font-size: 12px;
+    color: #5b6472;
+    font-weight: 500;
+}
+
+.network-stat-value {
+    font-size: 24px;
+    font-weight: 600;
+    color: #0e1116;
+    letter-spacing: -0.02em;
+}
+
+.network-stat-change {
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 2px;
+}
+
+.network-stat-change.positive {
+    color: #24cca7;
+}
+
+.network-stat-change svg {
+    width: 12px;
+    height: 12px;
+}
+
+main .transaction_info {
+    margin-top: 40px;
+}
+
+main .transaction_info .transaction_date {
+    color: var(--text-black);
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    border-bottom: 1px solid var(--text-grey);
+    margin-bottom: 24px;
+}
+
+.transaction_info .transaction_data {
+    margin-block: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.transaction_data .get_send_money {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.get_send_money span.icon {
+    display: grid;
+    place-content: center;
+    padding: 10px;
+    background: #f3f6fa;
+    border-radius: 12px;
+    border: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.get_send_money span.icon.incoming {
+    background: rgba(14, 17, 22, 0.04);
+    border-color: rgba(14, 17, 22, 0.08);
+}
+
+.get_send_money span.icon.incoming svg {
+    stroke: #0e1116;
+}
+
+.get_send_money span.icon.outgoing {
+    background: rgba(239, 68, 68, 0.06);
+    border-color: rgba(239, 68, 68, 0.12);
+}
+
+.get_send_money span.icon.outgoing svg {
+    stroke: #ef4444;
+}
+
+.transaction_value.incoming {
+    color: #0e1116;
+    font-weight: 600;
+}
+
+.transaction_value.outgoing {
+    color: #ef4444;
+    font-weight: 500;
+}
+
+.get_send_money .trasaction_details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+p.transaction_metadata>span {
+    text-transform: capitalize;
+    font-weight: 700;
+}
+
+.get_send_money .trasaction_details p:last-child {
+    font-size: 12px;
+    color: var(--text-dark-grey);
+    font-weight: 500;
+}
+
+.transaction_value {
+    font-weight: 500;
+}
+
+.show_more {
+    width: 100%;
+    background: transparent;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 999px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 180ms ease;
+    margin-top: 20px;
+}
+
+.show_more:hover {
+    background: rgba(14, 17, 22, 0.04);
+    border-color: rgba(15, 23, 42, 0.12);
+}
+
+.show_more svg {
+    transition: transform 220ms ease;
+}
+
+.show_more.expanded svg {
+    transform: rotate(180deg);
+}
+
+.show-more-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: #0e1116;
+}
+
+.hidden-transactions {
+    animation: slideDown 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Minimal Notification Toast System */
+.notification-modal-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: auto;
+    height: auto;
+    z-index: 9999;
+    padding: 20px;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 280ms ease, visibility 280ms ease;
+}
+
+.notification-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.notification-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: all;
+}
+
+.notification-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: rgba(14, 17, 22, 0.95);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-width: 340px;
+    animation: slideInRight 280ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity 180ms ease, transform 180ms ease;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.notification-item:hover {
+    transform: translateX(-2px);
+}
+
+.notification-item.unread::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 20px;
+    background: #ffffff;
+    border-radius: 0 3px 3px 0;
+}
+
+.notification-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    flex-shrink: 0;
+}
+
+.notification-icon svg {
+    width: 14px;
+    height: 14px;
+}
+
+.notification-icon.reward {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+}
+
+.notification-icon.event {
+    background: rgba(59, 130, 246, 0.15);
+    color: #3b82f6;
+}
+
+.notification-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.notification-title {
+    margin: 0 0 1px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: rgba(255, 255, 255, 0.95);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.notification-desc {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.notification-time {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+    white-space: nowrap;
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 1px;
+}
+
+.notification-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 180ms ease;
+    flex-shrink: 0;
+    margin-left: 4px;
+}
+
+.notification-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.notification-close svg {
+    width: 10px;
+    height: 10px;
+}
+
+.notification-actions {
+    display: none;
+}
+
+.notification-btn {
+    display: none;
+}
+
+.notification-header {
+    display: none;
+}
+
+.notification-header-title {
+    display: none;
+}
+
+.notification-mark-all {
+    display: none;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .notification-modal-overlay {
+        padding: 16px;
+    }
+    
+    .notification-item {
+        max-width: 100%;
+    }
+}
+
+section.main_content section aside {
+    padding-inline: 20px;
+    font-family: var(--font-poppins);
+}
+
+aside .transfer_money_section {
+    padding: 20px 24px;
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    box-shadow: 0 1px 1px rgba(14, 17, 22, 0.04);
+}
+
+.transfer_money_section .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+}
+
+.transfer_money_section .section-header:hover p.title {
+    color: #0e1116;
+}
+
+.transfer_money_section .expand-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: transparent;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    cursor: pointer;
+    transition: all 180ms ease;
+}
+
+.transfer_money_section .expand-toggle:hover {
+    background: rgba(14, 17, 22, 0.04);
+}
+
+.transfer_money_section .expand-toggle svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.transfer_money_section.collapsed .expand-toggle svg {
+    transform: rotate(-90deg);
+}
+
+.transfer_money_section .collapsible-content {
+    max-height: 400px;
+    overflow: hidden;
+    transition: max-height 320ms cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 220ms ease;
+    opacity: 1;
+}
+
+.transfer_money_section.collapsed .collapsible-content {
+    max-height: 0;
+    opacity: 0;
+}
+
+.transfer_money_section p.title {
+    margin-top: 10px;
+    color: var(--text-grey);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.transfer_money_section .button_group {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: no-wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.transfer_money_section .button_group button {
+    padding: 10px 16px;
+    background: transparent;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: none;
+    cursor: pointer;
+    transition: all 180ms ease;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    color: #5b6472;
+}
+
+.button_group button.via_no {
+    color: #0e1116;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.button_group button.via_no:hover,
+.button_group button.via_ac:hover {
+    background: rgba(14, 17, 22, 0.04);
+    color: #0e1116;
+}
+
+.button_group button.via_no.active {
+    background: #0e1116;
+    color: #ffffff;
+    border-color: #0e1116;
+}
+
+.transfer_money_section form {
+    margin-top: 20px;
+}
+
+.transfer_money_section form .phone_no_info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--text-grey);
+    padding-bottom: 10px;
+}
+
+.transfer_money_section form .phone_no_info label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 10px;
+    border-right: 2px solid var(--text-grey);
+    font-size: 14px;
+}
+
+.transfer_money_section form .phone_no_info input[type="number"] {
+    width: 100%;
+    font-size: 14px;
+    padding: 8px 14px;
+    border: none;
+    outline: none;
+    caret-color: var(--text-primary);
+}
+
+.transfer_money_section form .phone_no_info input[type="number"]::placeholder {
+    font-size: 14px;
+}
+
+.transfer_money_section form .phone_no_info input[type="number"]::-webkit-inner-spin-button {
+    display: none;
+}
+
+form .phone_no_info label img {
+    width: 20px;
+}
+
+.transfer_money_section form .phone_no_info img {
+    width: 30px;
+    border-radius: 50%;
+}
+
+form .amount {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--text-grey);
+}
+
+.amount label {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.amount input[type="number"] {
+    font-size: 14px;
+    padding: 8px 14px;
+    border: none;
+    outline: none;
+    caret-color: var(--text-primary);
+}
+
+.amount input[type="number"]::placeholder {
+    font-size: 14px;
+}
+
+.amount input[type="number"]::-webkit-inner-spin-button {
+    display: none;
+}
+
+form input[type="submit"] {
+    cursor: pointer;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    background-color: #0e1116;
+    text-transform: none;
+    font-weight: 500;
+    color: #ffffff;
+    border-radius: 999px;
+    border: none;
+    display: block;
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 14px;
+    transition: background-color 180ms ease;
+}
+
+form input[type="submit"]:hover {
+    background: #1a1f28;
+}
+
+.cards {
+    margin-top: 30px;
+    background: #ffffff;
+    padding: 20px 20px 80px 20px;
+    border-radius: 18px;
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    box-shadow: 0 1px 1px rgba(14, 17, 22, 0.04);
+    min-height: 400px;
+}
+
+.cards .title_with_button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sliber_controller {
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.cards .title_with_button p.title {
+    font-size: 12px;
+    color: var(--text-grey);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Custom Cards Styles - Desktop & Mobile Responsive */
+.custom-cards-container {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+}
+
+.cards-wrapper {
+    position: relative;
+    width: 100%;
+    height: 200px;
+}
+
+.custom-card {
+    position: absolute;
+    width: 280px;
+    height: 180px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 16px;
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    cursor: grab;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.custom-card:active {
+    cursor: grabbing;
+}
+
+.custom-card.active {
+    z-index: 3;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) rotateY(0deg);
+}
+
+.custom-card.next {
+    z-index: 2;
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(0.85) translateX(80px) rotateY(-15deg);
+}
+
+.custom-card.prev {
+    z-index: 1;
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(0.75) translateX(-80px) rotateY(15deg);
+}
+
+.custom-card.hidden {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.6);
+    pointer-events: none;
+}
+
+.card-inner {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+/* TAPP Card - Diseño Real Minimalista Premium */
+.tapp-card .card-inner {
+    background: linear-gradient(135deg, #0a0a0a 0%, #000000 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-gradient-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60%;
+    height: 100%;
+    background: radial-gradient(ellipse at top right, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    z-index: 1;
+    flex-shrink: 0;
+}
+
+.tapp-wordmark {
+    font-family: var(--font-poppins);
+    font-size: 1.8rem;
+    font-weight: 200;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.95);
+    margin: 0;
+    text-transform: lowercase;
+}
+
+.card-footer-real {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    z-index: 1;
+    margin-top: auto;
+    flex-shrink: 0;
+}
+
+.card-expiry-box {
+    text-align: right;
+}
+
+.card-label-minimal {
+    font-size: 0.55rem;
+    color: rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+}
+
+.card-value {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 400;
+}
+
+.card-mono {
+    font-family: 'Courier New', monospace;
+}
+
+.card-2 .card-inner {
+    background: linear-gradient(135deg, #0a0e1a 0%, #000508 100%);
+    border: 1px solid rgba(100, 150, 255, 0.1);
+}
+
+.card-gradient-overlay-blue {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60%;
+    height: 100%;
+    background: radial-gradient(ellipse at top right, rgba(100, 150, 255, 0.04) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.card-3 .card-inner {
+    background: linear-gradient(135deg, #0a0a0a 0%, #000000 100%);
+    border: 1px solid rgba(120, 100, 180, 0.12);
+    position: relative;
+    overflow: hidden;
+}
+
+.card-premium-curves {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.premium-badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    background: rgba(255, 215, 100, 0.08);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 215, 100, 0.15);
+    border-radius: 20px;
+    padding: 6px 20px;
+}
+
+.premium-badge-text {
+    font-size: 0.65rem;
+    color: rgba(255, 215, 100, 0.8);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.card-chip {
+    width: 45px;
+    height: 35px;
+    margin-bottom: 10px;
+}
+
+.card-logo {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    font-weight: 900;
+    color: #24CCA7;
+    letter-spacing: 4px;
+    text-shadow: 0 0 20px rgba(36, 204, 167, 0.6);
+    font-family: var(--font-poppins);
+}
+
+.card-number {
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 3px;
+    margin: 30px 0 15px 0;
+    font-family: 'Courier New', monospace;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: auto;
+}
+
+.card-holder,
+.card-expiry {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-label {
+    font-size: 8px;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+}
+
+.card-name,
+.card-date {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.card-brand {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    opacity: 0.6;
+}
+
+/* NFC Icon for TAPP Card */
+.nfc-icon {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 24px;
+    height: 24px;
+    opacity: 0.7;
+}
+
+.swiper-page {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.swiper-page .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(161, 163, 175, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.swiper-page .dot.active {
+    background: var(--btn-primary);
+    width: 24px;
+    border-radius: 4px;
+}
+
+.swiper-page .dot:hover:not(.active) {
+    background: rgba(74, 86, 226, 0.5);
+}
+
+/* Mobile Wallet Style - iPhone Wallet (LADO DERECHO) */
+@media screen and (max-width:870px) {
+    .cards {
+        position: fixed;
+        right: -240px; /* Escondido, solo asoma */
+        bottom: 120px; /* Más abajo */
+        width: 300px;
+        height: 180px;
+        margin: 0;
+        padding: 0;
+        background: transparent !important; /* Sin fondo */
+        border: none !important; /* Sin borde */
+        box-shadow: none !important; /* Sin sombra */
+        backdrop-filter: none !important; /* Sin blur */
+        z-index: 50;
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .cards.expanded {
+        right: 0;
+        bottom: 0;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.95) !important;
+        backdrop-filter: blur(20px) !important;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: none !important;
+        border: none !important;
+    }
+
+    .cards .title_with_button {
+        display: none;
+    }
+
+    .cards.expanded .title_with_button {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        padding: 20px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
+    }
+
+    .cards.expanded .title_with_button p.title {
+        color: white;
+        font-size: 18px;
+    }
+
+    .cards.expanded .close-wallet {
+        display: flex;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .close-wallet {
+        display: none;
+    }
+
+    .custom-cards-container {
+        position: relative;
+        width: 100%;
+        height: 180px;
+        padding: 0;
+        cursor: pointer;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .cards.expanded .custom-cards-container {
+        width: 100%;
+        max-width: 340px;
+        height: auto;
+        padding: 20px 0;
+        cursor: default;
+    }
+
+    .cards-wrapper {
+        width: 100%;
+        height: 180px;
+        position: relative;
+    }
+
+    .cards.expanded .cards-wrapper {
+        height: 400px;
+    }
+
+    .custom-card {
+        width: 280px;
+        height: 180px;
+        left: auto;
+        right: 0;
+        top: 0;
+        transform: none;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .cards.expanded .custom-card {
+        width: 320px;
+        height: 200px;
+        left: 50%;
+        right: auto;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .custom-card.active {
+        transform: translateY(0);
+        z-index: 3;
+    }
+
+    .custom-card.next {
+        transform: translateY(12px) translateX(-8px);
+        z-index: 2;
+        opacity: 0.7;
+    }
+
+    .custom-card.prev {
+        transform: translateY(24px) translateX(-16px);
+        z-index: 1;
+        opacity: 0.5;
+    }
+
+    .custom-card.hidden {
+        transform: translateY(36px) translateX(-24px);
+        opacity: 0.3;
+    }
+
+    .cards.expanded .custom-card.active {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+
+    .cards.expanded .custom-card.next {
+        transform: translate(-50%, -50%) scale(0.9) translateY(50px);
+        opacity: 0.6;
+    }
+
+    .cards.expanded .custom-card.prev {
+        transform: translate(-50%, -50%) scale(0.85) translateY(-50px);
+        opacity: 0.4;
+    }
+
+    .cards.expanded .custom-card.hidden {
+        transform: translate(-50%, -50%) scale(0.75);
+        opacity: 0;
+    }
+
+    .card-inner {
+        padding: 16px;
+    }
+
+    .cards.expanded .card-inner {
+        padding: 24px;
+    }
+
+    .tapp-wordmark {
+        font-size: 1.4rem;
+        letter-spacing: 0.15em;
+    }
+
+    .cards.expanded .tapp-wordmark {
+        font-size: 1.8rem;
+        letter-spacing: 0.2em;
+    }
+
+    .card-header svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .cards.expanded .card-header svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .card-center-nfc svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .cards.expanded .card-center-nfc svg {
+        width: 36px;
+        height: 36px;
+    }
+
+    .card-label-minimal {
+        font-size: 0.5rem;
+    }
+
+    .cards.expanded .card-label-minimal {
+        font-size: 0.55rem;
+    }
+
+    .card-value {
+        font-size: 0.7rem;
+    }
+
+    .cards.expanded .card-value {
+        font-size: 0.85rem;
+    }
+
+    .card-brand {
+        display: none;
+    }
+
+    .cards.expanded .card-brand {
+        display: block;
+    }
+
+    .swiper-page {
+        display: none;
+    }
+
+    .cards.expanded .swiper-page {
+        display: flex;
+        margin-top: 30px;
+    }
+
+    .sliber_controller {
+        display: none !important;
+    }
+}
+
+.swiper {
+    padding: 20px;
+    width: 90%;
+}
+
+.swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.swiper-slide img {
+    width: 100%;
+}
+
+.swiper-page {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media screen and (max-width:1150px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    nav.sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        height: 100vh;
+        z-index: 999;
+        transition: left 0.3s ease;
+        background: #ffffff;
+        display: flex;
+        flex-direction: column;
+    }
+
+    nav.sidebar.active {
+        left: 0;
+    }
+
+    nav.sidebar #btn_close {
+        display: grid;
+        cursor: pointer;
+    }
+
+    .topbar .overview_text {
+        display: none;
+    }
+
+    .topbar #menu_btn {
+        display: inline;
+        cursor: pointer;
+    }
+
+    main .overview_text {
+        display: flex;
+        flex-direction: column;
+        padding: 0px 0px 20px 10px;
+    }
+
+    main .overview_text p.title {
+        font-size: 36px;
+        font-weight: 300;
+    }
+
+    main .overview_text p.desc {
+        font-size: 12px;
+        font-weight: 400;
+    }
+}
+
+@media screen and (max-width:870px) {
+    section.main_content section {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        width: 100%;
+        height: auto;
+    }
+
+    section.main_content section main {
+        width: 100vw;
+        padding-inline: 20px;
+    }
+
+    aside {
+        width: 100vw;
+        height: auto;
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 30px;
+        padding-bottom:30px;
+    }
+
+    .transfer_money_section .button_group {
+        justify-content: space-evenly;
+    }
+
+    .transfer_money_section p.title {
+        width: 100%;
+        text-align: center;
+    }
+
+    .cards {
+        display: block;
+        width: 100%;
+    }
+
+    .cards .title_with_button {
+        justify-content: space-evenly;
+    }
+
+    /* Balance Card - Mobile Optimized */
+    main .bank_balance_card {
+        padding: 24px 28px;
+        border-radius: 18px;
+    }
+
+    .bank_balance_card .balance_label {
+        font-size: 10px;
+        margin-bottom: 4px;
+    }
+
+    .bank_balance_card p.balance {
+        font-size: 32px;
+        letter-spacing: -0.02em;
+        margin-bottom: 12px;
+    }
+
+    .bank_balance_card .account_info {
+        gap: 8px;
+    }
+
+    .bank_balance_card .account_label {
+        font-size: 10px;
+    }
+
+    .bank_balance_card .account_number {
+        font-size: 12px;
+    }
+
+    .bank_balance_card .account_btn {
+        width: 32px;
+        height: 32px;
+    }
+}
+}
+
+@media screen and (max-width:546px) {
+    .transaction_info .transaction_data {
+        width: 95%;
+    }
+
+    section.main_content .topbar {
+        width: 100vw;
+    }
+
+    .get_send_money span.icon {
+        padding: 8px;
+    }
+
+    .get_send_money p.transaction_metadata {
+        font-size: 14px;
+    }
+
+    .time-period-tabs {
+        width: 100%;
+    }
+    
+    .time-period-tabs label {
+        padding: 0 12px;
+        font-size: 13px;
+    }
+
+    .sliber_controller {
+        display: none;
+    }
+
+    .title_with_button p.title,
+    .transfer_money_section p.title {
+        width: 100%;
+        text-align: center;
+    }
+
+    .cards {
+        background: transparent;
+    }
+
+    nav {
+        padding-bottom: 50px;
+    }
+}
+
+/* Entrance Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fadeIn { animation: fadeIn 0.4s ease-out forwards; }
+.animate-fadeInUp { animation: fadeInUp 0.5s ease-out forwards; }
+.animate-fadeInDown { animation: fadeInDown 0.4s ease-out forwards; }
+.animate-fadeInLeft { animation: fadeInLeft 0.5s ease-out forwards; }
+.animate-scaleIn { animation: scaleIn 0.4s ease-out forwards; }
+
+.animate-delay-100 { animation-delay: 0.1s; opacity: 0; }
+.animate-delay-200 { animation-delay: 0.2s; opacity: 0; }
+.animate-delay-300 { animation-delay: 0.3s; opacity: 0; }
+.animate-delay-400 { animation-delay: 0.4s; opacity: 0; }
+
+/* Enhanced Clean Styles */
+.bank_balance_card,
+.cards,
+.transfer_money_section,
+.aether-card,
+.tapp-notice-card,
+.network-stats-card {
+    transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.bank_balance_card:hover,
+.cards:hover,
+.transfer_money_section:hover,
+.aether-card:hover,
+.tapp-notice-card:hover,
+.network-stats-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(14, 17, 22, 0.08);
+}
+
+    </style>
+</head>
+<body class="light">
+    <div class="container">
+        <nav class="sidebar" id="sidebar">
+            <button id="btn_close">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+                </svg>
+            </button>
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="2.5" fill="currentColor" />
+                    <path d="M16 9C12.134 9 9 12.134 9 16C9 19.866 12.134 23 16 23" 
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+                    <path d="M16 5C9.925 5 5 9.925 5 16C5 22.075 9.925 27 16 27" 
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+                </svg>
+                <span>tapp</span>
+            </div>
+            <div class="nav_links">
+                <a href="#" class="nav_link active" aria-label="dashboard">
+                    <div class="nav_link_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7"/>
+                            <rect x="14" y="3" width="7" height="7"/>
+                            <rect x="14" y="14" width="7" height="7"/>
+                            <rect x="3" y="14" width="7" height="7"/>
+                        </svg>
+                    </div>
+                    <div class="nav_link_text">Dashboard</div>
+                </a>
+                <a href="/dashboard/benefits" class="nav_link" aria-label="benefits">
+                    <div class="nav_link_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 7h-9"/>
+                            <path d="M14 17H5"/>
+                            <circle cx="17" cy="17" r="3"/>
+                            <circle cx="7" cy="7" r="3"/>
+                        </svg>
+                    </div>
+                    <div class="nav_link_text">Benefits</div>
+                </a>
+                <a href="/dashboard/events" class="nav_link" aria-label="events">
+                    <div class="nav_link_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                    </div>
+                    <div class="nav_link_text">Events</div>
+                </a>
+                <a href="/dashboard/explore" class="nav_link" aria-label="explore">
+                    <div class="nav_link_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                        </svg>
+                    </div>
+                    <div class="nav_link_text">Explore</div>
+                </a>
+                <a href="/dashboard/cards" class="nav_link" aria-label="cards">
+                    <div class="nav_link_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="5" width="20" height="14" rx="2"/>
+                            <line x1="2" y1="10" x2="22" y2="10"/>
+                        </svg>
+                    </div>
+                    <div class="nav_link_text">Cards</div>
+                </a>
+                <a href="#" class="nav_link" aria-label="wallet" style="display: none;">
+                    <div class="nav_link_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/>
+                            <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/>
+                            <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/>
+                        </svg>
+                    </div>
+                    <div class="nav_link_text">Wallet</div>
+                </a>
+                <a href="#" class="nav_link" aria-label="settings">
+                    <div class="nav_link_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                        </svg>
+                    </div>
+                    <div class="nav_link_text">Settings</div>
+                </a>
+            </div>
+            <div class="life_cover_offer">
+                <img src="https://raw.githubusercontent.com/shyamtala003/finance_dashboard/%40sjtala/images/women.svg" alt="" />
+                <div class="life_cover_text">
+                    <p class="title">Congratulations!</p>
+                    <p class="desc">You'r eligible for instant Life cover upto 2,00,000 without any medical test for documentation</p>
+                </div>
+                <a href="#" aria-label="grab offer">buy now</a>
+            </div>
+            <div class="profile">
+                <div class="img_with_name">
+                    <img src="https://raw.githubusercontent.com/shyamtala003/finance_dashboard/%40sjtala/images/profile_pic.webp" alt="">
+                    <div class="profile_text">
+                        <p class="name">shyam tala</p>
+                        <p class="occupation">Bussiness</p>
+                    </div>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path class="icon" d="M13.172 12l-4.95-4.95 1.414-1.414L16 12l-6.364 6.364-1.414-1.414z" />
+                </svg>
+            </div>
+        </nav>
+        <section class="main_content">
+            <div class="topbar">
+                <button id="menu_btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path d="M3 4h18v2H3V4zm0 7h12v2H3v-2zm0 7h18v2H3v-2z" />
+                    </svg>
+                </button>
+                <div class="overview_text">
+                    <p class="title">Overview</p>
+                    <p class="desc">Hi Shyam, welcome back!</p>
+                </div>
+                <div class="topbar_icons">
+                    <a href="#" aria-label="search things" class="topbar_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path d="M11 2c4.968 0 9 4.032 9 9s-4.032 9-9 9-9-4.032-9-9 4.032-9 9-9zm0 16c3.867 0 7-3.133 7-7 0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7zm8.485.071l2.829 2.828-1.415 1.415-2.828-2.829 1.414-1.414z" />
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="notification bell" class="topbar_icon alert">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path d="M22 20H2v-2h1v-6.969C3 6.043 7.03 2 12 2s9 4.043 9 9.031V18h1v2zM5 18h14v-6.969C19 7.148 15.866 4 12 4s-7 3.148-7 7.031V18zm4.5 3h5a2.5 2.5 0 1 1-5 0z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <section>
+                <main>
+                    <div class="overview_text">
+                        <p class="title">Overview</p>
+                        <p class="desc">Hi Shyam, welcome back!</p>
+                    </div>
+                    <div class="bank_balance_card">
+                        <p class="balance_label">Your Balance</p>
+                        <p class="balance">RD$40,256.00</p>
+                        
+                        <div class="account_no">
+                            <div class="account_info">
+                                <span class="account_label">TAPP Account</span>
+                                <span class="account_number" id="accountNumber">22-394932</span>
+                            </div>
+                            <div class="account_actions">
+                                <button class="account_btn toggle_account_btn" onclick="toggleAccountVisibility()" aria-label="toggle account visibility">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                        <circle cx="12" cy="12" r="3"/>
+                                    </svg>
+                                </button>
+                                <button class="account_btn copy_account_btn" onclick="copyAccountNumber()" aria-label="copy account number">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                    </svg>
+                                </button>
+                                <span class="copy-tooltip">Copied!</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Clean Time Period Selector -->
+                    <div class="time-period-tabs">
+                        <input type="radio" name="time-period" id="period-day" />
+                        <label for="period-day">Day</label>
+                        <input type="radio" name="time-period" id="period-week" checked />
+                        <label for="period-week">Week</label>
+                        <input type="radio" name="time-period" id="period-month" />
+                        <label for="period-month">Month</label>
+                        <input type="radio" name="time-period" id="period-year" />
+                        <label for="period-year">Year</label>
+                    </div>
+                    
+                    <!-- TAPP Premium Notice Card -->
+                    <div class="tapp-notice-card">
+                        <div class="tapp-notice-header">
+                            <span class="tapp-notice-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="3"/>
+                                    <path d="M16 10C16 10 15 8 12 8C9 8 8 10 8 10"/>
+                                    <path d="M9 16s1 2 3 2 3-2 3-2"/>
+                                    <path d="M12 2v3"/>
+                                    <path d="M12 19v3"/>
+                                    <path d="M5 5l2 2"/>
+                                    <path d="M17 17l2 2"/>
+                                    <path d="M2 12h3"/>
+                                    <path d="M19 12h3"/>
+                                    <path d="M5 19l2-2"/>
+                                    <path d="M17 7l2-2"/>
+                                </svg>
+                            </span>
+                            <span class="tapp-notice-badge">NEW PERK</span>
+                        </div>
+                        <h3 class="tapp-notice-title">2x rewards at Casa 23 tonight</h3>
+                        <p class="tapp-notice-desc">Double points on all taps between 8PM-11PM. Three friends are already planning to go.</p>
+                        <div class="tapp-notice-actions">
+                            <button class="tapp-notice-btn primary">View perk</button>
+                            <button class="tapp-notice-btn">Later</button>
+                        </div>
+                    </div>
+                    <div class="transaction_info">
+                        <div class="transaction_data">
+                            <div class="get_send_money">
+                                <span class="icon outgoing">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="19" x2="12" y2="5"/>
+                                        <polyline points="5 12 12 5 19 12"/>
+                                    </svg>
+                                </span>
+                                <div class="trasaction_details">
+                                    <p class="transaction_metadata">Transfer to <span>Uber Eats</span></p>
+                                    <p>Food delivery</p>
+                                </div>
+                            </div>
+                            <p class="transaction_value outgoing">-RD$850.00</p>
+                        </div>
+                        <div class="transaction_data">
+                            <div class="get_send_money">
+                                <span class="icon incoming">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"/>
+                                        <polyline points="19 12 12 19 5 12"/>
+                                    </svg>
+                                </span>
+                                <div class="trasaction_details">
+                                    <p class="transaction_metadata">Reward from <span>Casa 23</span></p>
+                                    <p>TAPP cashback</p>
+                                </div>
+                            </div>
+                            <p class="transaction_value incoming">+RD$120.00</p>
+                        </div>
+                        <div class="transaction_data">
+                            <div class="get_send_money">
+                                <span class="icon outgoing">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="19" x2="12" y2="5"/>
+                                        <polyline points="5 12 12 5 19 12"/>
+                                    </svg>
+                                </span>
+                                <div class="trasaction_details">
+                                    <p class="transaction_metadata">Transfer to <span>La Esquina</span></p>
+                                    <p>Dinner</p>
+                                </div>
+                            </div>
+                            <p class="transaction_value outgoing">-RD$2,450.00</p>
+                        </div>
+                        <div class="transaction_data">
+                            <div class="get_send_money">
+                                <span class="icon incoming">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"/>
+                                        <polyline points="19 12 12 19 5 12"/>
+                                    </svg>
+                                </span>
+                                <div class="trasaction_details">
+                                    <p class="transaction_metadata">Received from <span>Event Split</span></p>
+                                    <p>Mambo Night payment</p>
+                                </div>
+                            </div>
+                            <p class="transaction_value incoming">+RD$3,200.00</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Hidden transactions - shown when expanded -->
+                    <div class="transaction_info hidden-transactions" style="display: none;">
+                        <div class="transaction_date">Yesterday | 27th Aug, 2026</div>
+                        <div class="transaction_data">
+                            <div class="get_send_money">
+                                <span class="icon outgoing">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="19" x2="12" y2="5"/>
+                                        <polyline points="5 12 12 5 19 12"/>
+                                    </svg>
+                                </span>
+                                <div class="trasaction_details">
+                                    <p class="transaction_metadata">Transfer to <span>Starbucks</span></p>
+                                    <p>Coffee</p>
+                                </div>
+                            </div>
+                            <p class="transaction_value outgoing">-RD$420.00</p>
+                        </div>
+                        <div class="transaction_data">
+                            <div class="get_send_money">
+                                <span class="icon incoming">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"/>
+                                        <polyline points="19 12 12 19 5 12"/>
+                                    </svg>
+                                </span>
+                                <div class="trasaction_details">
+                                    <p class="transaction_metadata">Reward from <span>Mofongo House</span></p>
+                                    <p>First visit bonus</p>
+                                </div>
+                            </div>
+                            <p class="transaction_value incoming">+RD$200.00</p>
+                        </div>
+                    </div>
+                    
+                    <div class="transaction_info hidden-transactions" style="display: none;">
+                        <div class="transaction_date">26th Aug, 2026</div>
+                        <div class="transaction_data">
+                            <div class="get_send_money">
+                                <span class="icon outgoing">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="19" x2="12" y2="5"/>
+                                        <polyline points="5 12 12 5 19 12"/>
+                                    </svg>
+                                </span>
+                                <div class="trasaction_details">
+                                    <p class="transaction_metadata">Transfer to <span>Cinema</span></p>
+                                    <p>Movie tickets</p>
+                                </div>
+                            </div>
+                            <p class="transaction_value outgoing">-RD$1,100.00</p>
+                        </div>
+                        <div class="transaction_data">
+                            <div class="get_send_money">
+                                <span class="icon outgoing">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="19" x2="12" y2="5"/>
+                                        <polyline points="5 12 12 5 19 12"/>
+                                    </svg>
+                                </span>
+                                <div class="trasaction_details">
+                                    <p class="transaction_metadata">Transfer to <span>Supermercado</span></p>
+                                    <p>Groceries</p>
+                                </div>
+                            </div>
+                            <p class="transaction_value outgoing">-RD$3,850.00</p>
+                        </div>
+                        <div class="transaction_data">
+                            <div class="get_send_money">
+                                <span class="icon incoming">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"/>
+                                        <polyline points="19 12 12 19 5 12"/>
+                                    </svg>
+                                </span>
+                                <div class="trasaction_details">
+                                    <p class="transaction_metadata">Received from <span>TAPP Drop</span></p>
+                                    <p>Thursday special</p>
+                                </div>
+                            </div>
+                            <p class="transaction_value incoming">+RD$500.00</p>
+                        </div>
+                    </div>
+                    
+                    <div class="transaction_info hidden-transactions" style="display: none;">
+                        <div class="transaction_date">25th Aug, 2026</div>
+                        <div class="transaction_data">
+                            <div class="get_send_money">
+                                <span class="icon outgoing">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="19" x2="12" y2="5"/>
+                                        <polyline points="5 12 12 5 19 12"/>
+                                    </svg>
+                                </span>
+                                <div class="trasaction_details">
+                                    <p class="transaction_metadata">Transfer to <span>Pharmacy</span></p>
+                                    <p>Medicine</p>
+                                </div>
+                            </div>
+                            <p class="transaction_value outgoing">-RD$680.00</p>
+                        </div>
+                        <div class="transaction_data">
+                            <div class="get_send_money">
+                                <span class="icon incoming">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"/>
+                                        <polyline points="19 12 12 19 5 12"/>
+                                    </svg>
+                                </span>
+                                <div class="trasaction_details">
+                                    <p class="transaction_metadata">Split settled by <span>Andrea</span></p>
+                                    <p>Beach trip</p>
+                                </div>
+                            </div>
+                            <p class="transaction_value incoming">+RD$2,100.00</p>
+                        </div>
+                    </div>
+                    
+                    <button class="show_more" id="showMoreBtn" onclick="toggleTransactions()" aria-label="show_all">
+                        <span class="show-more-text">Show all</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                        </svg>
+                    </button>
+                </main>
+                <aside>
+                    <div class="transfer_money_section collapsed">
+                        <div class="section-header" onclick="toggleTransferSection()">
+                            <p class="title">quick transfer</p>
+                            <button class="expand-toggle" type="button" aria-label="Toggle quick transfer">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M6 9l6 6 6-6"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="collapsible-content">
+                            <div class="button_group">
+                                <button class="via_no" aria-label="via_no">via mobile no.</button>
+                                <button class="via_ac" aria-label="via_ac">via account no.</button>
+                            </div>
+                            <form onsubmit="return mySubmitFunction(event)">
+                                <div class="phone_no_info">
+                                    <label for="phone_no"><img src="https://raw.githubusercontent.com/shyamtala003/finance_dashboard/%40sjtala/images/india.png" alt="">&nbsp;+1 </label>
+                                    <input type="number" name="phone_no" id="phone_no" placeholder="8095551234">
+                                    <img src="https://raw.githubusercontent.com/shyamtala003/finance_dashboard/%40sjtala/images/profile_pic.webp" alt="">
+                                </div>
+                                <div class="amount">
+                                    <div>
+                                        <label for="ruppes">RD$</label>
+                                        <input type="number" name="phone_no" id="rupees" placeholder="1,500.00">
+                                    </div>
+                                    <span>DOP</span>
+                                </div>
+                                <input type="submit" value="send to john" />
+                            </form>
+                        </div>
+                    </div>
+                    <!-- TAPP Network Stats -->
+                    <div class="network-stats-card">
+                        <div class="network-stats-header">
+                            <h3 class="network-stats-title">Your TAPP Activity</h3>
+                            <span class="network-stats-period">This month</span>
+                        </div>
+                        <div class="network-stats-grid">
+                            <div class="network-stat-item">
+                                <span class="network-stat-label">Places tapped</span>
+                                <span class="network-stat-value">12</span>
+                                <span class="network-stat-change positive">
+                                    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M2 9L6 5L10 9"/>
+                                    </svg>
+                                    +3 from last month
+                                </span>
+                            </div>
+                            <div class="network-stat-item">
+                                <span class="network-stat-label">Rewards earned</span>
+                                <span class="network-stat-value">2,840</span>
+                                <span class="network-stat-change positive">
+                                    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M2 9L6 5L10 9"/>
+                                    </svg>
+                                    +420 points
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Aether Glass Card -->
+                    <article class="aether-card">
+                        <header class="aether-card__header">
+                            <span class="aether-card__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="3"/>
+                                    <path d="M16 10C16 10 15 8 12 8C9 8 8 10 8 10"/>
+                                    <path d="M12 2v3"/>
+                                    <path d="M12 19v3"/>
+                                    <path d="M5 5l2 2"/>
+                                    <path d="M17 17l2 2"/>
+                                    <path d="M2 12h3"/>
+                                    <path d="M19 12h3"/>
+                                    <path d="M5 19l2-2"/>
+                                    <path d="M17 7l2-2"/>
+                                </svg>
+                            </span>
+                            <span class="aether-card__badge">TAPP Network</span>
+                        </header>
+                        <h3 class="aether-card__title">Unlock exclusive perks</h3>
+                        <p class="aether-card__body">
+                            Join 3 upcoming events and earn premium status. Get early access to drops, 2x rewards, and exclusive merchant benefits.
+                        </p>
+                        <footer class="aether-card__footer">
+                            <span class="aether-card__meta">rewards · events</span>
+                            <button class="aether-card__action" type="button">Explore</button>
+                        </footer>
+                    </article>
+                    
+                    <div class="cards" id="cardsWallet">
+                        <div class="title_with_button">
+                            <p class="title">your cards</p>
+                            <button class="close-wallet" onclick="closeWallet()">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="white">
+                                    <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+                                </svg>
+                            </button>
+                            <div class="sliber_controller">
+                                <div class="swipe_previous" onclick="prevCard()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                        <path fill="none" d="M0 0h24v24H0z" />
+                                        <path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 18c4.42 0 8-3.58 8-8s-3.58-8-8-8-8 3.58-8 8 3.58 8 8 8zm0-9h4v2h-4v3l-4-4 4-4v3z" />
+                                    </svg>
+                                </div>
+                                <div class="swipe_next" onclick="nextCard()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                        <path fill="none" d="M0 0h24v24H0z" />
+                                        <path d="M12 11V8l4 4-4 4v-3H8v-2h4zm0-9c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 18c4.42 0 8-3.58 8-8s-3.58-8-8-8-8 3.58-8 8 3.58 8 8 8z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="custom-cards-container" onclick="expandWallet(event)">
+                            <div class="cards-wrapper">
+                                <!-- TAPP Card - Diseño Real Premium Minimalista -->
+                                <div class="custom-card tapp-card active" data-index="0">
+                                    <div class="card-inner">
+                                        <!-- Subtle gradient overlay -->
+                                        <div class="card-gradient-overlay"></div>
+                                        
+                                        <!-- Header: NFC + tapp logo -->
+                                        <div class="card-header">
+                                            <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                                                <circle cx="16" cy="16" r="2" fill="rgba(255,255,255,0.9)" />
+                                                <path d="M16 10C12.6863 10 10 12.6863 10 16C10 19.3137 12.6863 22 16 22" 
+                                                    stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+                                                <path d="M16 6C10.4772 6 6 10.4772 6 16C6 21.5228 10.4772 26 16 26" 
+                                                    stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-linecap="round"/>
+                                            </svg>
+                                            <h2 class="tapp-wordmark">tapp</h2>
+                                        </div>
+
+                                        <!-- Footer: Member name + expiry -->
+                                        <div class="card-footer-real">
+                                            <div>
+                                                <div class="card-label-minimal">Member</div>
+                                                <div class="card-value">Cardholder</div>
+                                            </div>
+                                            <div class="card-expiry-box">
+                                                <div class="card-label-minimal">Valid thru</div>
+                                                <div class="card-value card-mono">12/27</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Card 2 - Variante Azul -->
+                                <div class="custom-card card-2 next" data-index="1">
+                                    <div class="card-inner">
+                                        <!-- Subtle blue gradient overlay -->
+                                        <div class="card-gradient-overlay-blue"></div>
+                                        
+                                        <!-- Header: NFC + tapp logo -->
+                                        <div class="card-header">
+                                            <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                                                <circle cx="16" cy="16" r="2" fill="rgba(100,150,255,0.9)" />
+                                                <path d="M16 10C12.6863 10 10 12.6863 10 16C10 19.3137 12.6863 22 16 22" 
+                                                    stroke="rgba(100,150,255,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+                                                <path d="M16 6C10.4772 6 6 10.4772 6 16C6 21.5228 10.4772 26 16 26" 
+                                                    stroke="rgba(100,150,255,0.3)" stroke-width="1.5" stroke-linecap="round"/>
+                                            </svg>
+                                            <h2 class="tapp-wordmark" style="color: rgba(100,150,255,0.95);">tapp</h2>
+                                        </div>
+
+                                        <!-- Footer: Member name + expiry -->
+                                        <div class="card-footer-real">
+                                            <div>
+                                                <div class="card-label-minimal">Member</div>
+                                                <div class="card-value">Cardholder</div>
+                                            </div>
+                                            <div class="card-expiry-box">
+                                                <div class="card-label-minimal">Valid thru</div>
+                                                <div class="card-value card-mono">08/28</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Card 3 - Premium con líneas elegantes -->
+                                <div class="custom-card card-3 hidden" data-index="2">
+                                    <div class="card-inner">
+                                        <!-- Elegant curved lines pattern -->
+                                        <svg class="card-premium-curves" viewBox="0 0 280 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M-20 40 Q80 30, 140 50 T320 55" stroke="rgba(120,100,180,0.15)" stroke-width="1.5" fill="none"/>
+                                            <path d="M-30 80 Q70 70, 150 85 T330 90" stroke="rgba(120,100,180,0.12)" stroke-width="1.5" fill="none"/>
+                                            <path d="M-20 120 Q90 105, 160 125 T320 130" stroke="rgba(120,100,180,0.1)" stroke-width="1.5" fill="none"/>
+                                        </svg>
+                                        
+                                        <!-- Header: NFC + tapp logo -->
+                                        <div class="card-header">
+                                            <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                                                <circle cx="16" cy="16" r="2" fill="rgba(120,100,180,0.9)" />
+                                                <path d="M16 10C12.6863 10 10 12.6863 10 16C10 19.3137 12.6863 22 16 22" 
+                                                    stroke="rgba(120,100,180,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+                                                <path d="M16 6C10.4772 6 6 10.4772 6 16C6 21.5228 10.4772 26 16 26" 
+                                                    stroke="rgba(120,100,180,0.3)" stroke-width="1.5" stroke-linecap="round"/>
+                                            </svg>
+                                            <h2 class="tapp-wordmark" style="color: rgba(120,100,180,0.95);">tapp</h2>
+                                        </div>
+
+                                        <!-- Footer: Member name + expiry + premium -->
+                                        <div class="card-footer-real">
+                                            <div>
+                                                <div class="card-label-minimal" style="color: rgba(120,100,180,0.4);">Member</div>
+                                                <div class="card-value" style="color: rgba(120,100,180,0.95);">Cardholder</div>
+                                            </div>
+                                            <div class="card-expiry-box" style="position: relative;">
+                                                <div class="card-label-minimal" style="color: rgba(120,100,180,0.4);">Valid thru</div>
+                                                <div class="card-value card-mono" style="color: rgba(120,100,180,0.95);">12/29</div>
+                                                <div style="position: absolute; bottom: -14px; right: 0; font-size: 0.5rem; color: rgba(120,100,180,0.5); letter-spacing: 0.15em; text-transform: uppercase; font-weight: 500;">
+                                                    Premium
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-page">
+                            <span class="dot active" onclick="goToCard(0)"></span>
+                            <span class="dot" onclick="goToCard(1)"></span>
+                            <span class="dot" onclick="goToCard(2)"></span>
+                        </div>
+                    </div>
+                </aside>
+            </section>
+        </section>
+    </div>
+    <script>
+        // Menu functionality
+        const menuBtn = document.getElementById('menu_btn');
+        const closeBtn = document.getElementById('btn_close');
+        const sidebar = document.getElementById("sidebar");
+        
+        if (menuBtn) {
+            menuBtn.addEventListener('click', () => {
+                sidebar.classList.add('active');
+            });
+        }
+        
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+            });
+        }
+        
+        // Close sidebar when clicking outside
+        document.addEventListener('click', (e) => {
+            if (sidebar.classList.contains('active') && 
+                !sidebar.contains(e.target) && 
+                !menuBtn.contains(e.target)) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        function mySubmitFunction(e) {
+            e.preventDefault();
+            return false;
+        }
+
+        // Toggle transfer section
+        function toggleTransferSection() {
+            const section = document.querySelector('.transfer_money_section');
+            section.classList.toggle('collapsed');
+        }
+
+        // Toggle transactions visibility
+        let transactionsExpanded = false;
+        function toggleTransactions() {
+            const hiddenTransactions = document.querySelectorAll('.hidden-transactions');
+            const btn = document.getElementById('showMoreBtn');
+            const btnText = btn.querySelector('.show-more-text');
+            
+            transactionsExpanded = !transactionsExpanded;
+            
+            hiddenTransactions.forEach(section => {
+                section.style.display = transactionsExpanded ? 'block' : 'none';
+            });
+            
+            btn.classList.toggle('expanded', transactionsExpanded);
+            btnText.textContent = transactionsExpanded ? 'Show less' : 'Show all';
+        }
+
+        // Notification modal functions
+        function openNotificationModal() {
+            const modal = document.getElementById('notificationModal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeNotificationModal(event) {
+            if (event && event.target !== event.currentTarget) return;
+            const modal = document.getElementById('notificationModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function markAllAsRead() {
+            const unreadItems = document.querySelectorAll('.notification-item.unread');
+            unreadItems.forEach(item => {
+                item.classList.remove('unread');
+            });
+        }
+
+        // Add click handler to notification bell
+        document.addEventListener('DOMContentLoaded', () => {
+            const notificationBell = document.querySelector('.topbar_icons a.alert');
+            if (notificationBell) {
+                notificationBell.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openNotificationModal();
+                });
+            }
+        });
+
+        // Copy account number function
+        let accountVisible = false;
+        
+        function toggleAccountVisibility() {
+            const accountNumber = document.getElementById('accountNumber');
+            const toggleBtn = document.querySelector('.toggle_account_btn');
+            
+            accountVisible = !accountVisible;
+            
+            if (accountVisible) {
+                accountNumber.classList.remove('hidden');
+                accountNumber.textContent = '22-394932';
+            } else {
+                accountNumber.classList.add('hidden');
+                accountNumber.textContent = '';
+            }
+        }
+        
+        function copyAccountNumber() {
+            const accountNumber = '22-394932';
+            const btn = document.querySelector('.copy_account_btn');
+            const tooltip = document.querySelector('.copy-tooltip');
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(accountNumber).then(() => {
+                // Visual feedback
+                btn.classList.add('copied');
+                tooltip.classList.add('show');
+                
+                // Reset after 2 seconds
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    tooltip.classList.remove('show');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
+        
+        // Initialize account as hidden
+        document.addEventListener('DOMContentLoaded', () => {
+            const accountNumber = document.getElementById('accountNumber');
+            accountNumber.classList.add('hidden');
+            accountNumber.textContent = '';
+        });
+
+        // Wallet expansion for mobile (iPhone style)
+        let isWalletExpanded = false;
+
+        function expandWallet(event) {
+            if (window.innerWidth <= 870 && !isWalletExpanded) {
+                event.stopPropagation();
+                const wallet = document.getElementById('cardsWallet');
+                wallet.classList.add('expanded');
+                isWalletExpanded = true;
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeWallet() {
+            const wallet = document.getElementById('cardsWallet');
+            wallet.classList.remove('expanded');
+            isWalletExpanded = false;
+            document.body.style.overflow = '';
+        }
+
+        // Close wallet when clicking outside (only in expanded state)
+        document.addEventListener('click', (e) => {
+            if (isWalletExpanded && window.innerWidth <= 870) {
+                const wallet = document.getElementById('cardsWallet');
+                const cardsContainer = document.querySelector('.custom-cards-container');
+                if (!cardsContainer.contains(e.target) && !e.target.closest('.sliber_controller')) {
+                    closeWallet();
+                }
+            }
+        });
+
+        // Custom cards navigation with stack effect
+        let currentCard = 0;
+        const totalCards = 3;
+
+        function updateCards() {
+            const cards = document.querySelectorAll('.custom-card');
+            const dots = document.querySelectorAll('.swiper-page .dot');
+            
+            cards.forEach((card, index) => {
+                // Remove all classes
+                card.classList.remove('active', 'next', 'prev', 'hidden');
+                
+                // Calculate position relative to current card
+                let position = index - currentCard;
+                
+                if (position === 0) {
+                    // Current card
+                    card.classList.add('active');
+                } else if (position === 1 || (position === -2 && totalCards === 3)) {
+                    // Next card
+                    card.classList.add('next');
+                } else if (position === -1 || (position === 2 && totalCards === 3)) {
+                    // Previous card
+                    card.classList.add('prev');
+                } else {
+                    // Hidden card
+                    card.classList.add('hidden');
+                }
+            });
+            
+            // Update dots
+            dots.forEach((dot, index) => {
+                dot.classList.remove('active');
+                if (index === currentCard) {
+                    dot.classList.add('active');
+                }
+            });
+        }
+
+        function nextCard() {
+            currentCard = (currentCard + 1) % totalCards;
+            updateCards();
+        }
+
+        function prevCard() {
+            currentCard = (currentCard - 1 + totalCards) % totalCards;
+            updateCards();
+        }
+
+        function goToCard(index) {
+            currentCard = index;
+            updateCards();
+        }
+
+        // Scroll wheel navigation for desktop
+        let scrollTimeout;
+        let isScrolling = false;
+
+        function handleWheelScroll(e) {
+            // Only work on desktop and when hovering over cards area
+            if (window.innerWidth <= 870) return;
+            
+            e.preventDefault();
+            
+            // Debounce scroll events
+            if (isScrolling) return;
+            isScrolling = true;
+            
+            clearTimeout(scrollTimeout);
+            
+            // Determine scroll direction
+            const delta = e.deltaY || e.deltaX;
+            
+            if (delta > 0) {
+                // Scroll down/right = next card
+                nextCard();
+            } else if (delta < 0) {
+                // Scroll up/left = previous card
+                prevCard();
+            }
+            
+            // Reset scroll lock after delay
+            scrollTimeout = setTimeout(() => {
+                isScrolling = false;
+            }, 600);
+        }
+
+        // Add wheel event listener to cards container
+        const cardsElement = document.getElementById('cardsWallet');
+        if (cardsElement) {
+            cardsElement.addEventListener('wheel', handleWheelScroll, { passive: false });
+        }
+
+        // Touch swipe for mobile (when expanded)
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
+        let isSwiping = false;
+
+        const cardsContainer = document.querySelector('.cards-wrapper');
+
+        if (cardsContainer) {
+            // Mouse drag for desktop
+            let startX = 0;
+            let isDragging = false;
+
+            cardsContainer.addEventListener('mousedown', (e) => {
+                if (window.innerWidth > 870 || isWalletExpanded) {
+                    startX = e.clientX;
+                    isDragging = true;
+                }
+            });
+
+            cardsContainer.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+            });
+
+            cardsContainer.addEventListener('mouseup', (e) => {
+                if (!isDragging) return;
+                isDragging = false;
+                const diff = e.clientX - startX;
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0) {
+                        prevCard();
+                    } else {
+                        nextCard();
+                    }
+                }
+            });
+
+            cardsContainer.addEventListener('mouseleave', () => {
+                isDragging = false;
+            });
+
+            // Touch events for mobile (when wallet is expanded)
+            cardsContainer.addEventListener('touchstart', (e) => {
+                if (isWalletExpanded) {
+                    touchStartX = e.touches[0].clientX;
+                    touchStartY = e.touches[0].clientY;
+                    isSwiping = true;
+                }
+            }, { passive: true });
+
+            cardsContainer.addEventListener('touchmove', (e) => {
+                if (!isSwiping || !isWalletExpanded) return;
+                touchEndX = e.touches[0].clientX;
+                touchEndY = e.touches[0].clientY;
+            }, { passive: true });
+
+            cardsContainer.addEventListener('touchend', (e) => {
+                if (!isSwiping || !isWalletExpanded) return;
+                isSwiping = false;
+                
+                const diffX = touchEndX - touchStartX;
+                const diffY = Math.abs(touchEndY - touchStartY);
+                
+                // Only trigger if horizontal swipe is dominant (not vertical scroll)
+                if (Math.abs(diffX) > 50 && diffY < Math.abs(diffX)) {
+                    if (diffX > 0) {
+                        prevCard();
+                    } else {
+                        nextCard();
+                    }
+                }
+            }, { passive: true });
+        }
+
+        // Initialize cards on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCards();
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 870 && isWalletExpanded) {
+                closeWallet();
+            }
+        });
+    </script>
+    
+    <!-- Notification Modal -->
+    <div class="notification-modal-overlay" id="notificationModal" onclick="closeNotificationModal(event)">
+        <div class="notification-modal" onclick="event.stopPropagation()">
+            <div class="notification-header">
+                <h3 class="notification-header-title">Notifications</h3>
+                <button class="notification-mark-all" onclick="markAllAsRead()">Mark all read</button>
+            </div>
+            
+            <div class="notification-item unread">
+                <span class="notification-icon reward">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                    </svg>
+                </span>
+                <div class="notification-body">
+                    <p class="notification-title">2x rewards ending soon</p>
+                    <p class="notification-desc">Your 2x rewards at Casa 23 expire tonight at 11PM. Don't miss out!</p>
+                </div>
+                <span class="notification-time">5m ago</span>
+            </div>
+            
+            <div class="notification-item unread">
+                <span class="notification-icon event">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                    </svg>
+                </span>
+                <div class="notification-body">
+                    <p class="notification-title">3 friends joined Salsa Night</p>
+                    <p class="notification-desc">Andrea, Carlos and Juan are going to Salsa Night tomorrow. Join them?</p>
+                </div>
+                <span class="notification-time">1h ago</span>
+            </div>
+            
+            <div class="notification-item">
+                <span class="notification-icon reward">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </span>
+                <div class="notification-body">
+                    <p class="notification-title">You earned 840 points</p>
+                    <p class="notification-desc">RD$120 cashback from Casa 23 added to your rewards.</p>
+                </div>
+                <span class="notification-time">3h ago</span>
+            </div>
+            
+            <div class="notification-item">
+                <span class="notification-icon event">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                </span>
+                <div class="notification-body">
+                    <p class="notification-title">New TAPP Drop nearby</p>
+                    <p class="notification-desc">30 spots available at Mofongo House. Free appetizer + 2x points.</p>
+                </div>
+                <span class="notification-time">5h ago</span>
+            </div>
+            
+            <div class="notification-item">
+                <span class="notification-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                </span>
+                <div class="notification-body">
+                    <p class="notification-title">Event split settled</p>
+                    <p class="notification-desc">Andrea paid their share (RD$3,200) for Mambo Night.</p>
+                </div>
+                <span class="notification-time">1d ago</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Entrance Animations on Load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Apply animations to different sections
+        const topbar = document.querySelector('.topbar');
+        const balanceCard = document.querySelector('.bank_balance_card');
+        const timePeriodTabs = document.querySelector('.time-period-tabs');
+        const noticeCard = document.querySelector('.tapp-notice-card');
+        const aetherCard = document.querySelector('.aether-card');
+        const networkCard = document.querySelector('.network-stats-card');
+        const transactionSection = document.querySelector('.transaction_info');
+        const transferSection = document.querySelector('.transfer_money_section');
+        const cardsSection = document.querySelector('.cards');
+        
+        if (topbar) {
+            topbar.classList.add('animate-fadeInDown');
+        }
+        
+        if (balanceCard) {
+            balanceCard.classList.add('animate-fadeInUp', 'animate-delay-100');
+        }
+        
+        if (timePeriodTabs) {
+            timePeriodTabs.classList.add('animate-fadeIn', 'animate-delay-200');
+        }
+        
+        if (noticeCard) {
+            noticeCard.classList.add('animate-fadeInUp', 'animate-delay-300');
+        }
+        
+        if (aetherCard) {
+            aetherCard.classList.add('animate-scaleIn', 'animate-delay-400');
+        }
+        
+        if (networkCard) {
+            networkCard.classList.add('animate-fadeInUp', 'animate-delay-200');
+        }
+        
+        if (transactionSection) {
+            transactionSection.classList.add('animate-fadeInUp', 'animate-delay-300');
+        }
+        
+        if (transferSection) {
+            transferSection.classList.add('animate-fadeInLeft', 'animate-delay-100');
+        }
+        
+        if (cardsSection) {
+            cardsSection.classList.add('animate-fadeInUp', 'animate-delay-200');
+        }
+    });
+    </script>
+</body>
+</html>

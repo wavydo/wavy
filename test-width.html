@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Width Debug</title>
+    <style>
+        body { margin: 0; padding: 20px; background: #f8f9fa; }
+        .debug-box {
+            background: red;
+            height: 100px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="info">
+        <h1>Debug Information</h1>
+        <p>Window Width: <strong id="windowWidth"></strong></p>
+        <p>Document Width: <strong id="docWidth"></strong></p>
+        <p>Body Width: <strong id="bodyWidth"></strong></p>
+    </div>
+    
+    <div class="debug-box">Esta caja roja debe ocupar TODO el ancho</div>
+    
+    <div class="info">
+        <h2>Instructions:</h2>
+        <ol>
+            <li>Si ves espacio blanco a los lados de la caja roja, hay un problema de ancho</li>
+            <li>La caja roja debe ir de borde a borde (menos el padding de 20px)</li>
+            <li>Compara con tu dashboard actual</li>
+        </ol>
+    </div>
+
+    <script>
+        function updateSizes() {
+            document.getElementById('windowWidth').textContent = window.innerWidth + 'px';
+            document.getElementById('docWidth').textContent = document.documentElement.clientWidth + 'px';
+            document.getElementById('bodyWidth').textContent = document.body.clientWidth + 'px';
+        }
+        updateSizes();
+        window.addEventListener('resize', updateSizes);
+    </script>
+</body>
+</html>

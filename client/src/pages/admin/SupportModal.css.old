@@ -1,0 +1,542 @@
+/* ====================================================================
+   SUPPORT CHAT MODAL - ESTILOS COMPLETAMENTE AISLADOS
+   ==================================================================== */
+
+/* Reset completo para el modal */
+.tapp-support-modal-overlay,
+.tapp-support-modal-overlay * {
+  all: initial;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+}
+
+/* Overlay del modal */
+.tapp-support-modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: rgba(0, 0, 0, 0.7) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 999999 !important;
+  padding: 2rem !important;
+}
+
+/* Contenedor del modal */
+.tapp-support-modal-container {
+  background: #ffffff !important;
+  border-radius: 16px !important;
+  width: 95% !important;
+  max-width: 1400px !important;
+  height: 90vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Header del modal */
+.tapp-support-modal-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 1.5rem 2rem !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  background: #ffffff !important;
+}
+
+.tapp-support-modal-header-info {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem !important;
+}
+
+.tapp-support-modal-title {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+}
+
+.tapp-support-modal-subtitle {
+  font-size: 0.875rem !important;
+  color: #64748b !important;
+  margin: 0 !important;
+  line-height: 1.4 !important;
+}
+
+.tapp-support-modal-close {
+  width: 32px !important;
+  height: 32px !important;
+  border: none !important;
+  background: transparent !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 8px !important;
+  color: #64748b !important;
+  font-size: 24px !important;
+  line-height: 1 !important;
+  transition: all 0.2s !important;
+  padding: 0 !important;
+}
+
+.tapp-support-modal-close:hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+/* Barra de acciones */
+.tapp-support-modal-actions {
+  display: flex !important;
+  gap: 1rem !important;
+  padding: 1rem 2rem !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  background: #f8fafc !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+}
+
+.tapp-support-modal-actions-left {
+  display: flex !important;
+  gap: 0.75rem !important;
+  flex-wrap: wrap !important;
+}
+
+.tapp-support-modal-actions-right {
+  display: flex !important;
+  gap: 0.75rem !important;
+  flex-wrap: wrap !important;
+  margin-left: auto !important;
+}
+
+/* Selects y botones de acción */
+.tapp-support-select {
+  padding: 0.625rem 0.875rem !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+  min-width: 130px !important;
+  outline: none !important;
+}
+
+.tapp-support-select:hover {
+  border-color: #cbd5e1 !important;
+}
+
+.tapp-support-select:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+.tapp-support-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.625rem 1rem !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+  white-space: nowrap !important;
+}
+
+.tapp-support-btn:hover {
+  background: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+}
+
+.tapp-support-btn-danger {
+  color: #dc2626 !important;
+  border-color: #fecaca !important;
+}
+
+.tapp-support-btn-danger:hover {
+  background: #fef2f2 !important;
+  border-color: #fca5a5 !important;
+}
+
+.tapp-support-btn svg {
+  width: 16px !important;
+  height: 16px !important;
+  stroke: currentColor !important;
+  fill: none !important;
+  stroke-width: 2 !important;
+}
+
+/* Panel de info del usuario */
+.tapp-support-user-info {
+  padding: 1rem 2rem !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  background: #f8fafc !important;
+}
+
+.tapp-support-user-info-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  gap: 1rem !important;
+}
+
+.tapp-support-user-info-item {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.25rem !important;
+}
+
+.tapp-support-user-info-label {
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  color: #64748b !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  margin: 0 !important;
+}
+
+.tapp-support-user-info-value {
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  color: #0f172a !important;
+  margin: 0 !important;
+}
+
+/* Banners rápidos */
+.tapp-support-banners {
+  padding: 0.75rem 2rem !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  background: #fffbeb !important;
+}
+
+.tapp-support-banners-title {
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  color: #92400e !important;
+  margin: 0 0 0.5rem 0 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+.tapp-support-banners-grid {
+  display: flex !important;
+  gap: 0.5rem !important;
+  flex-wrap: wrap !important;
+}
+
+.tapp-support-banner-btn {
+  padding: 0.5rem 0.875rem !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 6px !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  font-size: 0.8125rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+  white-space: nowrap !important;
+}
+
+.tapp-support-banner-btn:hover {
+  background: #f8fafc !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Área de mensajes */
+.tapp-support-messages-container {
+  flex: 1 !important;
+  overflow-y: auto !important;
+  padding: 1.5rem 2rem !important;
+  background: #f8fafc !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1rem !important;
+}
+
+.tapp-support-message {
+  display: flex !important;
+  justify-content: flex-start !important;
+}
+
+.tapp-support-message.admin {
+  justify-content: flex-end !important;
+}
+
+.tapp-support-message-bubble {
+  max-width: 65% !important;
+  padding: 0.875rem 1.125rem !important;
+  border-radius: 12px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem !important;
+}
+
+.tapp-support-message-bubble.user {
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+}
+
+.tapp-support-message-bubble.admin {
+  background: #0f172a !important;
+  color: #ffffff !important;
+}
+
+.tapp-support-message-sender {
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+  opacity: 0.7 !important;
+}
+
+.tapp-support-message-content {
+  font-size: 0.9375rem !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+  color: inherit !important;
+}
+
+.tapp-support-message-time {
+  font-size: 0.75rem !important;
+  margin: 0 !important;
+  opacity: 0.6 !important;
+}
+
+/* Banner message */
+.tapp-support-message-banner {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 0.875rem 1.125rem !important;
+  border-radius: 8px !important;
+  text-align: center !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+}
+
+.tapp-support-message-banner.blue {
+  background: #dbeafe !important;
+  color: #1e40af !important;
+}
+
+.tapp-support-message-banner.green {
+  background: #d1fae5 !important;
+  color: #065f46 !important;
+}
+
+.tapp-support-message-banner.yellow {
+  background: #fef3c7 !important;
+  color: #92400e !important;
+}
+
+.tapp-support-message-banner.red {
+  background: #fee2e2 !important;
+  color: #991b1b !important;
+}
+
+/* Loading */
+.tapp-support-loading {
+  text-align: center !important;
+  padding: 2rem !important;
+  color: #64748b !important;
+  font-size: 0.875rem !important;
+}
+
+/* Área de input */
+.tapp-support-input-area {
+  padding: 1rem 2rem !important;
+  border-top: 1px solid #e5e7eb !important;
+  background: #ffffff !important;
+}
+
+.tapp-support-input-wrapper {
+  display: flex !important;
+  gap: 0.75rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.tapp-support-input {
+  flex: 1 !important;
+  padding: 0.875rem 1rem !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  font-size: 0.9375rem !important;
+  color: #0f172a !important;
+  outline: none !important;
+  transition: all 0.2s !important;
+  background: #ffffff !important;
+}
+
+.tapp-support-input:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+.tapp-support-input::placeholder {
+  color: #94a3b8 !important;
+}
+
+.tapp-support-send-btn {
+  padding: 0.875rem 1.5rem !important;
+  border: none !important;
+  border-radius: 8px !important;
+  background: #0f172a !important;
+  color: #ffffff !important;
+  font-size: 0.9375rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+  white-space: nowrap !important;
+}
+
+.tapp-support-send-btn:hover {
+  background: #1e293b !important;
+}
+
+.tapp-support-send-btn:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+
+/* Notas internas */
+.tapp-support-notes {
+  padding-top: 1rem !important;
+  border-top: 1px solid #e5e7eb !important;
+}
+
+.tapp-support-notes-toggle {
+  width: 100% !important;
+  text-align: left !important;
+  padding: 0.5rem 0 !important;
+  border: none !important;
+  background: transparent !important;
+  color: #64748b !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: color 0.2s !important;
+}
+
+.tapp-support-notes-toggle:hover {
+  color: #0f172a !important;
+}
+
+.tapp-support-notes-content {
+  margin-top: 0.75rem !important;
+}
+
+.tapp-support-notes-textarea {
+  width: 100% !important;
+  padding: 0.75rem !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  font-size: 0.875rem !important;
+  color: #0f172a !important;
+  outline: none !important;
+  resize: vertical !important;
+  min-height: 80px !important;
+  margin-bottom: 0.5rem !important;
+  font-family: inherit !important;
+}
+
+.tapp-support-notes-textarea:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+.tapp-support-notes-save {
+  padding: 0.5rem 1rem !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+}
+
+.tapp-support-notes-save:hover {
+  background: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Scrollbar */
+.tapp-support-messages-container::-webkit-scrollbar {
+  width: 8px !important;
+}
+
+.tapp-support-messages-container::-webkit-scrollbar-track {
+  background: #f1f5f9 !important;
+  border-radius: 4px !important;
+}
+
+.tapp-support-messages-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1 !important;
+  border-radius: 4px !important;
+}
+
+.tapp-support-messages-container::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8 !important;
+}
+
+/* Indicador de "escribiendo" */
+.tapp-support-typing-indicator {
+  display: flex !important;
+  justify-content: flex-start !important;
+  margin-top: 0.5rem !important;
+}
+
+.tapp-support-typing-bubble {
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 12px !important;
+  padding: 0.875rem 1.125rem !important;
+}
+
+.tapp-support-typing-dots {
+  display: flex !important;
+  gap: 4px !important;
+  align-items: center !important;
+}
+
+.tapp-support-typing-dot {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background: #94a3b8 !important;
+  animation: tapp-typing-bounce 1.4s infinite ease-in-out !important;
+  display: block !important;
+}
+
+.tapp-support-typing-dot:nth-child(1) {
+  animation-delay: 0s !important;
+}
+
+.tapp-support-typing-dot:nth-child(2) {
+  animation-delay: 0.2s !important;
+}
+
+.tapp-support-typing-dot:nth-child(3) {
+  animation-delay: 0.4s !important;
+}
+
+@keyframes tapp-typing-bounce {
+  0%, 60%, 100% {
+    transform: translateY(0) !important;
+    opacity: 0.4 !important;
+  }
+  30% {
+    transform: translateY(-8px) !important;
+    opacity: 1 !important;
+  }
+}

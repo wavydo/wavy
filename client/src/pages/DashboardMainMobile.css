@@ -1,0 +1,311 @@
+/* MOBILE FIXES PARA DASHBOARD MAIN - ARCHIVO SEPARADO */
+/* Usar el mismo breakpoint que el CSS original para mobile */
+@media (max-width: 870px) {
+  /* RESETEAR COMPLETAMENTE EL OVERFLOW */
+  body {
+    overflow: auto !important;
+    height: auto !important;
+  }
+  
+  /* CONTENEDOR PRINCIPAL - PERMITIR CARDS PERO MANTENER ESTRUCTURA */
+  .dashboard-main-container {
+    position: relative !important;
+    overflow: hidden !important; /* Como HTML original */
+    height: auto !important;
+    max-height: none !important;
+  }
+  
+  .dashboard-main-container .container {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    display: block !important;
+    grid-template-columns: none !important;
+  }
+  
+  /* MAIN CONTENT - SCROLL VERTICAL SIMPLE */
+  .dashboard-main-container .main_content {
+    position: relative !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100vh !important;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+    display: block !important; /* Volver a block, no grid */
+  }
+  
+  /* SIDEBAR MOBILE */
+  .dashboard-main-container nav.sidebar {
+    position: fixed !important;
+    left: -100% !important;
+    top: 0 !important;
+    height: 100vh !important;
+    z-index: 999 !important;
+    transition: left 0.3s ease !important;
+    background: #ffffff !important;
+  }
+
+  .dashboard-main-container nav.sidebar.active {
+    left: 0 !important;
+  }
+
+  .dashboard-main-container nav.sidebar #btn_close {
+    display: grid !important;
+    cursor: pointer !important;
+  }
+
+  /* TOPBAR MOBILE - BOTONES POSICIONADOS CORRECTAMENTE */
+  .dashboard-main-container .topbar {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 16px 20px !important;
+  }
+
+  .dashboard-main-container .topbar .overview_text {
+    display: none !important;
+  }
+
+  .dashboard-main-container .topbar #menu_btn {
+    display: inline-flex !important;
+    cursor: pointer !important;
+    order: 1 !important;
+  }
+  
+  .dashboard-main-container .topbar .topbar_icons {
+    display: flex !important;
+    order: 2 !important;
+    margin-left: auto !important;
+  }
+  
+  /* GRID RESPONSIVE - UNA SOLA COLUMNA */
+  .dashboard-main-container #dashboard-grid-section {
+    display: block !important; /* Volver a block */
+    width: 100% !important;
+  }
+  
+  .dashboard-main-container section.main_content section {
+    display: block !important; /* Volver a block */
+    width: 100% !important;
+  }
+  
+  /* SOLO ARREGLAR EL ANCHO DEL ASIDE SIN TOCAR LAS CARDS */
+  .dashboard-main-container aside,
+  .dashboard-main-container .dashboard-aside,
+  .dashboard-main-container section.main_content section aside {
+    width: 100% !important;
+    max-width: none !important; /* Eliminar max-width de 400px */
+    min-width: none !important; /* Eliminar min-width de 400px */
+    padding: 20px !important;
+    display: block !important; /* Volver a block simple */
+    margin: 0 !important;
+    position: relative !important;
+    grid-column: none !important; /* Eliminar grid-column para mobile */
+  }
+  
+  /* ELEMENTOS DENTRO DEL ASIDE - SOLO LOS QUE NO SON CARDS */
+  .dashboard-main-container aside .transfer_money_section,
+  .dashboard-main-container .dashboard-aside .transfer_money_section,
+  .dashboard-main-container section.main_content section aside .transfer_money_section,
+  .dashboard-main-container aside .network-stats-card,
+  .dashboard-main-container .dashboard-aside .network-stats-card,
+  .dashboard-main-container section.main_content section aside .network-stats-card,
+  .dashboard-main-container aside .aether-card,
+  .dashboard-main-container .dashboard-aside .aether-card,
+  .dashboard-main-container section.main_content section aside .aether-card {
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* QUICK TRANSFER - FORZAR TODOS LOS ELEMENTOS INTERNOS AL 100% */
+  .dashboard-main-container .transfer_money_section .section-header,
+  .dashboard-main-container .transfer_money_section .collapsible-content,
+  .dashboard-main-container .transfer_money_section .button_group,
+  .dashboard-main-container .transfer_money_section form,
+  .dashboard-main-container .transfer_money_section .phone_no_info,
+  .dashboard-main-container .transfer_money_section .amount {
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* YOUR TAPP ACTIVITY - FORZAR GRID A OCUPAR TODO EL ANCHO */
+  .dashboard-main-container .network-stats-card .network-stats-header,
+  .dashboard-main-container .network-stats-card .network-stats-grid {
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+  }
+  
+  .dashboard-main-container .network-stats-card .network-stat-item {
+    width: 100% !important;
+    max-width: none !important;
+    flex: 1 !important;
+  }
+  
+  /* AETHER CARD - FORZAR TODOS LOS ELEMENTOS INTERNOS AL 100% */
+  .dashboard-main-container .aether-card .aether-card__header,
+  .dashboard-main-container .aether-card .aether-card__title,
+  .dashboard-main-container .aether-card .aether-card__body,
+  .dashboard-main-container .aether-card .aether-card__footer {
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* ASEGURAR QUE EL CONTENIDO PRINCIPAL NO SE COMPRIMA */
+  .dashboard-main-container main {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 20px !important;
+    margin: 0 !important;
+  }
+  
+  /* AJUSTAR POSICIÓN DE LAS CARDS - MÁS AFUERA Y MÁS ARRIBA */
+  .dashboard-main-container .cards {
+    right: -260px !important; /* Un poquitito a la izquierda: de -280px a -260px */
+    bottom: 900px !important; /* Más arriba: de 750px a 900px */
+  }
+  
+  /* MODAL SIMPLE - CENTRADO PERFECTO */
+  #simple-modal-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(0, 0, 0, 0.85) !important;
+    backdrop-filter: blur(15px) !important;
+    z-index: 999999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: column !important;
+  }
+  
+  /* CONTENEDOR DE CARD CON EFECTO FLOTANTE MÁS GRANDE */
+  #simple-modal-overlay .custom-cards-container {
+    position: relative !important;
+    margin: 0 auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    transform: translateX(0) scale(1.15) !important; /* Aumentar tamaño 15% */
+    display: block !important;
+    animation: gentleFloat 4s ease-in-out infinite !important;
+    filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.4)) !important;
+    margin-bottom: 80px !important;
+    width: 320px !important;
+  }
+  
+  #simple-modal-overlay .cards-wrapper {
+    position: relative !important;
+    margin: 0 auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    transform: translateX(0) !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+  
+  /* TEXTO INSTRUCTIVO MÁS GRANDE, CENTRADO Y ELEGANTE */
+  #simple-modal-overlay::after {
+    content: "Tap to use your card" !important;
+    position: absolute !important;
+    bottom: 120px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    font-size: 22px !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 400 !important;
+    letter-spacing: 1.2px !important;
+    text-align: center !important;
+    width: 100% !important;
+    opacity: 0.95 !important;
+    animation: fadeInOut 3s ease-in-out infinite !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  }
+  
+  /* FLECHA MÁS GRANDE, CENTRADA Y CON MEJOR ANIMACIÓN */
+  #simple-modal-overlay::before {
+    content: "" !important;
+    position: absolute !important;
+    bottom: 165px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 0 !important;
+    height: 0 !important;
+    border-left: 14px solid transparent !important;
+    border-right: 14px solid transparent !important;
+    border-bottom: 16px solid rgba(255, 255, 255, 0.8) !important;
+    animation: arrowPulse 2.5s ease-in-out infinite !important;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2)) !important;
+  }
+  
+  /* FORZAR CENTRADO PERFECTO EN TODAS LAS CARDS */
+  #simple-modal-overlay .custom-card {
+    position: relative !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    transform: translateX(0) !important;
+    display: block !important;
+  }
+  
+  /* ANIMACIONES SUAVES Y NATURALES MEJORADAS */
+  @keyframes gentleFloat {
+    0%, 100% { 
+      transform: translateX(0) translateY(0px) scale(1.15) rotate(0deg); 
+    }
+    33% { 
+      transform: translateX(1px) translateY(-8px) scale(1.16) rotate(0.5deg); 
+    }
+    66% { 
+      transform: translateX(-1px) translateY(-15px) scale(1.17) rotate(-0.5deg); 
+    }
+  }
+  
+  @keyframes fadeInOut {
+    0%, 100% { 
+      opacity: 0.7; 
+      transform: translateX(-50%) scale(1);
+    }
+    50% { 
+      opacity: 1; 
+      transform: translateX(-50%) scale(1.05);
+    }
+  }
+  
+  @keyframes arrowPulse {
+    0%, 100% { 
+      opacity: 0.6;
+      transform: translateX(-50%) translateY(0px) scale(1); 
+    }
+    50% { 
+      opacity: 1;
+      transform: translateX(-50%) translateY(-6px) scale(1.15); 
+    }
+  }
+  
+  /* BOTTOM NAV */
+  .dashboard-main-container .bottom-nav {
+    z-index: 99999 !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    display: flex !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+    justify-content: center !important;
+    align-items: flex-end !important;
+    margin: 0 !important;
+    padding: 0 0 24px 0 !important;
+  }
+  
+  .dashboard-main-container .bottom-nav-container {
+    margin: 0 auto !important;
+    transform: none !important;
+  }
+}
