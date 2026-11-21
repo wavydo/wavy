@@ -287,7 +287,9 @@ export default function WavyLearnMore() {
           .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child { 
             flex: 1 !important;
             min-width: 0 !important;
-            display: block !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
           }
           .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child > div:first-child { 
             font-size: 13.5px !important;
@@ -296,12 +298,14 @@ export default function WavyLearnMore() {
             font-weight: 500 !important;
             line-height: 1.2 !important;
             word-wrap: break-word !important;
+            white-space: normal !important;
           }
           .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child > div:last-child { 
             font-size: 11px !important;
             margin: 0 !important;
             line-height: 1.3 !important;
             word-wrap: break-word !important;
+            white-space: normal !important;
           }
           /* Toggle switch - MUST have fixed width */
           .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:last-child { 
