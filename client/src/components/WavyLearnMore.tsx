@@ -470,8 +470,8 @@ export default function WavyLearnMore() {
           <div className="lml-bar">
             <span>© 2024 Wavy. All rights reserved.</span>
             <nav aria-label="Legal">
-              <a href="/privacy">Privacy</a>
-              <a href="/terms">Terms</a>
+              <a href="/privacy" onClick={(e) => onLink(e, "/privacy")}>Privacy</a>
+              <a href="/terms" onClick={(e) => onLink(e, "/terms")}>Terms</a>
               <a href="/cookies">Cookies</a>
             </nav>
           </div>
