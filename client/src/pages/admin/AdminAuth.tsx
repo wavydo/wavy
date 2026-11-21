@@ -14,6 +14,8 @@ export default function AdminAuth() {
     setLoading(true);
 
     try {
+      console.log('🔐 Attempting login with:', email);
+      
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -25,15 +27,22 @@ export default function AdminAuth() {
         })
       });
 
+      console.log('📡 Login response status:', response.status);
+      
       const data = await response.json();
+      console.log('📥 Login response data:', data);
 
       if (response.ok) {
-        // Redirect to admin panel (dev mode - no verification)
-        setLocation('/admin');
+        console.log('✅ Login successful, redirecting to /admin');
+        // Add small delay to ensure session is set
+        await new Promise(resolve => setTimeout(resolve, 100));
+        window.location.href = '/admin'; // Force full page reload to ensure session is loaded
       } else {
+        console.error('❌ Login failed:', data.error);
         setError(data.error || 'Login failed');
       }
     } catch (error) {
+      console.error('🚨 Login error:', error);
       setError('Network error. Please try again.');
     } finally {
       setLoading(false);
