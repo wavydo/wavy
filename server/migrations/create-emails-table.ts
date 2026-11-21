@@ -1,4 +1,4 @@
-import { db } from '../db.js';
+import { db } from '../storage.js';
 import { sql } from 'drizzle-orm';
 
 export async function createEmailsTable() {

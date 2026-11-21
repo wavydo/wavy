@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { db } from './db.js';
+import { db } from './storage.js';
 import { emails } from '../shared/schema.js';
 import { eq, desc } from 'drizzle-orm';
 import { Resend } from 'resend';
