@@ -14,6 +14,7 @@ export default function WavyLearnMore() {
   const rootRef = useRef<HTMLDivElement>(null);
   const [, setLocation] = useLocation();
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [joinState, setJoinState] = useState<'idle' | 'sending' | 'error' | 'done'>('idle');
   const [joinNote, setJoinNote] = useState('');
@@ -107,6 +108,10 @@ export default function WavyLearnMore() {
         .lml-btn { background: #16141f; color: white; padding: 10px 24px; border-radius: 100px; font-size: 14px; font-weight: 600; text-decoration: none; transition: transform 0.2s; border: none; cursor: pointer; display: inline-block; }
         .lml-btn:hover { transform: translateY(-1px); }
         .lml-menu { display: none; }
+        .lml-menu span { display: block; width: 16px; height: 2px; background: #16141f; border-radius: 2px; transition: all 0.3s; }
+        .lml-menu span:first-child { margin-bottom: 4px; }
+        .lml-menu.active span:first-child { transform: rotate(45deg) translateY(6px); }
+        .lml-menu.active span:last-child { transform: rotate(-45deg) translateY(-6px); }
         
         
         /* Footer styles */
@@ -140,8 +145,131 @@ export default function WavyLearnMore() {
         }
       `}</style>
 
+      {/* GLOBAL FIX for Privacy Settings text stacking - ALWAYS APPLIED */}
+      <style>{`
+        /* REMOVE ALL INTERFERING CSS - Let inline styles work */
+      `}</style>
+
       {/* Mobile-specific responsive styles */}
       <style>{`
+        @media (max-width: 860px) {
+          .bento-section > div { grid-template-columns: 1fr !important; }
+          .bento-card { grid-column: span 1 !important; }
+          #use-cases > div > div:last-child { grid-template-columns: 1fr !important; }
+          .bento-section { padding: clamp(3rem,8vw,5rem) clamp(16px,4vw,24px) !important; }
+          #use-cases { padding: clamp(5rem,10vw,8rem) clamp(16px,4vw,24px) clamp(3rem,6vw,5rem) !important; }
+          .bento-card, .use-case-card { padding: clamp(1.8rem,4vw,2.5rem) clamp(1.5rem,4vw,2rem) !important; }
+          
+          /* Rewards card fixes */
+          .bento-card:nth-child(2) > div:nth-child(3) > div { 
+            min-height: 240px !important;
+            position: relative !important;
+          }
+          .bento-card:nth-child(2) > div:nth-child(3) > div > img { 
+            display: block !important;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            position: absolute !important;
+            inset: 0 !important;
+            z-index: 0 !important;
+          }
+          .bento-card:nth-child(2) > div:nth-child(3) > div > div:nth-child(2) { 
+            display: none !important;
+          }
+          .bento-card:nth-child(2) > div:nth-child(3) > div > div:last-child { 
+            display: block !important;
+            position: absolute !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            padding: 1.2rem !important;
+            z-index: 10 !important;
+            color: white !important;
+          }
+          
+          /* Notification cards - just smaller sizing */
+          .bento-card:nth-child(3) > div:nth-child(3) { margin: 2rem 0 1.5rem !important; }
+          .bento-card:nth-child(3) > div:nth-child(3) > div {
+            padding: 14px 16px !important;
+            margin-bottom: 10px !important;
+          }
+          
+          /* Privacy Settings - HIDE on mobile (too problematic) */
+          .bento-card:nth-child(4) { 
+            display: none !important;
+          }
+          
+          /* Use cases - HORIZONTAL SCROLL carousel on mobile */
+          #use-cases {
+            padding: clamp(3rem,6vw,5rem) 0 !important;
+            overflow: hidden !important;
+          }
+          #use-cases > div {
+            max-width: 100vw !important;
+            overflow: hidden !important;
+          }
+          #use-cases > div > div:first-child { 
+            margin-bottom: clamp(2rem,4vw,3rem) !important;
+            padding: 0 clamp(16px,4vw,24px) !important;
+            text-align: left !important;
+          }
+          #use-cases > div > div:first-child h2 { 
+            font-size: clamp(24px,6vw,32px) !important;
+            margin-bottom: 1rem !important;
+          }
+          #use-cases > div > div:first-child p { 
+            font-size: clamp(14px,3.5vw,16px) !important;
+          }
+          /* Horizontal scroll ONLY for cards container */
+          #use-cases > div > div:last-child {
+            display: flex !important;
+            overflow-x: scroll !important;
+            overflow-y: hidden !important;
+            gap: 16px !important;
+            padding: 0 clamp(16px,4vw,24px) 20px clamp(16px,4vw,24px) !important;
+            scroll-snap-type: x mandatory !important;
+            -webkit-overflow-scrolling: touch !important;
+            scroll-behavior: smooth !important;
+          }
+          /* Hide scrollbar but keep functionality */
+          #use-cases > div > div:last-child::-webkit-scrollbar {
+            display: none !important;
+          }
+          #use-cases > div > div:last-child {
+            -ms-overflow-style: none !important;
+            scrollbar-width: none !important;
+          }
+          /* Each card takes ~70% of viewport width so you see next card */
+          .use-case-card {
+            min-width: calc(100vw - 80px) !important;
+            max-width: calc(100vw - 80px) !important;
+            flex-shrink: 0 !important;
+            padding: 1.5rem 1.2rem !important;
+            scroll-snap-align: start !important;
+          }
+          .use-case-card > div:first-child { 
+            width: 44px !important;
+            height: 44px !important;
+            margin-bottom: 1rem !important;
+          }
+          .use-case-card > div:first-child svg { 
+            width: 22px !important;
+            height: 22px !important;
+          }
+          .use-case-card h3 { 
+            font-size: clamp(17px,4.2vw,20px) !important;
+            margin-bottom: 0.75rem !important;
+          }
+          .use-case-card p { 
+            font-size: clamp(13px,3.5vw,15px) !important;
+            line-height: 1.6 !important;
+          }
+          
+          /* Use cases */
+          #use-cases > div > div:first-child { margin-bottom: clamp(3rem,8vw,6rem) !important; }
+          .use-case-card { padding: 1.8rem 1.4rem !important; }
+        }
         @media (max-width: 860px) {
           .bento-section > div { grid-template-columns: 1fr !important; }
           .bento-card { grid-column: span 1 !important; }
@@ -219,106 +347,8 @@ export default function WavyLearnMore() {
           .bento-card:nth-child(3) > div:nth-child(3) > div > div:nth-child(2) > div:first-child { font-size: 13.5px !important; margin-bottom: 4px !important; }
           .bento-card:nth-child(3) > div:nth-child(3) > div > div:nth-child(2) > div:last-child { font-size: 12px !important; }
           .bento-card:nth-child(3) > div:nth-child(3) > div > svg { width: 18px !important; height: 18px !important; flex-shrink: 0 !important; }
-          /* ============================================
-             PRIVACY SETTINGS CARD - Fix text overlap
-             ============================================ */
-          .bento-card:nth-child(4) > div:nth-child(3) { 
-            display: flex !important; 
-            justify-content: center !important; 
-            align-items: center !important; 
-          }
-          .bento-card:nth-child(4) > div:nth-child(3) > div { 
-            padding: 1.8rem 1.4rem !important;
-            max-width: 100% !important;
-            width: 100% !important;
-            display: flex !important;
-            flex-direction: column !important;
-          }
-          /* Header with icon and title - FORCE horizontal layout */
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child {
-            margin-bottom: 1.4rem !important;
-            gap: 12px !important;
-            display: flex !important;
-            flex-direction: row !important;
-            align-items: center !important;
-            justify-content: flex-start !important;
-          }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:first-child { 
-            width: 42px !important;
-            height: 42px !important;
-            border-radius: 11px !important;
-            flex-shrink: 0 !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-          }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:first-child svg { 
-            width: 21px !important; 
-            height: 21px !important; 
-          }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:last-child { 
-            flex: 1 !important; 
-            min-width: 0 !important;
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: flex-start !important;
-          }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:last-child h3 { 
-            font-size: 15.5px !important; 
-            margin: 0 !important;
-            margin-bottom: 3px !important;
-            line-height: 1.2 !important;
-          }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:last-child p { 
-            font-size: 11px !important;
-            margin: 0 !important;
-            line-height: 1.3 !important;
-          }
-          /* Settings rows - each setting item */
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) {
-            padding: 14px 0 !important;
-            display: flex !important;
-            flex-direction: row !important;
-            align-items: center !important;
-            justify-content: space-between !important;
-            gap: 16px !important;
-          }
-          /* Text container - MUST have flex: 1 to take available space */
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child { 
-            flex: 1 !important;
-            min-width: 0 !important;
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: center !important;
-          }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child > div:first-child { 
-            font-size: 13.5px !important;
-            margin: 0 !important;
-            margin-bottom: 4px !important;
-            font-weight: 500 !important;
-            line-height: 1.2 !important;
-            word-wrap: break-word !important;
-            white-space: normal !important;
-          }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child > div:last-child { 
-            font-size: 11px !important;
-            margin: 0 !important;
-            line-height: 1.3 !important;
-            word-wrap: break-word !important;
-            white-space: normal !important;
-          }
-          /* Toggle switch - MUST have fixed width */
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:last-child { 
-            width: 50px !important;
-            height: 28px !important;
-            flex-shrink: 0 !important;
-            border-radius: 100px !important;
-          }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:last-child > div { 
-            width: 22px !important;
-            height: 22px !important;
-            top: 3px !important;
-          }
+          
+          /* Use cases - just smaller text */
           #use-cases > div > div:first-child { margin-bottom: clamp(3rem,8vw,6rem) !important; padding: 0 8px !important; }
           #use-cases > div > div:first-child h2 { font-size: clamp(32px,9vw,44px) !important; margin-bottom: 1.5rem !important; word-wrap: break-word !important; hyphens: auto !important; }
           #use-cases > div > div:first-child p { font-size: clamp(16px,4.5vw,19px) !important; padding: 0 4px !important; }
@@ -354,12 +384,34 @@ export default function WavyLearnMore() {
             </nav>
             <div className="lml-navend">
               <a href="/auth" className="lml-btn" onClick={(e) => onLink(e, "/auth")}>Get Started</a>
-              <button type="button" className="lml-menu" aria-label="Menu">
+              <button type="button" className={`lml-menu ${menuOpen ? 'active' : ''}`} aria-label="Menu" onClick={() => setMenuOpen(!menuOpen)}>
                 <span />
                 <span />
               </button>
             </div>
           </div>
+          
+          {/* Mobile menu */}
+          {menuOpen && (
+            <div style={{ 
+              position: 'absolute', 
+              top: '100%', 
+              left: 0, 
+              right: 0, 
+              background: 'white', 
+              padding: '1rem',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+              borderRadius: '0 0 12px 12px'
+            }}>
+              <a href="#features" className="lml-link" onClick={(e) => {
+                e.preventDefault();
+                setMenuOpen(false);
+                document.getElementById('features')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }} style={{ display: 'block', padding: '12px' }}>Features</a>
+              <a href="/about" className="lml-link" onClick={(e) => { onLink(e, "/about"); setMenuOpen(false); }} style={{ display: 'block', padding: '12px' }}>About us</a>
+              <a href="/contact" className="lml-link" onClick={(e) => { onLink(e, "/contact"); setMenuOpen(false); }} style={{ display: 'block', padding: '12px' }}>Contact</a>
+            </div>
+          )}
         </div>
       </header>
 
@@ -561,12 +613,12 @@ export default function WavyLearnMore() {
                   { label: 'Analytics', sub: 'Help improve Wavy', active: false }
                 ].map((setting, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 0', borderBottom: i < 2 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
-                    <div>
-                      <div style={{ fontSize: 16, fontWeight: 500, marginBottom: 5 }}>{setting.label}</div>
-                      <div style={{ fontSize: 13, color: 'rgba(22,20,31,0.5)' }}>{setting.sub}</div>
+                    <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+                      <div style={{ fontSize: 14, fontWeight: 500, marginBottom: 5 }}>{setting.label}</div>
+                      <div style={{ fontSize: 12, color: 'rgba(22,20,31,0.5)' }}>{setting.sub}</div>
                     </div>
-                    <div style={{ width: 56, height: 32, background: setting.active ? '#5e79db' : '#e5e7eb', borderRadius: 100, position: 'relative', cursor: 'pointer', transition: 'background 0.3s' }}>
-                      <div style={{ position: 'absolute', top: 4, left: setting.active ? 28 : 4, width: 24, height: 24, background: 'white', borderRadius: '50%', transition: 'left 0.3s' }} />
+                    <div style={{ width: 50, height: 28, background: setting.active ? '#5e79db' : '#e5e7eb', borderRadius: 100, position: 'relative', cursor: 'pointer', transition: 'background 0.3s', flexShrink: 0 }}>
+                      <div style={{ position: 'absolute', top: 3, left: setting.active ? 25 : 3, width: 22, height: 22, background: 'white', borderRadius: '50%', transition: 'left 0.3s' }} />
                     </div>
                   </div>
                 ))}
@@ -665,7 +717,7 @@ export default function WavyLearnMore() {
           </div>
           <div className="lml-word" aria-hidden="true">wavy</div>
           <div className="lml-bar">
-            <span>© 2024 Wavy. All rights reserved.</span>
+            <span>© 2027 Wavy. All rights reserved.</span>
             <nav aria-label="Legal">
               <a href="/privacy" onClick={(e) => onLink(e, "/privacy")}>Privacy</a>
               <a href="/terms" onClick={(e) => onLink(e, "/terms")}>Terms</a>

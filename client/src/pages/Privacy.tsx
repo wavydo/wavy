@@ -321,7 +321,7 @@ export default function Privacy() {
           </div>
           <div style={{ position: 'relative', marginTop: 'clamp(36px,5vw,56px)', fontSize: 'clamp(72px,17vw,232px)', fontWeight: 500, lineHeight: 0.82, letterSpacing: '-0.06em', textAlign: 'center', color: 'transparent', background: 'linear-gradient(180deg,rgba(0,0,0,0.02) 0%,transparent 92%)', WebkitBackgroundClip: 'text', backgroundClip: 'text', userSelect: 'none', whiteSpace: 'nowrap' }}>wavy</div>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 12, paddingTop: 18, borderTop: '1px solid rgba(0,0,0,0.08)', fontSize: 12, color: 'rgba(22,20,31,0.5)' }}>
-            <span>© 2024 Wavy. All rights reserved.</span>
+            <span>© 2027 Wavy. All rights reserved.</span>
             <nav style={{ display: 'flex', gap: 18 }}>
               <a href="/privacy" onClick={(e) => onLink(e, "/privacy")} style={{ color: 'rgba(22,20,31,0.5)', textDecoration: 'none' }}>Privacy</a>
               <a href="/terms" onClick={(e) => onLink(e, "/terms")} style={{ color: 'rgba(22,20,31,0.5)', textDecoration: 'none' }}>Terms</a>

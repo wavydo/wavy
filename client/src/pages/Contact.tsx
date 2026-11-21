@@ -70,8 +70,49 @@ export default function Contact() {
           .contact-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 860px) {
-          .contact-grid { grid-template-columns: 1fr; }
           .contact-links { display: none; }
+          /* Mosaic layout for mobile */
+          .contact-cards {
+            display: grid !important;
+            grid-template-columns: repeat(12, 1fr) !important;
+            gap: 10px !important;
+          }
+          .contact-card:nth-child(1) {
+            grid-column: span 7 !important;
+          }
+          .contact-card:nth-child(2) {
+            grid-column: span 5 !important;
+          }
+          .contact-card:nth-child(3) {
+            grid-column: span 5 !important;
+          }
+          .contact-card:nth-child(4) {
+            grid-column: span 7 !important;
+          }
+          .contact-card {
+            padding: 1.25rem !important;
+          }
+          .contact-card > div:first-child {
+            width: 44px !important;
+            height: 44px !important;
+            margin-bottom: 0.75rem !important;
+            border-radius: 12px !important;
+          }
+          .contact-card > div:first-child svg {
+            width: 22px !important;
+            height: 22px !important;
+          }
+          .contact-card h3 {
+            font-size: 16px !important;
+            margin-bottom: 0.4rem !important;
+          }
+          .contact-card p {
+            font-size: 12px !important;
+            margin-bottom: 0.6rem !important;
+          }
+          .contact-card p:last-child {
+            font-size: 13px !important;
+          }
         }
       `}</style>
 
@@ -105,7 +146,7 @@ export default function Contact() {
       </section>
 
       {/* Contact Methods */}
-      <section style={{ padding: 'clamp(3rem,5vw,5rem) clamp(20px,4vw,60px)' }}>
+      <section style={{ padding: 'clamp(3rem,5vw,5rem) clamp(20px,4vw,60px)', marginBottom: 'clamp(3rem,5vw,5rem)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div className="contact-cards contact-grid">
             {[
@@ -221,7 +262,7 @@ export default function Contact() {
           </div>
           <div style={{ position: 'relative', marginTop: 'clamp(36px,5vw,56px)', fontSize: 'clamp(72px,17vw,232px)', fontWeight: 500, lineHeight: 0.82, letterSpacing: '-0.06em', textAlign: 'center', color: 'transparent', background: 'linear-gradient(180deg,rgba(0,0,0,0.02) 0%,transparent 92%)', WebkitBackgroundClip: 'text', backgroundClip: 'text', userSelect: 'none', whiteSpace: 'nowrap' }}>wavy</div>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 12, paddingTop: 18, borderTop: '1px solid rgba(0,0,0,0.08)', fontSize: 12, color: 'rgba(22,20,31,0.5)' }}>
-            <span>© 2024 Wavy. All rights reserved.</span>
+            <span>© 2027 Wavy. All rights reserved.</span>
             <nav style={{ display: 'flex', gap: 18 }}>
               <a href="/privacy" style={{ color: 'rgba(22,20,31,0.5)', textDecoration: 'none' }}>Privacy</a>
               <a href="/terms" style={{ color: 'rgba(22,20,31,0.5)', textDecoration: 'none' }}>Terms</a>

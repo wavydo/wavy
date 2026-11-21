@@ -126,13 +126,13 @@ export default function About() {
               </h2>
               <div style={{ display: 'grid', gap: 20 }}>
                 <p style={{ fontSize: 'clamp(16px,2vw,18px)', color: 'rgba(22,20,31,0.7)', lineHeight: 1.7 }}>
-                  Wavy started because we were frustrated. You're walking down the street, and the perfect coffee shop with a 20% off special is right there—but you have no idea. Meanwhile, you're scrolling through apps trying to find something to do.
+                  We built Wavy because we kept missing things. Good coffee shops. Happy hour deals. Events happening a block away. Not because we weren't looking—because nobody tells you what's around you unless you already know to look for it.
                 </p>
                 <p style={{ fontSize: 'clamp(16px,2vw,18px)', color: 'rgba(22,20,31,0.7)', lineHeight: 1.7 }}>
-                  So we built something simple: your phone tells you when you're near something good. A restaurant offering happy hour. A store with a sale. An event starting in an hour. You don't search—it just finds you.
+                  So we made something that does. Walk past a place with an offer, your phone buzzes. A sale at the store you like? You'll know. An event starting nearby? Same thing. It's not magic—it's just your phone paying attention so you don't have to.
                 </p>
                 <p style={{ fontSize: 'clamp(16px,2vw,18px)', color: 'rgba(22,20,31,0.7)', lineHeight: 1.7 }}>
-                  And because we're not trying to be creepy about it, your location data stays on your phone. We show you what's nearby, you decide what to do, and that's it.
+                  We don't track where you go or sell your data. That's weird. Your location stays on your device. We just show you what's nearby when you're there. You pick what matters, we stay out of the way.
                 </p>
               </div>
             </div>
@@ -417,7 +417,7 @@ export default function About() {
           </div>
           <div style={{ position: 'relative', marginTop: 'clamp(36px,5vw,56px)', fontSize: 'clamp(72px,17vw,232px)', fontWeight: 500, lineHeight: 0.82, letterSpacing: '-0.06em', textAlign: 'center', color: 'transparent', background: 'linear-gradient(180deg,rgba(0,0,0,0.02) 0%,transparent 92%)', WebkitBackgroundClip: 'text', backgroundClip: 'text', userSelect: 'none', whiteSpace: 'nowrap' }}>wavy</div>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 12, paddingTop: 18, borderTop: '1px solid rgba(0,0,0,0.08)', fontSize: 12, color: 'rgba(22,20,31,0.5)' }}>
-            <span>© 2024 Wavy. All rights reserved.</span>
+            <span>© 2027 Wavy. All rights reserved.</span>
             <nav style={{ display: 'flex', gap: 18 }}>
               <a href="/privacy" style={{ color: 'rgba(22,20,31,0.5)', textDecoration: 'none' }}>Privacy</a>
               <a href="/terms" style={{ color: 'rgba(22,20,31,0.5)', textDecoration: 'none' }}>Terms</a>

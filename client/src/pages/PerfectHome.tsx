@@ -157,7 +157,7 @@ export default function PerfectHome() {
         { label: 'Privacy', href: '/privacy' },
         { label: 'Terms', href: '/terms' }
       ]}
-      copyright="© 2024 Wavy. All rights reserved."
+      copyright="© 2027 Wavy. All rights reserved."
       palette="pastelblue"
       theme="light"
       animateIn={true}

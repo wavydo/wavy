@@ -836,8 +836,10 @@ export default function WavyHome() {
           </div>
         </div>
 
+        <div style={{ position: 'relative', marginTop: 'clamp(36px,5vw,56px)', fontSize: 'clamp(72px,17vw,232px)', fontWeight: 500, lineHeight: 0.82, letterSpacing: '-0.06em', textAlign: 'center', color: 'transparent', background: 'linear-gradient(180deg,rgba(0,0,0,0.02) 0%,transparent 92%)', WebkitBackgroundClip: 'text', backgroundClip: 'text', userSelect: 'none', whiteSpace: 'nowrap' }}>wavy</div>
+
         <div className="wavy-footer-bottom">
-          <span>© 2024 wavy</span>
+          <span>© 2027 wavy</span>
           <div style={{ display: 'flex', gap: '24px' }}>
             <a href="#" className="wavy-footer-link">privacidad</a>
             <a href="/terms" className="wavy-footer-link">términos</a>

@@ -237,6 +237,110 @@ export default function HelpCenter() {
         .help-btn:hover { transform: translateY(-1px); }
         @media (max-width: 860px) {
           .help-links { display: none; }
+          .categories-section > div > div { 
+            display: grid !important; 
+            grid-template-columns: repeat(12, 1fr) !important; 
+            gap: 12px !important; 
+          }
+          .category-card:nth-child(1) { 
+            grid-column: span 7 !important; 
+            grid-row: span 1 !important; 
+          }
+          .category-card:nth-child(2) { 
+            grid-column: span 5 !important; 
+            grid-row: span 1 !important; 
+          }
+          .category-card:nth-child(3) { 
+            grid-column: span 12 !important; 
+            grid-row: span 1 !important; 
+          }
+          .faqs-section > div > div:last-child { 
+            display: grid !important; 
+            grid-template-columns: repeat(12, 1fr) !important; 
+            gap: 10px !important; 
+          }
+          .faq-card:nth-child(1) { 
+            grid-column: span 7 !important; 
+          }
+          .faq-card:nth-child(2) { 
+            grid-column: span 5 !important; 
+          }
+          .faq-card:nth-child(3) { 
+            grid-column: span 5 !important; 
+          }
+          .faq-card:nth-child(4) { 
+            grid-column: span 7 !important; 
+          }
+          .faq-card:nth-child(5) { 
+            grid-column: span 12 !important; 
+          }
+          .faq-card:nth-child(6) { 
+            grid-column: span 6 !important; 
+          }
+          .faq-card:nth-child(7) { 
+            grid-column: span 6 !important; 
+          }
+          .faq-card:nth-child(8) { 
+            grid-column: span 7 !important; 
+          }
+          .faq-card:nth-child(9) { 
+            grid-column: span 5 !important; 
+          }
+          .faq-card:nth-child(10) { 
+            grid-column: span 5 !important; 
+          }
+          .faq-card:nth-child(11) { 
+            grid-column: span 7 !important; 
+          }
+          .faq-card:nth-child(12) { 
+            grid-column: span 12 !important; 
+          }
+          .faq-card:nth-child(13) { 
+            grid-column: span 7 !important; 
+          }
+          .faq-card:nth-child(14) { 
+            grid-column: span 5 !important; 
+          }
+          .faq-card:nth-child(15) { 
+            grid-column: span 6 !important; 
+          }
+          .faq-card:nth-child(16) { 
+            grid-column: span 6 !important; 
+          }
+          .faq-card:nth-child(17) { 
+            grid-column: span 5 !important; 
+          }
+          .faq-card:nth-child(18) { 
+            grid-column: span 7 !important; 
+          }
+          .faq-card:nth-child(19) { 
+            grid-column: span 12 !important; 
+          }
+          .faq-card:nth-child(20) { 
+            grid-column: span 7 !important; 
+          }
+          .faq-card:nth-child(n+21) { 
+            grid-column: span 12 !important; 
+          }
+          .faqs-section { 
+            margin-bottom: clamp(4rem,8vw,8rem) !important; 
+          }
+          footer > div > div:first-child {
+            grid-template-columns: 1fr !important;
+          }
+          footer ul {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 12px !important;
+          }
+          footer > div > div:last-child {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+          }
+          footer > div > div:last-child nav {
+            display: flex !important;
+            flex-wrap: wrap !important;
+          }
         }
       `}</style>
 
@@ -330,7 +434,7 @@ export default function HelpCenter() {
                   background: '#fafafa',
                   border: '1px solid rgba(0,0,0,0.06)',
                   borderRadius: 20,
-                  padding: 'clamp(2rem,3vw,2.5rem)',
+                  padding: 'clamp(1.5rem,2.5vw,2rem)',
                   textDecoration: 'none',
                   color: 'inherit',
                   transition: 'all 0.3s ease'
@@ -346,10 +450,10 @@ export default function HelpCenter() {
                   e.currentTarget.style.boxShadow = 'none';
                 }}
               >
-                <h3 style={{ fontSize: 22, fontWeight: 500, marginBottom: '0.5rem', letterSpacing: '-0.01em' }}>
+                <h3 style={{ fontSize: 17, fontWeight: 500, marginBottom: '0.4rem', letterSpacing: '-0.01em' }}>
                   {cat.title}
                 </h3>
-                <p style={{ fontSize: 15, color: 'rgba(22,20,31,0.65)', lineHeight: 1.6 }}>
+                <p style={{ fontSize: 12, color: 'rgba(22,20,31,0.65)', lineHeight: 1.5 }}>
                   {cat.description}
                 </p>
               </a>
@@ -389,7 +493,7 @@ export default function HelpCenter() {
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   style={{
                     width: '100%',
-                    padding: '1.25rem',
+                    padding: '0.85rem',
                     border: 'none',
                     background: 'transparent',
                     display: 'flex',
@@ -397,19 +501,19 @@ export default function HelpCenter() {
                     alignItems: 'flex-start',
                     cursor: 'pointer',
                     textAlign: 'left',
-                    gap: 12
+                    gap: 8
                   }}
                 >
-                  <span style={{ fontSize: 16, fontWeight: 500, color: '#16141f', lineHeight: 1.4 }}>
+                  <span style={{ fontSize: 11.5, fontWeight: 500, color: '#16141f', lineHeight: 1.35 }}>
                     {faq.q}
                   </span>
                   <ChevronDown
-                    size={18}
+                    size={14}
                     style={{
                       transition: 'transform 0.3s ease',
                       transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0)',
                       flexShrink: 0,
-                      marginTop: 2
+                      marginTop: 1
                     }}
                   />
                 </button>
@@ -418,10 +522,10 @@ export default function HelpCenter() {
                     maxHeight: openFaq === i ? '500px' : '0',
                     overflow: 'hidden',
                     transition: 'max-height 0.4s ease, padding 0.4s ease',
-                    padding: openFaq === i ? '0 1.25rem 1.25rem' : '0 1.25rem',
-                    fontSize: 14.5,
+                    padding: openFaq === i ? '0 0.85rem 0.85rem' : '0 0.85rem',
+                    fontSize: 10.5,
                     color: 'rgba(22,20,31,0.7)',
-                    lineHeight: 1.65
+                    lineHeight: 1.55
                   }}
                 >
                   {faq.a}
@@ -518,7 +622,7 @@ export default function HelpCenter() {
           </div>
           <div style={{ position: 'relative', marginTop: 'clamp(36px,5vw,56px)', fontSize: 'clamp(72px,17vw,232px)', fontWeight: 500, lineHeight: 0.82, letterSpacing: '-0.06em', textAlign: 'center', color: 'transparent', background: 'linear-gradient(180deg,rgba(0,0,0,0.02) 0%,transparent 92%)', WebkitBackgroundClip: 'text', backgroundClip: 'text', userSelect: 'none', whiteSpace: 'nowrap' }}>wavy</div>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 12, paddingTop: 18, borderTop: '1px solid rgba(0,0,0,0.08)', fontSize: 12, color: 'rgba(22,20,31,0.5)' }}>
-            <span>© 2024 Wavy. All rights reserved.</span>
+            <span>© 2027 Wavy. All rights reserved.</span>
             <nav style={{ display: 'flex', gap: 18 }}>
               <a href="/privacy" style={{ color: 'rgba(22,20,31,0.5)', textDecoration: 'none' }}>Privacy</a>
               <a href="/terms" style={{ color: 'rgba(22,20,31,0.5)', textDecoration: 'none' }}>Terms</a>

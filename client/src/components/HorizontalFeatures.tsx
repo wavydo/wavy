@@ -41,8 +41,8 @@ const FEATURES: Feature[] = [
   },
   {
     number: '03',
-    title: 'Support Local',
-    description: 'Every reward you earn supports the businesses you love. From neighborhood cafes to your favorite chains, Wavy helps you discover great places and build connections in your community.',
+    title: 'Location-Aware',
+    description: 'Wavy knows where you are and shows you what\'s nearby. Walk into a place, and your phone lights up with what\'s available. No searching, no guessing—just instant access to offers around you.',
     icon: (
       <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"></path>
@@ -54,7 +54,7 @@ const FEATURES: Feature[] = [
   {
     number: '04',
     title: 'Everything in One Place',
-    description: 'Your rewards, offers, and favorite places all in one simple app. Check your balance, browse nearby deals, track your visits, and redeem perks instantly.',
+    description: 'Your rewards, offers, and favorite places all in one simple app. Check your balance, browse nearby deals, track your visits, and redeem instantly.',
     icon: (
       <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
