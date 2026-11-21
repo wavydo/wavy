@@ -223,7 +223,7 @@ export default function Auth() {
           .auth-left {
             order: 1;
             min-height: auto !important;
-            padding: 2.5rem 2rem 0 2rem !important;
+            padding: 2rem 1.5rem 0 1.5rem !important;
             justify-content: flex-start !important;
             text-align: center !important;
             display: flex !important;
@@ -238,10 +238,10 @@ export default function Auth() {
             text-align: center !important;
           }
           .auth-left .auth-logo img {
-            margin-bottom: -2.5rem !important;
+            margin-bottom: -2rem !important;
             margin-left: auto !important;
             margin-right: auto !important;
-            max-width: 180px !important;
+            max-width: 140px !important;
             position: relative !important;
             z-index: 2 !important;
             display: block !important;
@@ -251,25 +251,59 @@ export default function Auth() {
             position: relative !important;
             z-index: 1 !important;
             padding-top: 0 !important;
-            margin-top: -1.5rem !important;
-            margin-bottom: 0.25rem !important;
+            margin-top: -1rem !important;
+            margin-bottom: 0.15rem !important;
             margin-left: 0 !important;
-            font-size: 32px !important;
+            font-size: 24px !important;
             text-align: center !important;
           }
           .auth-left .auth-logo p {
             position: relative !important;
             z-index: 1 !important;
-            font-size: 14px !important;
+            font-size: 12px !important;
             max-width: 100% !important;
-            margin-bottom: 1.5rem !important;
+            margin-bottom: 1.25rem !important;
             margin-left: 0 !important;
             text-align: center !important;
           }
           .auth-right {
             order: 2;
             min-height: auto !important;
-            padding: 2rem 2rem 4rem 2rem !important;
+            padding: 1.5rem 1.5rem 3rem 1.5rem !important;
+          }
+          .auth-form {
+            max-width: 100% !important;
+          }
+          .auth-form h2 {
+            font-size: 22px !important;
+          }
+          .auth-form > div:first-child p {
+            font-size: 13px !important;
+          }
+          .auth-input {
+            padding: 12px 14px !important;
+            font-size: 14px !important;
+          }
+          .auth-btn {
+            padding: 12px 18px !important;
+            font-size: 14px !important;
+          }
+          .auth-btn-social {
+            padding: 10px 14px !important;
+          }
+          label {
+            font-size: 13px !important;
+          }
+          /* Forgot password modal mobile */
+          .auth-forgot-modal {
+            padding: 1.5rem !important;
+            max-width: 90% !important;
+          }
+          .auth-forgot-modal h3 {
+            font-size: 20px !important;
+          }
+          .auth-forgot-modal p {
+            font-size: 12px !important;
           }
         }
       `}</style>
@@ -602,6 +636,7 @@ export default function Auth() {
         >
           <div
             onClick={(e) => e.stopPropagation()}
+            className="auth-forgot-modal"
             style={{
               background: 'white',
               borderRadius: 20,

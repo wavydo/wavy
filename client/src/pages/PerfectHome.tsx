@@ -17,7 +17,7 @@ export default function PerfectHome() {
       hero={{
         title: 'Discover places and\noffers around you',
         subtitle: 'Everything you need to explore your neighborhood. Find deals, earn rewards, attend events, and connect with local spots—all in one place.',
-        action: { label: 'Get Started', href: '/business' }
+        action: { label: 'Get Started', href: '/auth' }
       }}
       intro={{
         title: 'What is Wavy?',
