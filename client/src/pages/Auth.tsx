@@ -605,19 +605,19 @@ export default function Auth() {
             style={{
               background: 'white',
               borderRadius: 20,
-              padding: 'clamp(2rem, 5vw, 3rem)',
-              maxWidth: 480,
+              padding: 'clamp(1.75rem, 4vw, 2.5rem)',
+              maxWidth: 520,
               width: '100%',
               boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
               animation: 'scaleIn 0.3s ease-out'
             }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem' }}>
               <div>
-                <h3 style={{ fontSize: 24, fontWeight: 600, color: '#16141f', marginBottom: '0.5rem' }}>
+                <h3 style={{ fontSize: 22, fontWeight: 600, color: '#16141f', marginBottom: '0.4rem' }}>
                   Reset password
                 </h3>
-                <p style={{ fontSize: 14, color: 'rgba(22,20,31,0.6)' }}>
+                <p style={{ fontSize: 13, color: 'rgba(22,20,31,0.6)' }}>
                   We'll send you a link to reset your password
                 </p>
               </div>
@@ -710,9 +710,14 @@ export default function Auth() {
                     type="submit"
                     disabled={forgotPasswordMutation.isPending}
                     className="auth-btn auth-btn-primary"
-                    style={{ padding: '10px 18px', fontSize: 13, fontWeight: 500 }}
+                    style={{ 
+                      padding: '8px 16px', 
+                      fontSize: 13, 
+                      fontWeight: 500,
+                      width: '100%'
+                    }}
                   >
-                    {forgotPasswordMutation.isPending ? 'Sending...' : 'Send reset link'}
+                    {forgotPasswordMutation.isPending ? 'Sending...' : 'Send link'}
                   </button>
                 </form>
               </>
@@ -722,7 +727,12 @@ export default function Auth() {
               <button
                 onClick={() => { setShowForgotPassword(false); setResetSuccess(false); setError(''); setForgotEmail(''); }}
                 className="auth-btn auth-btn-primary"
-                style={{ padding: '10px 18px', fontSize: 13, fontWeight: 500 }}
+                style={{ 
+                  padding: '8px 16px', 
+                  fontSize: 13, 
+                  fontWeight: 500,
+                  width: '100%'
+                }}
               >
                 Done
               </button>

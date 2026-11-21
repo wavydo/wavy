@@ -51,12 +51,20 @@ export default function ResetPassword() {
     },
     onSuccess: () => {
       setSuccess(true);
+      setNewPassword('');
+      setConfirmPassword('');
       setTimeout(() => {
         setLocation('/auth');
       }, 3000);
     },
     onError: (error: Error) => {
       setError(error.message);
+      // If token is invalid/expired, redirect after 3 seconds
+      if (error.message.includes('Invalid or expired')) {
+        setTimeout(() => {
+          setLocation('/auth');
+        }, 3000);
+      }
     },
   });
 
@@ -128,9 +136,17 @@ export default function ResetPassword() {
 
       <div className="reset-content" style={{ background: 'white', borderRadius: 20, padding: 'clamp(2rem,5vw,3rem)', maxWidth: 480, width: '100%', boxShadow: '0 20px 60px rgba(0,0,0,0.1)' }}>
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <h1 style={{ fontFamily: "'Modulus', -apple-system, sans-serif", fontSize: 32, fontWeight: 800, color: '#16141f', marginBottom: '0.5rem' }}>
-            wavy
-          </h1>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
+            <img 
+              src="/roko.png" 
+              alt="Wavy" 
+              style={{ 
+                width: '100%',
+                maxWidth: 200,
+                height: 'auto'
+              }}
+            />
+          </div>
           <h2 style={{ fontSize: 24, fontWeight: 600, color: '#16141f', marginBottom: '0.5rem' }}>
             {success ? 'Password Reset!' : 'Create New Password'}
           </h2>
