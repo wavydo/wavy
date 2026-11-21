@@ -151,12 +151,11 @@ export default function PerfectHome() {
       ]}
       socials={[
         { kind: 'x', href: 'https://x.com/wavy' },
-        { kind: 'github', href: 'https://instagram.com/wavy.do' }
+        { kind: 'instagram', href: 'https://instagram.com/wavy.do' }
       ]}
       legal={[
         { label: 'Privacy', href: '/privacy' },
-        { label: 'Terms', href: '/terms' },
-        { label: 'Cookies', href: '/cookies' }
+        { label: 'Terms', href: '/terms' }
       ]}
       copyright="© 2024 Wavy. All rights reserved."
       palette="pastelblue"

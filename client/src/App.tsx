@@ -4,6 +4,7 @@ import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import Header from './components/Header';
 import MobileWarningPopup from './components/MobileWarningPopup';
+import LoadingScreen from './components/LoadingScreen';
 import Home from './pages/Home';
 import NewHome from './pages/NewHome';
 import WavyHome from './pages/WavyHome';
@@ -50,6 +51,7 @@ function AppContent() {
 
   return (
     <>
+      <LoadingScreen />
       <MobileWarningPopup />
       <Switch>
         <Route path="/" component={PerfectHome} />
