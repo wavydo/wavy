@@ -269,6 +269,8 @@ router.post('/auth/forgot-password', async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
     
+    console.log('📧 Forgot password request for:', email);
+    
     if (!email) {
       return res.status(400).json({ error: 'Email is required' });
     }
@@ -318,18 +320,43 @@ router.post('/auth/forgot-password', async (req: Request, res: Response) => {
       return res.json({ message: 'If an account exists, a reset link has been sent' });
     }
 
+    console.log(`✅ User found: ${user.email} (${userType})`);
+
     // Generate secure reset token (32 bytes = 64 hex characters)
     const resetToken = crypto.randomBytes(32).toString('hex');
     const resetTokenHash = crypto.createHash('sha256').update(resetToken).digest('hex');
     const resetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 
-    // Store hashed token in database
-    await db.execute(
-      sql`UPDATE ${sql.raw(tableName)} 
-          SET reset_token = ${resetTokenHash}, 
-              reset_token_expiry = ${resetTokenExpiry.toISOString()}
-          WHERE id = ${user.id}`
-    );
+    // Store hashed token in database - use direct table-specific queries
+    try {
+      if (tableName === 'users') {
+        await db.execute(
+          sql`UPDATE users 
+              SET reset_token = ${resetTokenHash}, 
+                  reset_token_expiry = ${resetTokenExpiry.toISOString()}
+              WHERE id = ${user.id}`
+        );
+      } else if (tableName === 'establishments') {
+        await db.execute(
+          sql`UPDATE establishments 
+              SET reset_token = ${resetTokenHash}, 
+                  reset_token_expiry = ${resetTokenExpiry.toISOString()}
+              WHERE id = ${user.id}`
+        );
+      } else if (tableName === 'admins') {
+        await db.execute(
+          sql`UPDATE admins 
+              SET reset_token = ${resetTokenHash}, 
+                  reset_token_expiry = ${resetTokenExpiry.toISOString()}
+              WHERE id = ${user.id}`
+        );
+      }
+    } catch (dbError) {
+      console.error('❌ Database update error:', dbError);
+      return res.status(500).json({ error: 'Database error occurred' });
+    }
+
+    console.log('✅ Token stored in database');
 
     // Send email using Resend
     const { Resend } = await import('resend');
@@ -425,7 +452,7 @@ router.post('/auth/forgot-password', async (req: Request, res: Response) => {
       return res.status(500).json({ error: 'Failed to send reset email' });
     }
 
-    console.log(`✅ Password reset email sent to ${email} (${userType})`);
+    console.log(`✅ Password reset email sent to ${email} (${userType}), Email ID: ${data?.id}`);
     res.json({ message: 'If an account exists, a reset link has been sent' });
     
   } catch (error: any) {
@@ -508,14 +535,37 @@ router.post('/auth/reset-password', async (req: Request, res: Response) => {
     // Hash new password
     const hashedPassword = await bcrypt.hash(newPassword, 12);
 
-    // Update password and clear reset token
-    await db.execute(
-      sql`UPDATE ${sql.raw(tableName)} 
-          SET password = ${hashedPassword}, 
-              reset_token = NULL, 
-              reset_token_expiry = NULL
-          WHERE id = ${user.id}`
-    );
+    // Update password and clear reset token - use direct table-specific queries
+    try {
+      if (tableName === 'users') {
+        await db.execute(
+          sql`UPDATE users 
+              SET password = ${hashedPassword}, 
+                  reset_token = NULL, 
+                  reset_token_expiry = NULL
+              WHERE id = ${user.id}`
+        );
+      } else if (tableName === 'establishments') {
+        await db.execute(
+          sql`UPDATE establishments 
+              SET password = ${hashedPassword}, 
+                  reset_token = NULL, 
+                  reset_token_expiry = NULL
+              WHERE id = ${user.id}`
+        );
+      } else if (tableName === 'admins') {
+        await db.execute(
+          sql`UPDATE admins 
+              SET password = ${hashedPassword}, 
+                  reset_token = NULL, 
+                  reset_token_expiry = NULL
+              WHERE id = ${user.id}`
+        );
+      }
+    } catch (dbError) {
+      console.error('❌ Database update error:', dbError);
+      return res.status(500).json({ error: 'Database error occurred' });
+    }
 
     console.log(`✅ Password reset successful for ${user.email} (${userType})`);
     res.json({ message: 'Password reset successful. You can now log in with your new password.' });
