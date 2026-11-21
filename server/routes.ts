@@ -198,55 +198,60 @@ router.post('/auth/login',
     req.session.regenerate((err) => {
       if (err) {
         console.error('Session regeneration error:', err);
+        return res.status(500).json({ error: 'Session error' });
       }
-    });
     
-    req.session.userId = user.id;
-    req.session.userType = userType;
-    
-    console.log('💾 Session saved:', {
-      userId: req.session.userId,
-      userType: req.session.userType,
-      sessionID: req.sessionID
-    });
-    
-    // Update last_login_at usando SQL raw (solo para users, establishments no tiene esa columna)
-    if (userType === 'user') {
-      try {
-        await db.execute(
-          sql`UPDATE users SET last_login_at = NOW() WHERE id = ${user.id}`
+      req.session.userId = user.id;
+      req.session.userType = userType;
+      
+      // Guardar la sesión explícitamente antes de responder
+      req.session.save((saveErr) => {
+        if (saveErr) {
+          console.error('Session save error:', saveErr);
+          return res.status(500).json({ error: 'Could not save session' });
+        }
+        
+        console.log('💾 Session saved:', {
+          userId: req.session.userId,
+          userType: req.session.userType,
+          sessionID: req.sessionID
+        });
+        
+        // Update last_login_at usando SQL raw (solo para users, establishments no tiene esa columna)
+        if (userType === 'user') {
+          db.execute(
+            sql`UPDATE users SET last_login_at = NOW() WHERE id = ${user.id}`
+          ).catch((e) => console.warn('Could not update last_login_at:', e));
+        }
+        
+        console.log(`✅ Successful login: ${email} (${userType})`);
+        
+        // Generate secure JWT token for mobile app WebSocket
+        // Token expira en 7 días para seguridad, no 30 días
+        const token = jwt.sign(
+          { 
+            userId: user.id, 
+            type: userType,
+            email: user.email,
+            iat: Math.floor(Date.now() / 1000) // Issued at timestamp
+          },
+          JWT_SECRET,
+          { 
+            expiresIn: '7d', // 7 días máximo
+            algorithm: 'HS256' // Algoritmo explícito
+          }
         );
-      } catch (e) {
-        console.warn('Could not update last_login_at:', e);
-      }
-    }
-    
-    console.log(`✅ Successful login: ${email} (${userType})`);
-    
-    // Generate secure JWT token for mobile app WebSocket
-    // Token expira en 7 días para seguridad, no 30 días
-    const token = jwt.sign(
-      { 
-        userId: user.id, 
-        type: userType,
-        email: user.email,
-        iat: Math.floor(Date.now() / 1000) // Issued at timestamp
-      },
-      JWT_SECRET,
-      { 
-        expiresIn: '7d', // 7 días máximo
-        algorithm: 'HS256' // Algoritmo explícito
-      }
-    );
-    
-    res.json({ 
-      user: { 
-        ...user, 
-        password: undefined,
-        role: userType // Agregar role explícitamente para el frontend
-      }, 
-      userType,
-      token  // Token JWT para WebSocket en app móvil
+        
+        res.json({ 
+          user: { 
+            ...user, 
+            password: undefined,
+            role: userType // Agregar role explícitamente para el frontend
+          }, 
+          userType,
+          token  // Token JWT para WebSocket en app móvil
+        });
+      });
     });
   } catch (error: any) {
     console.error('Login error:', error);
