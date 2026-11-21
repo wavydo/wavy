@@ -264,6 +264,268 @@ router.post('/auth/logout', (req: Request, res: Response) => {
   });
 });
 
+// Forgot Password - Send reset email
+router.post('/auth/forgot-password', async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+    
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
+    }
+
+    // Check if user exists in any table
+    let user: any = null;
+    let userType: 'user' | 'establishment' | 'admin' = 'user';
+    let tableName = 'users';
+    
+    // Search in users table
+    const normalUsers = await db.execute(
+      sql`SELECT id, email, full_name FROM users WHERE email = ${email} LIMIT 1`
+    );
+    if (normalUsers.rows && normalUsers.rows.length > 0) {
+      user = normalUsers.rows[0];
+      userType = 'user';
+      tableName = 'users';
+    }
+    
+    // Search in establishments table
+    if (!user) {
+      const estUsers = await db.execute(
+        sql`SELECT id, email, business_name FROM establishments WHERE email = ${email} LIMIT 1`
+      );
+      if (estUsers.rows && estUsers.rows.length > 0) {
+        user = estUsers.rows[0];
+        userType = 'establishment';
+        tableName = 'establishments';
+      }
+    }
+    
+    // Search in admins table
+    if (!user) {
+      const adminUsers = await db.execute(
+        sql`SELECT id, email, username FROM admins WHERE email = ${email} LIMIT 1`
+      );
+      if (adminUsers.rows && adminUsers.rows.length > 0) {
+        user = adminUsers.rows[0];
+        userType = 'admin';
+        tableName = 'admins';
+      }
+    }
+
+    // Always return success to prevent email enumeration
+    if (!user) {
+      console.log(`📧 Password reset requested for non-existent email: ${email}`);
+      return res.json({ message: 'If an account exists, a reset link has been sent' });
+    }
+
+    // Generate secure reset token (32 bytes = 64 hex characters)
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetTokenHash = crypto.createHash('sha256').update(resetToken).digest('hex');
+    const resetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+
+    // Store hashed token in database
+    await db.execute(
+      sql`UPDATE ${sql.raw(tableName)} 
+          SET reset_token = ${resetTokenHash}, 
+              reset_token_expiry = ${resetTokenExpiry.toISOString()}
+          WHERE id = ${user.id}`
+    );
+
+    // Send email using Resend
+    const { Resend } = await import('resend');
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
+    const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5000'}/reset-password?token=${resetToken}`;
+    const userName = user.full_name || user.business_name || user.username || 'there';
+
+    const { data, error } = await resend.emails.send({
+      from: 'Wavy Account Recovery <recover@wavy.do>',
+      to: [email],
+      subject: 'Reset Your Wavy Password',
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        </head>
+        <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f9fafb;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f9fafb; padding: 40px 20px;">
+            <tr>
+              <td align="center">
+                <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                  
+                  <!-- Header -->
+                  <tr>
+                    <td style="background: linear-gradient(135deg, #5e79db 0%, #4a61c5 100%); padding: 40px 40px 30px 40px; text-align: center;">
+                      <h1 style="margin: 0; font-size: 32px; font-weight: 700; color: #ffffff; letter-spacing: -0.02em;">wavy</h1>
+                    </td>
+                  </tr>
+                  
+                  <!-- Content -->
+                  <tr>
+                    <td style="padding: 40px;">
+                      <h2 style="margin: 0 0 16px 0; font-size: 24px; font-weight: 600; color: #111827;">Reset Your Password</h2>
+                      <p style="margin: 0 0 24px 0; font-size: 16px; line-height: 1.6; color: #6b7280;">
+                        Hi ${userName},
+                      </p>
+                      <p style="margin: 0 0 24px 0; font-size: 16px; line-height: 1.6; color: #6b7280;">
+                        We received a request to reset your password. Click the button below to create a new password:
+                      </p>
+                      
+                      <!-- Button -->
+                      <table width="100%" cellpadding="0" cellspacing="0" style="margin: 0 0 24px 0;">
+                        <tr>
+                          <td align="center" style="padding: 20px 0;">
+                            <a href="${resetUrl}" style="display: inline-block; padding: 16px 32px; background-color: #5e79db; color: #ffffff; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 16px;">Reset Password</a>
+                          </td>
+                        </tr>
+                      </table>
+                      
+                      <p style="margin: 0 0 16px 0; font-size: 14px; line-height: 1.6; color: #6b7280;">
+                        Or copy and paste this link into your browser:
+                      </p>
+                      <p style="margin: 0 0 24px 0; font-size: 14px; line-height: 1.6; color: #5e79db; word-break: break-all;">
+                        ${resetUrl}
+                      </p>
+                      
+                      <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid #e5e7eb;">
+                        <p style="margin: 0 0 8px 0; font-size: 14px; line-height: 1.6; color: #6b7280;">
+                          <strong>This link will expire in 1 hour.</strong>
+                        </p>
+                        <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #6b7280;">
+                          If you didn't request a password reset, you can safely ignore this email. Your password will remain unchanged.
+                        </p>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <!-- Footer -->
+                  <tr>
+                    <td style="background-color: #f9fafb; padding: 24px 40px; text-align: center; border-top: 1px solid #e5e7eb;">
+                      <p style="margin: 0 0 8px 0; font-size: 14px; color: #6b7280;">
+                        Wavy - Discover places and offers around you
+                      </p>
+                      <p style="margin: 0; font-size: 12px; color: #9ca3af;">
+                        © ${new Date().getFullYear()} Wavy. All rights reserved.
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </body>
+        </html>
+      `,
+    });
+
+    if (error) {
+      console.error('❌ Resend error:', error);
+      return res.status(500).json({ error: 'Failed to send reset email' });
+    }
+
+    console.log(`✅ Password reset email sent to ${email} (${userType})`);
+    res.json({ message: 'If an account exists, a reset link has been sent' });
+    
+  } catch (error: any) {
+    console.error('Forgot password error:', error);
+    res.status(500).json({ error: 'An error occurred. Please try again.' });
+  }
+});
+
+// Reset Password - Verify token and update password
+router.post('/auth/reset-password', async (req: Request, res: Response) => {
+  try {
+    const { token, newPassword } = req.body;
+    
+    if (!token || !newPassword) {
+      return res.status(400).json({ error: 'Token and new password are required' });
+    }
+
+    if (newPassword.length < 8) {
+      return res.status(400).json({ error: 'Password must be at least 8 characters' });
+    }
+
+    // Hash the token to compare with database
+    const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+
+    // Find user with this token in any table
+    let user: any = null;
+    let userType: 'user' | 'establishment' | 'admin' = 'user';
+    let tableName = 'users';
+    
+    // Check users table
+    const normalUsers = await db.execute(
+      sql`SELECT id, email, reset_token_expiry 
+          FROM users 
+          WHERE reset_token = ${tokenHash} 
+          AND reset_token_expiry > NOW() 
+          LIMIT 1`
+    );
+    if (normalUsers.rows && normalUsers.rows.length > 0) {
+      user = normalUsers.rows[0];
+      userType = 'user';
+      tableName = 'users';
+    }
+    
+    // Check establishments table
+    if (!user) {
+      const estUsers = await db.execute(
+        sql`SELECT id, email, reset_token_expiry 
+            FROM establishments 
+            WHERE reset_token = ${tokenHash} 
+            AND reset_token_expiry > NOW() 
+            LIMIT 1`
+      );
+      if (estUsers.rows && estUsers.rows.length > 0) {
+        user = estUsers.rows[0];
+        userType = 'establishment';
+        tableName = 'establishments';
+      }
+    }
+    
+    // Check admins table
+    if (!user) {
+      const adminUsers = await db.execute(
+        sql`SELECT id, email, reset_token_expiry 
+            FROM admins 
+            WHERE reset_token = ${tokenHash} 
+            AND reset_token_expiry > NOW() 
+            LIMIT 1`
+      );
+      if (adminUsers.rows && adminUsers.rows.length > 0) {
+        user = adminUsers.rows[0];
+        userType = 'admin';
+        tableName = 'admins';
+      }
+    }
+
+    if (!user) {
+      return res.status(400).json({ error: 'Invalid or expired reset token' });
+    }
+
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+    // Update password and clear reset token
+    await db.execute(
+      sql`UPDATE ${sql.raw(tableName)} 
+          SET password = ${hashedPassword}, 
+              reset_token = NULL, 
+              reset_token_expiry = NULL
+          WHERE id = ${user.id}`
+    );
+
+    console.log(`✅ Password reset successful for ${user.email} (${userType})`);
+    res.json({ message: 'Password reset successful. You can now log in with your new password.' });
+    
+  } catch (error: any) {
+    console.error('Reset password error:', error);
+    res.status(500).json({ error: 'An error occurred. Please try again.' });
+  }
+});
+
 // Get current session
 router.get('/auth/me', requireAuth, async (req: Request, res: Response) => {
   try {

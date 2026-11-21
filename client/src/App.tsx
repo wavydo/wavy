@@ -17,6 +17,7 @@ import About from './pages/About';
 import Careers from './pages/Careers';
 import HelpCenter from './pages/HelpCenter';
 import Auth from './pages/Auth';
+import ResetPassword from './pages/ResetPassword';
 import Business from './pages/Business';
 import RegisterEstablishment from './pages/RegisterEstablishment';
 import DashboardMain from './pages/DashboardMain';
@@ -66,6 +67,7 @@ function AppContent() {
         <Route path="/careers" component={Careers} />
         <Route path="/help" component={HelpCenter} />
         <Route path="/auth" component={Auth} />
+        <Route path="/reset-password" component={ResetPassword} />
         <Route path="/business" component={Business} />
         <Route path="/register/establishment" component={RegisterEstablishment} />
         <Route path="/dashboard/user" component={DashboardMain} />

@@ -9,6 +9,9 @@ export default function Auth() {
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [error, setError] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState('');
+  const [resetSuccess, setResetSuccess] = useState(false);
   
   const [loginData, setLoginData] = useState({
     email: '',
@@ -92,6 +95,36 @@ export default function Auth() {
     },
   });
 
+  const forgotPasswordMutation = useMutation({
+    mutationFn: async (email: string) => {
+      const res = await fetch('/api/auth/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Failed to send reset email');
+      }
+      
+      return res.json();
+    },
+    onSuccess: () => {
+      setResetSuccess(true);
+    },
+    onError: (error: Error) => {
+      setError(error.message);
+    },
+  });
+
+  const handleForgotPassword = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setResetSuccess(false);
+    forgotPasswordMutation.mutate(forgotEmail);
+  };
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -120,6 +153,10 @@ export default function Auth() {
           font-family: inherit;
           transition: all 0.2s;
           background: white;
+          color: #16141f;
+        }
+        .auth-input::placeholder {
+          color: rgba(22,20,31,0.4);
         }
         .auth-input:focus {
           outline: none;
@@ -390,7 +427,7 @@ export default function Auth() {
                     </label>
                     <button
                       type="button"
-                      onClick={() => console.log('Forgot password')}
+                      onClick={() => setShowForgotPassword(true)}
                       style={{ 
                         background: 'none', 
                         border: 'none', 
@@ -527,6 +564,150 @@ export default function Auth() {
           </div>
         </div>
       </div>
+
+      {/* Forgot Password Modal */}
+      {showForgotPassword && (
+        <div
+          onClick={() => { setShowForgotPassword(false); setResetSuccess(false); setError(''); setForgotEmail(''); }}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0,0,0,0.5)',
+            backdropFilter: 'blur(4px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 100,
+            padding: 20
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: 'white',
+              borderRadius: 20,
+              padding: 'clamp(2rem, 5vw, 3rem)',
+              maxWidth: 480,
+              width: '100%',
+              boxShadow: '0 20px 60px rgba(0,0,0,0.3)'
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
+              <div>
+                <h3 style={{ fontSize: 24, fontWeight: 600, color: '#16141f', marginBottom: '0.5rem' }}>
+                  Reset password
+                </h3>
+                <p style={{ fontSize: 14, color: 'rgba(22,20,31,0.6)' }}>
+                  We'll send you a link to reset your password
+                </p>
+              </div>
+              <button
+                onClick={() => { setShowForgotPassword(false); setResetSuccess(false); setError(''); setForgotEmail(''); }}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  padding: 8,
+                  cursor: 'pointer',
+                  color: 'rgba(22,20,31,0.4)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 8,
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(0,0,0,0.05)';
+                  e.currentTarget.style.color = '#16141f';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'none';
+                  e.currentTarget.style.color = 'rgba(22,20,31,0.4)';
+                }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="18" y1="6" x2="6" y2="18"/>
+                  <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+            </div>
+
+            {resetSuccess ? (
+              <div style={{ 
+                padding: '16px 20px', 
+                background: 'rgba(34,197,94,0.1)', 
+                border: '1px solid rgba(34,197,94,0.2)',
+                borderRadius: 12,
+                marginBottom: '1.5rem'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" style={{ flexShrink: 0, marginTop: 2 }}>
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                  </svg>
+                  <div>
+                    <p style={{ fontSize: 14, fontWeight: 600, color: '#22c55e', marginBottom: 4 }}>
+                      Email sent!
+                    </p>
+                    <p style={{ fontSize: 13, color: 'rgba(22,20,31,0.7)', lineHeight: 1.5 }}>
+                      Check your inbox for a password reset link. It may take a few minutes to arrive.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <>
+                {error && (
+                  <div style={{ 
+                    padding: '12px 16px', 
+                    background: 'rgba(239,68,68,0.1)', 
+                    border: '1px solid rgba(239,68,68,0.2)',
+                    borderRadius: 12, 
+                    color: '#dc2626',
+                    fontSize: 14,
+                    marginBottom: '1.5rem'
+                  }}>
+                    {error}
+                  </div>
+                )}
+
+                <form onSubmit={handleForgotPassword}>
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <label style={{ display: 'block', fontSize: 14, fontWeight: 600, marginBottom: 8, color: '#16141f' }}>
+                      Email address
+                    </label>
+                    <input
+                      type="email"
+                      className="auth-input"
+                      value={forgotEmail}
+                      onChange={(e) => setForgotEmail(e.target.value)}
+                      placeholder="you@example.com"
+                      required
+                      autoFocus
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={forgotPasswordMutation.isPending}
+                    className="auth-btn auth-btn-primary"
+                  >
+                    {forgotPasswordMutation.isPending ? 'Sending...' : 'Send reset link'}
+                  </button>
+                </form>
+              </>
+            )}
+
+            {resetSuccess && (
+              <button
+                onClick={() => { setShowForgotPassword(false); setResetSuccess(false); setError(''); setForgotEmail(''); }}
+                className="auth-btn auth-btn-primary"
+              >
+                Done
+              </button>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
