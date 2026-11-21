@@ -28,6 +28,7 @@ import UserManagement from './pages/admin/UserManagement';
 import UserDetails from './pages/admin/UserDetails';
 import AccountSuspended from './pages/AccountSuspended';
 import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
 import BusinessOverview from './pages/business/BusinessOverview';
 import BusinessPerks from './pages/business/BusinessPerks';
 import BusinessEvents from './pages/business/BusinessEvents';
@@ -88,6 +89,7 @@ function AppContent() {
         <Route path="/business/settings" component={BusinessSettings} />
         <Route path="/business/support" component={BusinessSupport} />
         <Route path="/terms" component={Terms} />
+        <Route path="/privacy" component={Privacy} />
       </Switch>
       <Toaster />
     </>
