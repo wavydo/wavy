@@ -201,31 +201,6 @@ export default function WavyLearnMore() {
           #use-cases > div > div:first-child h2 { font-size: clamp(28px,8vw,36px) !important; }
         }
       `}</style>
-          }
-          .use-case-card > div:first-child {
-            width: 64px !important;
-            height: 64px !important;
-            margin-bottom: 2rem !important;
-          }
-          .use-case-card > div:first-child svg,
-          .use-case-card > div:first-child [data-lucide] {
-            width: 30px !important;
-            height: 30px !important;
-          }
-        }
-        
-        @media (max-width: 640px) {
-          /* Extra small screens - even more compact */
-          .bento-card, .use-case-card { 
-            padding: 1.5rem !important; 
-          }
-          
-          /* Hero section */
-          section:first-of-type {
-            padding: clamp(3rem,6vw,5rem) clamp(16px,4vw,24px) !important;
-          }
-        }
-      `}</style>
 
       {/* Navbar - EXACT COPY from landing */}
       <header className="lml-nav" data-scrolled={scrolled ? "true" : "false"}>
