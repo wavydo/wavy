@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Mail, Send, Trash2, Eye, RefreshCw, Plus } from 'lucide-react';
+import { EnvelopeSimple, PaperPlaneTilt, Trash, Eye, ArrowsClockwise, Plus, X } from 'phosphor-react';
 
 interface Email {
   id: string;
@@ -165,29 +165,60 @@ export default function EmailsTab() {
   };
 
   return (
-    <div className="emails-tab">
-      <div className="emails-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+    <div style={{ padding: '20px' }}>
+      {/* Header */}
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center',
+        marginBottom: '30px',
+        flexWrap: 'wrap',
+        gap: '15px'
+      }}>
         <div>
-          <h2 style={{ margin: 0, fontSize: '24px' }}>Email Management</h2>
-          <p style={{ margin: '5px 0 0 0', color: '#666' }}>
+          <h2 style={{ 
+            margin: 0, 
+            fontSize: '24px',
+            color: '#1a1a1a',
+            fontWeight: 600
+          }}>
+            Email Management
+          </h2>
+          <p style={{ 
+            margin: '5px 0 0 0', 
+            color: '#666',
+            fontSize: '14px'
+          }}>
             Send and receive emails via Resend
           </p>
         </div>
-        <div style={{ display: 'flex', gap: '10px' }}>
+        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
           <button
             onClick={fetchEmails}
             style={{
-              padding: '10px 15px',
-              background: '#f0f0f0',
-              border: 'none',
-              borderRadius: '8px',
+              padding: '10px 16px',
+              background: 'white',
+              border: '1px solid #e0e0e0',
+              borderRadius: '6px',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '5px',
+              gap: '8px',
+              color: '#333',
+              fontSize: '14px',
+              fontWeight: 500,
+              transition: 'all 0.2s'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#f5f5f5';
+              e.currentTarget.style.borderColor = '#d0d0d0';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'white';
+              e.currentTarget.style.borderColor = '#e0e0e0';
             }}
           >
-            <RefreshCw size={16} />
+            <ArrowsClockwise size={18} weight="bold" />
             Refresh
           </button>
           <button
@@ -197,22 +228,31 @@ export default function EmailsTab() {
               background: '#6366f1',
               color: 'white',
               border: 'none',
-              borderRadius: '8px',
+              borderRadius: '6px',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '5px',
+              gap: '8px',
+              fontSize: '14px',
+              fontWeight: 600,
+              transition: 'all 0.2s'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#5558e3';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '#6366f1';
             }}
           >
-            <Plus size={16} />
+            <Plus size={18} weight="bold" />
             Compose Email
           </button>
         </div>
       </div>
 
+      {/* Compose Modal */}
       {showCompose && (
         <div
-          className="compose-modal"
           style={{
             position: 'fixed',
             top: 0,
@@ -224,26 +264,55 @@ export default function EmailsTab() {
             alignItems: 'center',
             justifyContent: 'center',
             zIndex: 1000,
+            padding: '20px'
           }}
           onClick={() => setShowCompose(false)}
         >
           <div
-            className="compose-form"
             style={{
               background: 'white',
               padding: '30px',
               borderRadius: '12px',
               maxWidth: '600px',
-              width: '90%',
+              width: '100%',
               maxHeight: '90vh',
               overflow: 'auto',
+              boxShadow: '0 20px 60px rgba(0,0,0,0.3)'
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 style={{ marginTop: 0 }}>Compose Email</h3>
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center',
+              marginBottom: '25px'
+            }}>
+              <h3 style={{ margin: 0, fontSize: '20px', color: '#1a1a1a', fontWeight: 600 }}>
+                Compose Email
+              </h3>
+              <button
+                onClick={() => setShowCompose(false)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: '5px',
+                  color: '#666'
+                }}
+              >
+                <X size={24} />
+              </button>
+            </div>
+
             <form onSubmit={handleSendEmail}>
-              <div style={{ marginBottom: '15px' }}>
-                <label style={{ display: 'block', marginBottom: '5px', fontWeight: 500 }}>
+              <div style={{ marginBottom: '20px' }}>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: '8px', 
+                  fontWeight: 600,
+                  fontSize: '14px',
+                  color: '#333'
+                }}>
                   From
                 </label>
                 <select
@@ -252,9 +321,12 @@ export default function EmailsTab() {
                   required
                   style={{
                     width: '100%',
-                    padding: '10px',
-                    borderRadius: '8px',
-                    border: '1px solid #ddd',
+                    padding: '10px 12px',
+                    borderRadius: '6px',
+                    border: '1px solid #e0e0e0',
+                    fontSize: '14px',
+                    color: '#333',
+                    background: 'white'
                   }}
                 >
                   {emailOptions.map((option) => (
@@ -265,8 +337,14 @@ export default function EmailsTab() {
                 </select>
               </div>
 
-              <div style={{ marginBottom: '15px' }}>
-                <label style={{ display: 'block', marginBottom: '5px', fontWeight: 500 }}>
+              <div style={{ marginBottom: '20px' }}>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: '8px', 
+                  fontWeight: 600,
+                  fontSize: '14px',
+                  color: '#333'
+                }}>
                   To
                 </label>
                 <input
@@ -277,15 +355,23 @@ export default function EmailsTab() {
                   placeholder="recipient@example.com"
                   style={{
                     width: '100%',
-                    padding: '10px',
-                    borderRadius: '8px',
-                    border: '1px solid #ddd',
+                    padding: '10px 12px',
+                    borderRadius: '6px',
+                    border: '1px solid #e0e0e0',
+                    fontSize: '14px',
+                    color: '#333'
                   }}
                 />
               </div>
 
-              <div style={{ marginBottom: '15px' }}>
-                <label style={{ display: 'block', marginBottom: '5px', fontWeight: 500 }}>
+              <div style={{ marginBottom: '20px' }}>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: '8px', 
+                  fontWeight: 600,
+                  fontSize: '14px',
+                  color: '#333'
+                }}>
                   Subject
                 </label>
                 <input
@@ -296,15 +382,23 @@ export default function EmailsTab() {
                   placeholder="Email subject"
                   style={{
                     width: '100%',
-                    padding: '10px',
-                    borderRadius: '8px',
-                    border: '1px solid #ddd',
+                    padding: '10px 12px',
+                    borderRadius: '6px',
+                    border: '1px solid #e0e0e0',
+                    fontSize: '14px',
+                    color: '#333'
                   }}
                 />
               </div>
 
-              <div style={{ marginBottom: '20px' }}>
-                <label style={{ display: 'block', marginBottom: '5px', fontWeight: 500 }}>
+              <div style={{ marginBottom: '25px' }}>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: '8px', 
+                  fontWeight: 600,
+                  fontSize: '14px',
+                  color: '#333'
+                }}>
                   Message (HTML supported)
                 </label>
                 <textarea
@@ -315,10 +409,13 @@ export default function EmailsTab() {
                   placeholder="Email body (HTML supported)"
                   style={{
                     width: '100%',
-                    padding: '10px',
-                    borderRadius: '8px',
-                    border: '1px solid #ddd',
+                    padding: '10px 12px',
+                    borderRadius: '6px',
+                    border: '1px solid #e0e0e0',
+                    fontSize: '14px',
                     fontFamily: 'monospace',
+                    color: '#333',
+                    resize: 'vertical'
                   }}
                 />
               </div>
@@ -329,10 +426,13 @@ export default function EmailsTab() {
                   onClick={() => setShowCompose(false)}
                   style={{
                     padding: '10px 20px',
-                    background: '#f0f0f0',
-                    border: 'none',
-                    borderRadius: '8px',
+                    background: 'white',
+                    border: '1px solid #e0e0e0',
+                    borderRadius: '6px',
                     cursor: 'pointer',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    color: '#333'
                   }}
                 >
                   Cancel
@@ -342,18 +442,19 @@ export default function EmailsTab() {
                   disabled={sending}
                   style={{
                     padding: '10px 20px',
-                    background: '#6366f1',
+                    background: sending ? '#9ca3af' : '#6366f1',
                     color: 'white',
                     border: 'none',
-                    borderRadius: '8px',
+                    borderRadius: '6px',
                     cursor: sending ? 'not-allowed' : 'pointer',
-                    opacity: sending ? 0.6 : 1,
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '5px',
+                    gap: '8px',
+                    fontSize: '14px',
+                    fontWeight: 600
                   }}
                 >
-                  <Send size={16} />
+                  <PaperPlaneTilt size={18} weight="bold" />
                   {sending ? 'Sending...' : 'Send Email'}
                 </button>
               </div>
@@ -362,9 +463,9 @@ export default function EmailsTab() {
         </div>
       )}
 
+      {/* View Email Modal */}
       {selectedEmail && (
         <div
-          className="email-view-modal"
           style={{
             position: 'fixed',
             top: 0,
@@ -376,24 +477,33 @@ export default function EmailsTab() {
             alignItems: 'center',
             justifyContent: 'center',
             zIndex: 1000,
+            padding: '20px'
           }}
           onClick={() => setSelectedEmail(null)}
         >
           <div
-            className="email-view"
             style={{
               background: 'white',
               padding: '30px',
               borderRadius: '12px',
               maxWidth: '700px',
-              width: '90%',
+              width: '100%',
               maxHeight: '90vh',
               overflow: 'auto',
+              boxShadow: '0 20px 60px rgba(0,0,0,0.3)'
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-              <h3 style={{ margin: 0 }}>{selectedEmail.subject}</h3>
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'space-between',
+              alignItems: 'start',
+              marginBottom: '20px',
+              gap: '15px'
+            }}>
+              <h3 style={{ margin: 0, fontSize: '20px', color: '#1a1a1a', fontWeight: 600, flex: 1 }}>
+                {selectedEmail.subject}
+              </h3>
               <button
                 onClick={() => handleDeleteEmail(selectedEmail.id)}
                 style={{
@@ -401,52 +511,66 @@ export default function EmailsTab() {
                   background: '#ef4444',
                   color: 'white',
                   border: 'none',
-                  borderRadius: '8px',
+                  borderRadius: '6px',
                   cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center'
                 }}
               >
-                <Trash2 size={16} />
+                <Trash size={18} weight="bold" />
               </button>
             </div>
 
-            <div style={{ marginBottom: '20px', paddingBottom: '20px', borderBottom: '1px solid #eee' }}>
-              <p style={{ margin: '5px 0' }}>
-                <strong>From:</strong> {selectedEmail.from}
-              </p>
-              <p style={{ margin: '5px 0' }}>
-                <strong>To:</strong> {selectedEmail.to}
-              </p>
-              <p style={{ margin: '5px 0' }}>
-                <strong>Date:</strong> {new Date(selectedEmail.createdAt).toLocaleString()}
-              </p>
-              <p style={{ margin: '5px 0' }}>
+            <div style={{ 
+              marginBottom: '20px', 
+              paddingBottom: '20px', 
+              borderBottom: '1px solid #e0e0e0'
+            }}>
+              <div style={{ marginBottom: '8px', fontSize: '14px', color: '#333' }}>
+                <strong>From:</strong> <span style={{ color: '#666' }}>{selectedEmail.from}</span>
+              </div>
+              <div style={{ marginBottom: '8px', fontSize: '14px', color: '#333' }}>
+                <strong>To:</strong> <span style={{ color: '#666' }}>{selectedEmail.to}</span>
+              </div>
+              <div style={{ marginBottom: '8px', fontSize: '14px', color: '#333' }}>
+                <strong>Date:</strong> <span style={{ color: '#666' }}>
+                  {new Date(selectedEmail.createdAt).toLocaleString()}
+                </span>
+              </div>
+              <div style={{ marginBottom: '8px', fontSize: '14px', color: '#333' }}>
                 <strong>Type:</strong>{' '}
                 <span
                   style={{
-                    padding: '2px 8px',
+                    padding: '3px 10px',
                     borderRadius: '4px',
                     background: selectedEmail.type === 'sent' ? '#dbeafe' : '#dcfce7',
                     color: selectedEmail.type === 'sent' ? '#1e40af' : '#15803d',
                     fontSize: '12px',
+                    fontWeight: 600
                   }}
                 >
                   {selectedEmail.type}
                 </span>
-              </p>
-              <p style={{ margin: '5px 0' }}>
+              </div>
+              <div style={{ fontSize: '14px', color: '#333' }}>
                 <strong>Status:</strong>{' '}
                 <span
                   style={{
-                    padding: '2px 8px',
+                    padding: '3px 10px',
                     borderRadius: '4px',
-                    background: selectedEmail.status === 'sent' || selectedEmail.status === 'delivered' ? '#dcfce7' : '#fee2e2',
-                    color: selectedEmail.status === 'sent' || selectedEmail.status === 'delivered' ? '#15803d' : '#991b1b',
+                    background: selectedEmail.status === 'sent' || selectedEmail.status === 'delivered' 
+                      ? '#dcfce7' 
+                      : '#fee2e2',
+                    color: selectedEmail.status === 'sent' || selectedEmail.status === 'delivered' 
+                      ? '#15803d' 
+                      : '#991b1b',
                     fontSize: '12px',
+                    fontWeight: 600
                   }}
                 >
                   {selectedEmail.status}
                 </span>
-              </p>
+              </div>
             </div>
 
             <div
@@ -455,6 +579,9 @@ export default function EmailsTab() {
                 background: '#f9fafb',
                 borderRadius: '8px',
                 minHeight: '200px',
+                color: '#333',
+                fontSize: '14px',
+                lineHeight: '1.6'
               }}
               dangerouslySetInnerHTML={{ __html: selectedEmail.body }}
             />
@@ -464,10 +591,13 @@ export default function EmailsTab() {
                 onClick={() => setSelectedEmail(null)}
                 style={{
                   padding: '10px 20px',
-                  background: '#f0f0f0',
-                  border: 'none',
-                  borderRadius: '8px',
+                  background: 'white',
+                  border: '1px solid #e0e0e0',
+                  borderRadius: '6px',
                   cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: 500,
+                  color: '#333'
                 }}
               >
                 Close
@@ -477,56 +607,106 @@ export default function EmailsTab() {
         </div>
       )}
 
-      <div className="emails-list">
+      {/* Emails List */}
+      <div>
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '40px' }}>Loading emails...</div>
+          <div style={{ 
+            textAlign: 'center', 
+            padding: '60px',
+            color: '#666'
+          }}>
+            Loading emails...
+          </div>
         ) : emails.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
-            <Mail size={48} style={{ opacity: 0.3, marginBottom: '10px' }} />
-            <p>No emails yet</p>
+          <div style={{ 
+            textAlign: 'center', 
+            padding: '60px',
+            color: '#999'
+          }}>
+            <EnvelopeSimple size={64} style={{ opacity: 0.3, marginBottom: '15px' }} />
+            <p style={{ fontSize: '16px', margin: 0 }}>No emails yet</p>
           </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div style={{ 
+            display: 'grid',
+            gap: '12px'
+          }}>
             {emails.map((email) => (
               <div
                 key={email.id}
                 onClick={() => handleViewEmail(email)}
                 style={{
                   padding: '20px',
-                  background: email.readAt ? 'white' : '#f0f0f0',
+                  background: email.readAt ? 'white' : '#f0f4ff',
                   border: '1px solid #e0e0e0',
                   borderRadius: '8px',
                   cursor: 'pointer',
-                  transition: 'all 0.2s',
+                  transition: 'all 0.2s'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
+                  e.currentTarget.style.borderColor = '#6366f1';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.boxShadow = 'none';
+                  e.currentTarget.style.borderColor = '#e0e0e0';
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '5px' }}>
-                      <Mail size={16} style={{ opacity: 0.5 }} />
-                      <strong>{email.subject}</strong>
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'start',
+                  gap: '15px'
+                }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: '10px', 
+                      marginBottom: '8px',
+                      flexWrap: 'wrap'
+                    }}>
+                      <EnvelopeSimple size={18} style={{ color: '#6366f1', flexShrink: 0 }} weight="bold" />
+                      <strong style={{ 
+                        fontSize: '15px',
+                        color: '#1a1a1a',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
+                      }}>
+                        {email.subject}
+                      </strong>
                       <span
                         style={{
-                          padding: '2px 8px',
+                          padding: '3px 10px',
                           borderRadius: '4px',
                           background: email.type === 'sent' ? '#dbeafe' : '#dcfce7',
                           color: email.type === 'sent' ? '#1e40af' : '#15803d',
                           fontSize: '11px',
+                          fontWeight: 600,
+                          flexShrink: 0
                         }}
                       >
                         {email.type}
                       </span>
                     </div>
-                    <p style={{ margin: '5px 0', color: '#666', fontSize: '14px' }}>
-                      <strong>From:</strong> {email.from} → <strong>To:</strong> {email.to}
+                    <p style={{ 
+                      margin: '8px 0', 
+                      color: '#666', 
+                      fontSize: '13px',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap'
+                    }}>
+                      <strong style={{ color: '#333' }}>From:</strong> {email.from} 
+                      {' → '}
+                      <strong style={{ color: '#333' }}>To:</strong> {email.to}
                     </p>
-                    <p style={{ margin: '5px 0', color: '#999', fontSize: '12px' }}>
+                    <p style={{ 
+                      margin: '0', 
+                      color: '#999', 
+                      fontSize: '12px'
+                    }}>
                       {new Date(email.createdAt).toLocaleString()}
                     </p>
                   </div>
@@ -541,9 +721,10 @@ export default function EmailsTab() {
                       border: 'none',
                       cursor: 'pointer',
                       color: '#ef4444',
+                      flexShrink: 0
                     }}
                   >
-                    <Trash2 size={16} />
+                    <Trash size={18} weight="bold" />
                   </button>
                 </div>
               </div>
