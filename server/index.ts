@@ -30,6 +30,11 @@ const app = express();
 const httpServer = createHTTPServer(app);
 const PORT = parseInt(process.env.PORT || '3001', 10);
 
+// Trust Render proxy for secure cookies and correct IP addresses
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
+
 // Initialize WebSocket
 export const io = initializeWebSocket(httpServer);
 
@@ -203,10 +208,13 @@ app.use(
     secret: process.env.SESSION_SECRET || 'your-secret-key-change-in-production',
     resave: false,
     saveUninitialized: false,
+    proxy: true, // Trust Render's proxy
     cookie: {
       secure: process.env.NODE_ENV === 'production',
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Allow cross-origin in production
+      // Don't set domain - let browser handle it automatically
     },
   })
 );

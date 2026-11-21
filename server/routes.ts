@@ -204,6 +204,12 @@ router.post('/auth/login',
     req.session.userId = user.id;
     req.session.userType = userType;
     
+    console.log('💾 Session saved:', {
+      userId: req.session.userId,
+      userType: req.session.userType,
+      sessionID: req.sessionID
+    });
+    
     // Update last_login_at usando SQL raw (solo para users, establishments no tiene esa columna)
     if (userType === 'user') {
       try {

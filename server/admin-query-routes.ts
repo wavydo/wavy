@@ -8,16 +8,27 @@ const router = express.Router();
 // Middleware to require admin (simplified - dev mode)
 const requireAdmin = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
+    console.log('🔐 Admin auth check:', {
+      hasSession: !!req.session,
+      userId: req.session?.userId,
+      userType: req.session?.userType,
+      sessionID: req.sessionID,
+      cookies: req.headers.cookie
+    });
+
     // In development, just check if logged in as admin type
     if (!req.session || !req.session.userId) {
+      console.log('❌ No session or userId');
       return res.status(401).json({ error: 'Not authenticated' });
     }
 
     // Simply check userType from session
     if (req.session.userType !== 'admin') {
+      console.log('❌ Not admin, userType:', req.session.userType);
       return res.status(403).json({ error: 'Admin access required' });
     }
 
+    console.log('✅ Admin authenticated:', req.session.userId);
     next();
   } catch (error) {
     console.error('Admin auth error:', error);
