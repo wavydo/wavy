@@ -161,14 +161,50 @@ export default function WavyLearnMore() {
           .bento-card > div:nth-child(3) > div > div:nth-child(4) { bottom: 15% !important; left: 12% !important; }
           .bento-card > div:nth-child(3) > div > div:nth-child(5) { top: 15% !important; right: 18% !important; }
           .bento-card > div:nth-child(3) > div > div:nth-child(6) { bottom: 12% !important; right: 15% !important; }
-          .bento-card:nth-child(2) > div:nth-child(3) > div { min-height: 240px !important; }
-          .bento-card:nth-child(2) > div:nth-child(3) > div > img { display: block !important; }
-          .bento-card:nth-child(2) > div:nth-child(3) > div > div:first-child { 
-            display: none !important;
+          /* ============================================
+             REWARDS CARD - Fix dark corner completely
+             ============================================ */
+          .bento-card:nth-child(2) > div:nth-child(3) > div { 
+            min-height: 240px !important;
+            position: relative !important;
+            background: transparent !important;
           }
-          .bento-card:nth-child(2) > div:nth-child(3) > div > div:last-child { padding: 1.2rem !important; }
-          .bento-card:nth-child(2) > div:nth-child(3) > div > div:last-child > div:first-child { font-size: 18px !important; margin-bottom: 0.5rem !important; }
-          .bento-card:nth-child(2) > div:nth-child(3) > div > div:last-child > div:last-child { font-size: 13px !important; }
+          .bento-card:nth-child(2) > div:nth-child(3) > div > img { 
+            display: block !important;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            position: absolute !important;
+            inset: 0 !important;
+          }
+          /* FORCE HIDE the gradient overlay div that causes dark corner - try multiple approaches */
+          .bento-card:nth-child(2) > div:nth-child(3) > div > div[style*="gradient"] { 
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+          }
+          .bento-card:nth-child(2) > div:nth-child(3) > div > div:nth-of-type(1) { 
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+          }
+          /* Keep only the text overlay at bottom */
+          .bento-card:nth-child(2) > div:nth-child(3) > div > div:last-child { 
+            position: absolute !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            padding: 1.2rem !important;
+            background: linear-gradient(to top, rgba(22,20,31,0.95) 0%, rgba(22,20,31,0.7) 60%, transparent 100%) !important;
+            z-index: 2 !important;
+          }
+          .bento-card:nth-child(2) > div:nth-child(3) > div > div:last-child > div:first-child { 
+            font-size: 18px !important;
+            margin-bottom: 0.5rem !important;
+          }
+          .bento-card:nth-child(2) > div:nth-child(3) > div > div:last-child > div:last-child { 
+            font-size: 13px !important;
+          }
           .bento-card:nth-child(3) > div:nth-child(3) { margin: 2rem 0 1.5rem !important; }
           .bento-card:nth-child(3) > div:nth-child(3) > div {
             padding: 14px 16px !important;
@@ -183,47 +219,100 @@ export default function WavyLearnMore() {
           .bento-card:nth-child(3) > div:nth-child(3) > div > div:nth-child(2) > div:first-child { font-size: 13.5px !important; margin-bottom: 4px !important; }
           .bento-card:nth-child(3) > div:nth-child(3) > div > div:nth-child(2) > div:last-child { font-size: 12px !important; }
           .bento-card:nth-child(3) > div:nth-child(3) > div > svg { width: 18px !important; height: 18px !important; flex-shrink: 0 !important; }
-          .bento-card:nth-child(4) > div:nth-child(3) { display: flex !important; justify-content: center !important; align-items: center !important; }
+          /* ============================================
+             PRIVACY SETTINGS CARD - Fix text overlap
+             ============================================ */
+          .bento-card:nth-child(4) > div:nth-child(3) { 
+            display: flex !important; 
+            justify-content: center !important; 
+            align-items: center !important; 
+          }
           .bento-card:nth-child(4) > div:nth-child(3) > div { 
-            padding: 1.5rem 1.2rem !important;
+            padding: 1.8rem 1.4rem !important;
             max-width: 100% !important;
             width: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
           }
+          /* Header with icon and title - FORCE horizontal layout */
           .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child {
-            margin-bottom: 1.2rem !important;
-            gap: 10px !important;
+            margin-bottom: 1.4rem !important;
+            gap: 12px !important;
             display: flex !important;
             flex-direction: row !important;
             align-items: center !important;
+            justify-content: flex-start !important;
           }
           .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:first-child { 
-            width: 40px !important;
-            height: 40px !important;
-            border-radius: 10px !important;
+            width: 42px !important;
+            height: 42px !important;
+            border-radius: 11px !important;
             flex-shrink: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
           }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:first-child svg { width: 20px !important; height: 20px !important; }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:last-child { flex: 1 !important; min-width: 0 !important; }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:last-child h3 { font-size: 15px !important; margin-bottom: 3px !important; }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:last-child p { font-size: 11px !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:first-child svg { 
+            width: 21px !important; 
+            height: 21px !important; 
+          }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:last-child { 
+            flex: 1 !important; 
+            min-width: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+          }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:last-child h3 { 
+            font-size: 15.5px !important; 
+            margin: 0 !important;
+            margin-bottom: 3px !important;
+            line-height: 1.2 !important;
+          }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:last-child p { 
+            font-size: 11px !important;
+            margin: 0 !important;
+            line-height: 1.3 !important;
+          }
+          /* Settings rows - each setting item */
           .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) {
-            padding: 12px 0 !important;
+            padding: 14px 0 !important;
             display: flex !important;
             flex-direction: row !important;
             align-items: center !important;
             justify-content: space-between !important;
-            gap: 12px !important;
+            gap: 16px !important;
           }
           .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child { 
             flex: 1 !important;
             min-width: 0 !important;
             display: flex !important;
             flex-direction: column !important;
+            align-items: flex-start !important;
           }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child > div:first-child { font-size: 13px !important; margin-bottom: 3px !important; font-weight: 500 !important; }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child > div:last-child { font-size: 11px !important; }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:last-child { width: 48px !important; height: 26px !important; flex-shrink: 0 !important; }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:last-child > div { width: 20px !important; height: 20px !important; top: 3px !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child > div:first-child { 
+            font-size: 13.5px !important;
+            margin: 0 !important;
+            margin-bottom: 4px !important;
+            font-weight: 500 !important;
+            line-height: 1.2 !important;
+          }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child > div:last-child { 
+            font-size: 11px !important;
+            margin: 0 !important;
+            line-height: 1.3 !important;
+          }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:last-child { 
+            width: 50px !important;
+            height: 28px !important;
+            flex-shrink: 0 !important;
+            border-radius: 100px !important;
+          }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:last-child > div { 
+            width: 22px !important;
+            height: 22px !important;
+            top: 3px !important;
+          }
           #use-cases > div > div:first-child { margin-bottom: clamp(3rem,8vw,6rem) !important; padding: 0 8px !important; }
           #use-cases > div > div:first-child h2 { font-size: clamp(32px,9vw,44px) !important; margin-bottom: 1.5rem !important; word-wrap: break-word !important; hyphens: auto !important; }
           #use-cases > div > div:first-child p { font-size: clamp(16px,4.5vw,19px) !important; padding: 0 4px !important; }
