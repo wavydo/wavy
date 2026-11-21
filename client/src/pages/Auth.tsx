@@ -710,7 +710,7 @@ export default function Auth() {
                     type="submit"
                     disabled={forgotPasswordMutation.isPending}
                     className="auth-btn auth-btn-primary"
-                    style={{ padding: '12px 20px', fontSize: 14 }}
+                    style={{ padding: '10px 18px', fontSize: 13, fontWeight: 500 }}
                   >
                     {forgotPasswordMutation.isPending ? 'Sending...' : 'Send reset link'}
                   </button>
@@ -722,7 +722,7 @@ export default function Auth() {
               <button
                 onClick={() => { setShowForgotPassword(false); setResetSuccess(false); setError(''); setForgotEmail(''); }}
                 className="auth-btn auth-btn-primary"
-                style={{ padding: '12px 20px', fontSize: 14 }}
+                style={{ padding: '10px 18px', fontSize: 13, fontWeight: 500 }}
               >
                 Done
               </button>

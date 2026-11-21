@@ -275,6 +275,33 @@ router.post('/auth/forgot-password', async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'Email is required' });
     }
 
+    // First, ensure the columns exist (auto-migration)
+    try {
+      await db.execute(sql`
+        DO $$ 
+        BEGIN 
+          IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='users' AND column_name='reset_token') THEN
+            ALTER TABLE users ADD COLUMN reset_token VARCHAR(255);
+            ALTER TABLE users ADD COLUMN reset_token_expiry TIMESTAMP;
+            CREATE INDEX idx_users_reset_token ON users(reset_token);
+          END IF;
+          IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='establishments' AND column_name='reset_token') THEN
+            ALTER TABLE establishments ADD COLUMN reset_token VARCHAR(255);
+            ALTER TABLE establishments ADD COLUMN reset_token_expiry TIMESTAMP;
+            CREATE INDEX idx_establishments_reset_token ON establishments(reset_token);
+          END IF;
+          IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='admins' AND column_name='reset_token') THEN
+            ALTER TABLE admins ADD COLUMN reset_token VARCHAR(255);
+            ALTER TABLE admins ADD COLUMN reset_token_expiry TIMESTAMP;
+            CREATE INDEX idx_admins_reset_token ON admins(reset_token);
+          END IF;
+        END $$;
+      `);
+      console.log('✅ Database schema verified/updated');
+    } catch (schemaError) {
+      console.warn('⚠️ Schema check failed (might already exist):', schemaError);
+    }
+
     // Check if user exists in any table
     let user: any = null;
     let userType: 'user' | 'establishment' | 'admin' = 'user';
