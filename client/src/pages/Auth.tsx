@@ -165,9 +165,9 @@ export default function Auth() {
         }
         .auth-btn {
           width: 100%;
-          padding: 14px 20px;
+          padding: 11px 16px;
           border-radius: 12px;
-          font-size: 15px;
+          font-size: 14px;
           font-weight: 600;
           cursor: pointer;
           transition: all 0.2s;
