@@ -162,12 +162,11 @@ export default function WavyLearnMore() {
           .bento-card > div:nth-child(3) > div > div:nth-child(5) { top: 15% !important; right: 18% !important; }
           .bento-card > div:nth-child(3) > div > div:nth-child(6) { bottom: 12% !important; right: 15% !important; }
           /* ============================================
-             REWARDS CARD - Fix dark corner completely
+             REWARDS CARD - Fix dark corner but KEEP text overlay
              ============================================ */
           .bento-card:nth-child(2) > div:nth-child(3) > div { 
             min-height: 240px !important;
             position: relative !important;
-            background: transparent !important;
           }
           .bento-card:nth-child(2) > div:nth-child(3) > div > img { 
             display: block !important;
@@ -176,34 +175,35 @@ export default function WavyLearnMore() {
             object-fit: cover !important;
             position: absolute !important;
             inset: 0 !important;
+            z-index: 0 !important;
           }
-          /* FORCE HIDE the gradient overlay div that causes dark corner - try multiple approaches */
-          .bento-card:nth-child(2) > div:nth-child(3) > div > div[style*="gradient"] { 
+          /* Hide ONLY the subtle overlay gradient (first overlay) that causes dark corner */
+          .bento-card:nth-child(2) > div:nth-child(3) > div > div:nth-child(2) { 
             display: none !important;
             opacity: 0 !important;
             visibility: hidden !important;
           }
-          .bento-card:nth-child(2) > div:nth-child(3) > div > div:nth-of-type(1) { 
-            display: none !important;
-            opacity: 0 !important;
-            visibility: hidden !important;
-          }
-          /* Keep only the text overlay at bottom */
+          /* KEEP the text overlay at bottom (last-child) */
           .bento-card:nth-child(2) > div:nth-child(3) > div > div:last-child { 
+            display: block !important;
             position: absolute !important;
             bottom: 0 !important;
             left: 0 !important;
             right: 0 !important;
             padding: 1.2rem !important;
-            background: linear-gradient(to top, rgba(22,20,31,0.95) 0%, rgba(22,20,31,0.7) 60%, transparent 100%) !important;
-            z-index: 2 !important;
+            z-index: 10 !important;
+            color: white !important;
           }
           .bento-card:nth-child(2) > div:nth-child(3) > div > div:last-child > div:first-child { 
             font-size: 18px !important;
+            font-weight: 600 !important;
             margin-bottom: 0.5rem !important;
+            color: white !important;
           }
           .bento-card:nth-child(2) > div:nth-child(3) > div > div:last-child > div:last-child { 
             font-size: 13px !important;
+            opacity: 0.95 !important;
+            color: white !important;
           }
           .bento-card:nth-child(3) > div:nth-child(3) { margin: 2rem 0 1.5rem !important; }
           .bento-card:nth-child(3) > div:nth-child(3) > div {
@@ -283,12 +283,11 @@ export default function WavyLearnMore() {
             justify-content: space-between !important;
             gap: 16px !important;
           }
+          /* Text container - MUST have flex: 1 to take available space */
           .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child { 
             flex: 1 !important;
             min-width: 0 !important;
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: flex-start !important;
+            display: block !important;
           }
           .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child > div:first-child { 
             font-size: 13.5px !important;
@@ -296,12 +295,15 @@ export default function WavyLearnMore() {
             margin-bottom: 4px !important;
             font-weight: 500 !important;
             line-height: 1.2 !important;
+            word-wrap: break-word !important;
           }
           .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child > div:last-child { 
             font-size: 11px !important;
             margin: 0 !important;
             line-height: 1.3 !important;
+            word-wrap: break-word !important;
           }
+          /* Toggle switch - MUST have fixed width */
           .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:last-child { 
             width: 50px !important;
             height: 28px !important;

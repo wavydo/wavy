@@ -4,7 +4,7 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "dev": "concurrently -n \"backend,expo\" -c \"cyan,magenta\" \"NODE_ENV=development tsx server/index.ts\" \"cd '../tapp-mobile' && npx expo start --tunnel\"",
+    "dev": "concurrently -n \"backend,expo\" -c \"cyan,magenta\" \"NODE_ENV=development tsx server/index.ts\" \"cd ../tapp-mobile && npx expo start --tunnel\"",
     "dev:backend": "NODE_ENV=development tsx server/index.ts",
     "dev:mobile": "cd \"$HOME/Desktop/terra copy 7/tapp-mobile\" && npx expo start --tunnel",
     "dev:all": "concurrently \"npm run dev:backend\" \"npm run dev:mobile\" --names \"🌊backend,📱expo\" --prefix-colors \"cyan,magenta\" --kill-others-on-fail",
