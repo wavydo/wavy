@@ -4,9 +4,10 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "dev": "NODE_ENV=development tsx server/index.ts",
+    "dev": "concurrently \"NODE_ENV=development tsx server/index.ts\" \"cd \\\"$HOME/Desktop/terra copy 7/tapp-mobile\\\" && npx expo start --tunnel\" --names \"🌊backend,📱expo\" --prefix-colors \"cyan,magenta\" --kill-others-on-fail",
+    "dev:backend": "NODE_ENV=development tsx server/index.ts",
     "dev:mobile": "cd \"$HOME/Desktop/terra copy 7/tapp-mobile\" && npx expo start --tunnel",
-    "dev:all": "concurrently \"npm run dev\" \"npm run dev:mobile\" --names \"🌊backend,📱expo\" --prefix-colors \"cyan,magenta\" --kill-others-on-fail",
+    "dev:all": "concurrently \"npm run dev:backend\" \"npm run dev:mobile\" --names \"🌊backend,📱expo\" --prefix-colors \"cyan,magenta\" --kill-others-on-fail",
     "start:all": "./start-all.sh",
     "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
     "start": "NODE_ENV=production node dist/index.js",
