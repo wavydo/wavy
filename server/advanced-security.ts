@@ -159,6 +159,9 @@ export function referrerValidation(req: Request, res: Response, next: NextFuncti
       'https://www.tapp.do',
       'https://api.tapp.do',
       'https://admin.tapp.do',
+      'https://wavy.do',
+      'https://www.wavy.do',
+      'https://wavy.onrender.com',
     ];
 
     const isValidReferer = allowedReferrers.some(allowed => 
