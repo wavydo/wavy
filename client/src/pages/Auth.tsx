@@ -198,6 +198,24 @@ export default function Auth() {
           border-color: rgba(0,0,0,0.2);
           background: #fafafa;
         }
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+        @keyframes scaleIn {
+          from {
+            opacity: 0;
+            transform: scale(0.95) translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
+        }
         @media (max-width: 968px) {
           .auth-split {
             flex-direction: column !important;
@@ -578,7 +596,8 @@ export default function Auth() {
             alignItems: 'center',
             justifyContent: 'center',
             zIndex: 100,
-            padding: 20
+            padding: 20,
+            animation: 'fadeIn 0.2s ease-out'
           }}
         >
           <div
@@ -589,7 +608,8 @@ export default function Auth() {
               padding: 'clamp(2rem, 5vw, 3rem)',
               maxWidth: 480,
               width: '100%',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.3)'
+              boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
+              animation: 'scaleIn 0.3s ease-out'
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
@@ -690,6 +710,7 @@ export default function Auth() {
                     type="submit"
                     disabled={forgotPasswordMutation.isPending}
                     className="auth-btn auth-btn-primary"
+                    style={{ padding: '12px 20px', fontSize: 14 }}
                   >
                     {forgotPasswordMutation.isPending ? 'Sending...' : 'Send reset link'}
                   </button>
@@ -701,6 +722,7 @@ export default function Auth() {
               <button
                 onClick={() => { setShowForgotPassword(false); setResetSuccess(false); setError(''); setForgotEmail(''); }}
                 className="auth-btn auth-btn-primary"
+                style={{ padding: '12px 20px', fontSize: 14 }}
               >
                 Done
               </button>
