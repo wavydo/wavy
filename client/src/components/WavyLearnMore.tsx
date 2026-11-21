@@ -143,103 +143,64 @@ export default function WavyLearnMore() {
       {/* Mobile-specific responsive styles */}
       <style>{`
         @media (max-width: 860px) {
-          /* Bento grid - single column on mobile */}
           .bento-section > div { grid-template-columns: 1fr !important; }
           .bento-card { grid-column: span 1 !important; }
-          
-          /* Use cases - single column on mobile */}
           #use-cases > div > div:last-child { grid-template-columns: 1fr !important; }
-          
-          /* Reduce padding on mobile */
           .bento-section { padding: clamp(3rem,8vw,5rem) clamp(16px,4vw,24px) !important; }
           #use-cases { padding: clamp(5rem,10vw,8rem) clamp(16px,4vw,24px) clamp(3rem,6vw,5rem) !important; }
-          
-          /* Adjust card padding on mobile */
-          .bento-card, .use-case-card { 
-            padding: clamp(1.8rem,4vw,2.5rem) clamp(1.5rem,4vw,2rem) !important; 
-          }
-          
-          /* Reduce visual heights on mobile */
+          .bento-card, .use-case-card { padding: clamp(1.8rem,4vw,2.5rem) clamp(1.5rem,4vw,2rem) !important; }
           .bento-card > div:nth-child(3) { min-height: 280px !important; }
-          
-          /* Proximity map - smaller on mobile */
-          .bento-card > div:nth-child(3) > div { height: 280px !important; }
-          
-          /* User marker - smaller */
-          .bento-card > div:nth-child(3) > div > div:nth-child(2) { 
-            width: 52px !important; 
-            height: 52px !important; 
-          }
-          .bento-card > div:nth-child(3) > div > div:nth-child(2) svg { 
-            width: 24px !important; 
-            height: 24px !important; 
-          }
-          
-          /* Place markers - smaller */
-          .bento-card > div:nth-child(3) > div > div:not(:nth-child(1)):not(:nth-child(2)) > div:first-child { 
-            width: 40px !important; 
-            height: 40px !important; 
-          }
+          .bento-card > div:nth-child(3) > div { height: 320px !important; }
+          .bento-card > div:nth-child(3) > div > div:nth-child(2) { width: 48px !important; height: 48px !important; }
+          .bento-card > div:nth-child(3) > div > div:nth-child(2) svg { width: 22px !important; height: 22px !important; }
+          .bento-card > div:nth-child(3) > div > div:not(:nth-child(1)):not(:nth-child(2)) > div:first-child { width: 36px !important; height: 36px !important; }
           .bento-card > div:nth-child(3) > div > div:not(:nth-child(1)):not(:nth-child(2)) > div:first-child svg,
-          .bento-card > div:nth-child(3) > div > div:not(:nth-child(1)):not(:nth-child(2)) > div:first-child [data-lucide] { 
-            width: 18px !important; 
-            height: 18px !important; 
-          }
-          .bento-card > div:nth-child(3) > div > div:not(:nth-child(1)):not(:nth-child(2)) > div:last-child { 
-            font-size: 10px !important; 
-            padding: 4px 10px !important; 
-          }
-          
-          /* Rewards card - adjust image container */
-          .bento-card:nth-child(2) > div:nth-child(3) > div {
-            min-height: 300px !important;
-          }
-          .bento-card:nth-child(2) > div:nth-child(3) > div > div:last-child {
-            padding: 1.5rem !important;
-          }
-          
-          /* Notifications - smaller cards */
-          .bento-card:nth-child(3) > div:nth-child(3) > div {
-            padding: 16px 18px !important;
-            margin-bottom: 12px !important;
-          }
-          .bento-card:nth-child(3) > div:nth-child(3) > div > div:first-child {
-            width: 40px !important;
-            height: 40px !important;
-          }
-          .bento-card:nth-child(3) > div:nth-child(3) > div > div:first-child [data-lucide] {
-            width: 20px !important;
-            height: 20px !important;
-          }
-          .bento-card:nth-child(3) > div:nth-child(3) > div > div:nth-child(2) > div:first-child {
-            font-size: 14px !important;
-          }
-          .bento-card:nth-child(3) > div:nth-child(3) > div > div:nth-child(2) > div:last-child {
-            font-size: 13px !important;
-          }
-          
-          /* Privacy settings card */
-          .bento-card:nth-child(4) > div:nth-child(3) > div {
-            padding: 2rem 1.5rem !important;
-          }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child {
-            margin-bottom: 2rem !important;
-          }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:first-child {
-            width: 48px !important;
-            height: 48px !important;
-          }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:first-child svg {
-            width: 24px !important;
-            height: 24px !important;
-          }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) {
-            padding: 16px 0 !important;
-          }
-          
-          /* Use case cards - adjust padding */
-          .use-case-card {
-            padding: 2rem 1.5rem !important;
+          .bento-card > div:nth-child(3) > div > div:not(:nth-child(1)):not(:nth-child(2)) > div:first-child [data-lucide] { width: 16px !important; height: 16px !important; }
+          .bento-card > div:nth-child(3) > div > div:not(:nth-child(1)):not(:nth-child(2)) > div:last-child { font-size: 9px !important; padding: 3px 8px !important; }
+          .bento-card > div:nth-child(3) > div > div:nth-child(3) { top: 12% !important; left: 15% !important; }
+          .bento-card > div:nth-child(3) > div > div:nth-child(4) { bottom: 15% !important; left: 12% !important; }
+          .bento-card > div:nth-child(3) > div > div:nth-child(5) { top: 15% !important; right: 18% !important; }
+          .bento-card > div:nth-child(3) > div > div:nth-child(6) { bottom: 12% !important; right: 15% !important; }
+          .bento-card:nth-child(2) > div:nth-child(3) > div { min-height: 240px !important; }
+          .bento-card:nth-child(2) > div:nth-child(3) > div > div:last-child { padding: 1.2rem !important; }
+          .bento-card:nth-child(2) > div:nth-child(3) > div > div:last-child > div:first-child { font-size: 18px !important; margin-bottom: 0.5rem !important; }
+          .bento-card:nth-child(2) > div:nth-child(3) > div > div:last-child > div:last-child { font-size: 13px !important; }
+          .bento-card:nth-child(3) > div:nth-child(3) { margin: 2rem 0 1.5rem !important; }
+          .bento-card:nth-child(3) > div:nth-child(3) > div { padding: 14px 16px !important; margin-bottom: 10px !important; border-radius: 16px !important; }
+          .bento-card:nth-child(3) > div:nth-child(3) > div > div:first-child { width: 38px !important; height: 38px !important; border-radius: 12px !important; }
+          .bento-card:nth-child(3) > div:nth-child(3) > div > div:first-child [data-lucide] { width: 18px !important; height: 18px !important; }
+          .bento-card:nth-child(3) > div:nth-child(3) > div > div:nth-child(2) > div:first-child { font-size: 13.5px !important; margin-bottom: 4px !important; }
+          .bento-card:nth-child(3) > div:nth-child(3) > div > div:nth-child(2) > div:last-child { font-size: 12px !important; }
+          .bento-card:nth-child(3) > div:nth-child(3) > div > svg { width: 18px !important; height: 18px !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) { display: flex !important; justify-content: center !important; align-items: center !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div { padding: 1.8rem 1.3rem !important; max-width: 100% !important; width: 100% !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child { margin-bottom: 1.5rem !important; gap: 12px !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:first-child { width: 44px !important; height: 44px !important; border-radius: 12px !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:first-child svg { width: 22px !important; height: 22px !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:last-child h3 { font-size: 16px !important; margin-bottom: 4px !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:last-child p { font-size: 12px !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) { padding: 14px 0 !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child > div:first-child { font-size: 14px !important; margin-bottom: 4px !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child > div:last-child { font-size: 12px !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:last-child { width: 50px !important; height: 28px !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:last-child > div { width: 22px !important; height: 22px !important; top: 3px !important; }
+          #use-cases > div > div:first-child { margin-bottom: clamp(3rem,8vw,6rem) !important; padding: 0 8px !important; }
+          #use-cases > div > div:first-child h2 { font-size: clamp(32px,9vw,44px) !important; margin-bottom: 1.5rem !important; word-wrap: break-word !important; hyphens: auto !important; }
+          #use-cases > div > div:first-child p { font-size: clamp(16px,4.5vw,19px) !important; padding: 0 4px !important; }
+          .use-case-card { padding: 1.8rem 1.4rem !important; }
+          .use-case-card > div:first-child { width: 58px !important; height: 58px !important; margin-bottom: 1.5rem !important; border-radius: 16px !important; }
+          .use-case-card > div:first-child svg,
+          .use-case-card > div:first-child [data-lucide] { width: 28px !important; height: 28px !important; }
+          .use-case-card h3 { font-size: clamp(20px,5.5vw,26px) !important; margin-bottom: 1rem !important; }
+          .use-case-card p { font-size: clamp(14px,4vw,17px) !important; line-height: 1.6 !important; }
+        }
+        @media (max-width: 640px) {
+          .bento-card, .use-case-card { padding: 1.5rem 1.2rem !important; }
+          section:first-of-type { padding: clamp(3rem,6vw,5rem) clamp(16px,4vw,24px) !important; }
+          .bento-card > div:nth-child(3) > div { height: 280px !important; }
+          #use-cases > div > div:first-child h2 { font-size: clamp(28px,8vw,36px) !important; }
+        }
+      `}</style>
           }
           .use-case-card > div:first-child {
             width: 64px !important;
