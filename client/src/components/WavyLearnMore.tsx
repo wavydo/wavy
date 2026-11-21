@@ -162,12 +162,13 @@ export default function WavyLearnMore() {
           .bento-card > div:nth-child(3) > div > div:nth-child(5) { top: 15% !important; right: 18% !important; }
           .bento-card > div:nth-child(3) > div > div:nth-child(6) { bottom: 12% !important; right: 15% !important; }
           .bento-card:nth-child(2) > div:nth-child(3) > div { min-height: 240px !important; }
+          .bento-card:nth-child(2) > div:nth-child(3) > div > img { display: block !important; }
+          .bento-card:nth-child(2) > div:nth-child(3) > div > div:first-child { 
+            display: none !important;
+          }
           .bento-card:nth-child(2) > div:nth-child(3) > div > div:last-child { padding: 1.2rem !important; }
           .bento-card:nth-child(2) > div:nth-child(3) > div > div:last-child > div:first-child { font-size: 18px !important; margin-bottom: 0.5rem !important; }
           .bento-card:nth-child(2) > div:nth-child(3) > div > div:last-child > div:last-child { font-size: 13px !important; }
-          .bento-card:nth-child(2) > div:nth-child(3) > div > div:nth-child(2) { 
-            background: linear-gradient(to top, rgba(22,20,31,0.95), rgba(22,20,31,0.7)) !important;
-          }
           .bento-card:nth-child(3) > div:nth-child(3) { margin: 2rem 0 1.5rem !important; }
           .bento-card:nth-child(3) > div:nth-child(3) > div {
             padding: 14px 16px !important;
@@ -191,23 +192,35 @@ export default function WavyLearnMore() {
           .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child {
             margin-bottom: 1.2rem !important;
             gap: 10px !important;
+            display: flex !important;
             flex-direction: row !important;
             align-items: center !important;
           }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:first-child { width: 40px !important; height: 40px !important; border-radius: 10px !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:first-child { 
+            width: 40px !important;
+            height: 40px !important;
+            border-radius: 10px !important;
+            flex-shrink: 0 !important;
+          }
           .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:first-child svg { width: 20px !important; height: 20px !important; }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:last-child { flex: 1 !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:last-child { flex: 1 !important; min-width: 0 !important; }
           .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:last-child h3 { font-size: 15px !important; margin-bottom: 3px !important; }
           .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:last-child p { font-size: 11px !important; }
           .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) {
             padding: 12px 0 !important;
             display: flex !important;
+            flex-direction: row !important;
             align-items: center !important;
             justify-content: space-between !important;
             gap: 12px !important;
           }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child { flex: 1 !important; min-width: 0 !important; }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child > div:first-child { font-size: 13px !important; margin-bottom: 3px !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child { 
+            flex: 1 !important;
+            min-width: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+          }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child > div:first-child { font-size: 13px !important; margin-bottom: 3px !important; font-weight: 500 !important; }
           .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child > div:last-child { font-size: 11px !important; }
           .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:last-child { width: 48px !important; height: 26px !important; flex-shrink: 0 !important; }
           .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:last-child > div { width: 20px !important; height: 20px !important; top: 3px !important; }

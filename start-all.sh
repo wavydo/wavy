@@ -47,7 +47,7 @@ sleep 2
 # Start Expo
 echo ""
 echo -e "${MAGENTA}[Expo]${NC} Starting Expo development server..."
-MOBILE_DIR="../tapp-mobile"
+MOBILE_DIR="$HOME/Desktop/terra copy 7/tapp-mobile"
 
 if [ -d "$MOBILE_DIR" ]; then
     cd "$MOBILE_DIR"
