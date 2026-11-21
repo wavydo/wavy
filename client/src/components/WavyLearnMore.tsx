@@ -165,25 +165,52 @@ export default function WavyLearnMore() {
           .bento-card:nth-child(2) > div:nth-child(3) > div > div:last-child { padding: 1.2rem !important; }
           .bento-card:nth-child(2) > div:nth-child(3) > div > div:last-child > div:first-child { font-size: 18px !important; margin-bottom: 0.5rem !important; }
           .bento-card:nth-child(2) > div:nth-child(3) > div > div:last-child > div:last-child { font-size: 13px !important; }
+          .bento-card:nth-child(2) > div:nth-child(3) > div > div:nth-child(2) { 
+            background: linear-gradient(to top, rgba(22,20,31,0.95), rgba(22,20,31,0.7)) !important;
+          }
           .bento-card:nth-child(3) > div:nth-child(3) { margin: 2rem 0 1.5rem !important; }
-          .bento-card:nth-child(3) > div:nth-child(3) > div { padding: 14px 16px !important; margin-bottom: 10px !important; border-radius: 16px !important; }
-          .bento-card:nth-child(3) > div:nth-child(3) > div > div:first-child { width: 38px !important; height: 38px !important; border-radius: 12px !important; }
+          .bento-card:nth-child(3) > div:nth-child(3) > div {
+            padding: 14px 16px !important;
+            margin-bottom: 10px !important;
+            border-radius: 16px !important;
+            min-height: auto !important;
+            height: auto !important;
+          }
+          .bento-card:nth-child(3) > div:nth-child(3) > div > div:first-child { width: 38px !important; height: 38px !important; border-radius: 12px !important; flex-shrink: 0 !important; }
           .bento-card:nth-child(3) > div:nth-child(3) > div > div:first-child [data-lucide] { width: 18px !important; height: 18px !important; }
+          .bento-card:nth-child(3) > div:nth-child(3) > div > div:nth-child(2) { flex: 1 !important; min-width: 0 !important; }
           .bento-card:nth-child(3) > div:nth-child(3) > div > div:nth-child(2) > div:first-child { font-size: 13.5px !important; margin-bottom: 4px !important; }
           .bento-card:nth-child(3) > div:nth-child(3) > div > div:nth-child(2) > div:last-child { font-size: 12px !important; }
-          .bento-card:nth-child(3) > div:nth-child(3) > div > svg { width: 18px !important; height: 18px !important; }
+          .bento-card:nth-child(3) > div:nth-child(3) > div > svg { width: 18px !important; height: 18px !important; flex-shrink: 0 !important; }
           .bento-card:nth-child(4) > div:nth-child(3) { display: flex !important; justify-content: center !important; align-items: center !important; }
-          .bento-card:nth-child(4) > div:nth-child(3) > div { padding: 1.8rem 1.3rem !important; max-width: 100% !important; width: 100% !important; }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child { margin-bottom: 1.5rem !important; gap: 12px !important; }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:first-child { width: 44px !important; height: 44px !important; border-radius: 12px !important; }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:first-child svg { width: 22px !important; height: 22px !important; }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:last-child h3 { font-size: 16px !important; margin-bottom: 4px !important; }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:last-child p { font-size: 12px !important; }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) { padding: 14px 0 !important; }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child > div:first-child { font-size: 14px !important; margin-bottom: 4px !important; }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child > div:last-child { font-size: 12px !important; }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:last-child { width: 50px !important; height: 28px !important; }
-          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:last-child > div { width: 22px !important; height: 22px !important; top: 3px !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div { 
+            padding: 1.5rem 1.2rem !important;
+            max-width: 100% !important;
+            width: 100% !important;
+          }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child {
+            margin-bottom: 1.2rem !important;
+            gap: 10px !important;
+            flex-direction: row !important;
+            align-items: center !important;
+          }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:first-child { width: 40px !important; height: 40px !important; border-radius: 10px !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:first-child svg { width: 20px !important; height: 20px !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:last-child { flex: 1 !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:last-child h3 { font-size: 15px !important; margin-bottom: 3px !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:first-child > div:last-child p { font-size: 11px !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) {
+            padding: 12px 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 12px !important;
+          }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child { flex: 1 !important; min-width: 0 !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child > div:first-child { font-size: 13px !important; margin-bottom: 3px !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:first-child > div:last-child { font-size: 11px !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:last-child { width: 48px !important; height: 26px !important; flex-shrink: 0 !important; }
+          .bento-card:nth-child(4) > div:nth-child(3) > div > div:not(:first-child) > div:last-child > div { width: 20px !important; height: 20px !important; top: 3px !important; }
           #use-cases > div > div:first-child { margin-bottom: clamp(3rem,8vw,6rem) !important; padding: 0 8px !important; }
           #use-cases > div > div:first-child h2 { font-size: clamp(32px,9vw,44px) !important; margin-bottom: 1.5rem !important; word-wrap: break-word !important; hyphens: auto !important; }
           #use-cases > div > div:first-child p { font-size: clamp(16px,4.5vw,19px) !important; padding: 0 4px !important; }
