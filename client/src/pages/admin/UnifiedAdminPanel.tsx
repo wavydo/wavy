@@ -3,8 +3,9 @@ import { useLocation } from 'wouter';
 import '../Dashboard.css';
 import './AdminPanel.css';
 import SupportTab from './SupportTab';
+import EmailsTab from './EmailsTab';
 
-type Tab = 'overview' | 'transactions' | 'users' | 'establishments' | 'database' | 'issuing' | 'support';
+type Tab = 'overview' | 'transactions' | 'users' | 'establishments' | 'database' | 'issuing' | 'support' | 'emails';
 
 interface Transaction {
   id: string;
@@ -874,6 +875,20 @@ export default function UnifiedAdminPanel() {
           </a>
 
           <a 
+            onClick={() => setActiveTab('emails')} 
+            className={`nav_link ${activeTab === 'emails' ? 'active' : ''}`}
+            style={{ cursor: 'pointer' }}
+          >
+            <div className="nav_link_icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+              </svg>
+            </div>
+            <div className="nav_link_text">Emails</div>
+          </a>
+
+          <a 
             onClick={() => setActiveTab('database')} 
             className={`nav_link ${activeTab === 'database' ? 'active' : ''}`}
             style={{ cursor: 'pointer' }}
@@ -929,6 +944,7 @@ export default function UnifiedAdminPanel() {
               {activeTab === 'establishments' && 'Establishment Management'}
               {activeTab === 'issuing' && 'Card Issuing'}
               {activeTab === 'support' && 'Asistencia'}
+              {activeTab === 'emails' && 'Email Management'}
               {activeTab === 'database' && 'Database Editor'}
             </p>
             <p className="desc">Admin Control Panel</p>
@@ -1975,6 +1991,11 @@ export default function UnifiedAdminPanel() {
             {/* SUPPORT TAB */}
             {activeTab === 'support' && (
               <SupportTab />
+            )}
+
+            {/* EMAILS TAB */}
+            {activeTab === 'emails' && (
+              <EmailsTab />
             )}
           </main>
         </div>

@@ -153,6 +153,28 @@ export const insertAdminSchema = createInsertSchema(admins, {
 // ============================================
 // NFC CARDS (Tarjetas tokenizadas con seguridad)
 // ============================================
+// ============================================
+// EMAILS (Sistema de correos con Resend)
+// ============================================
+export const emails = pgTable('emails', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  from: text('from').notNull(), // Remitente
+  to: text('to').notNull(), // Destinatario
+  subject: text('subject').notNull(), // Asunto
+  body: text('body').notNull(), // Cuerpo del email (HTML o texto)
+  type: text('type').notNull().default('received'), // 'sent' o 'received'
+  resendId: text('resend_id'), // ID de Resend para emails enviados
+  status: text('status').notNull().default('pending'), // pending, sent, delivered, failed
+  error: text('error'), // Error si falló el envío
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  readAt: timestamp('read_at'), // Cuando se marcó como leído
+});
+
+export const insertEmailSchema = createInsertSchema(emails).omit({
+  id: true,
+  createdAt: true,
+});
+
 export const nfcCards = pgTable('nfc_cards', {
   id: uuid('id').primaryKey().defaultRandom(),
   userId: uuid('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),

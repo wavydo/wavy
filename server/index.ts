@@ -14,6 +14,7 @@ import adminRoutes from './admin-routes.js';
 import cardRequestRoutes from './card-request-routes.js';
 import adminCardRoutes from './admin-card-routes.js';
 import supportChatRoutes from './support-chat-routes.js';
+import emailRoutes from './email-routes.js';
 import { initializeWebSocket } from './websocket.js';
 
 // ============================================
@@ -290,6 +291,9 @@ async function startServer() {
   setSocketIO(io);
   app.use('/api', supportChatRoutes);
 
+  // Import and mount email routes
+  app.use('/api', emailRoutes);
+
   if (process.env.NODE_ENV === 'development') {
     // ===== CRITICAL: Redirect ALL business dashboard URLs to React =====
     // These must come BEFORE static file serving
@@ -385,6 +389,14 @@ async function startServer() {
     try {
       const { makePerkDatesOptional } = await import('./migrations/make-perk-dates-optional.js');
       await makePerkDatesOptional();
+    } catch (error) {
+      console.error('Migration error:', error);
+    }
+    
+    // Run emails table migration
+    try {
+      const { createEmailsTable } = await import('./migrations/create-emails-table.js');
+      await createEmailsTable();
     } catch (error) {
       console.error('Migration error:', error);
     }

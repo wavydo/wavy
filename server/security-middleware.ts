@@ -104,6 +104,9 @@ const allowedOrigins = [
   'https://www.tapp.do',
   'https://api.tapp.do',
   'https://admin.tapp.do',
+  'https://wavy.do',
+  'https://www.wavy.do',
+  'https://wavy.onrender.com',
   'tapp://', // Mobile app
   'http://localhost:3001', // Self-hosted frontend (puerto correcto)
   'http://localhost:3000',
