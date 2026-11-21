@@ -107,11 +107,11 @@ export default function About() {
       {/* Hero */}
       <section style={{ background: 'linear-gradient(180deg, #f3f3f6 0%, #fff 100%)', padding: 'clamp(4rem,6vw,7rem) clamp(20px,4vw,60px)', textAlign: 'center' }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
-          <h1 className="about-hero-title" style={{ fontSize: 'clamp(48px,7vw,72px)', fontWeight: 400, lineHeight: 1.1, marginBottom: '1.5rem', letterSpacing: '-0.03em' }}>
+          <h1 className="about-hero-title" style={{ fontSize: 'clamp(48px,7vw,72px)', fontWeight: 400, lineHeight: 1.1, marginBottom: '1.5rem', letterSpacing: '-0.03em', color: '#16141f' }}>
             About <span style={{ color: '#5e79db', fontFamily: "'Modulus', -apple-system, sans-serif", fontWeight: 800 }}>Wavy</span>
           </h1>
           <p className="about-hero-subtitle" style={{ fontSize: 'clamp(18px,2.2vw,22px)', color: 'rgba(22,20,31,0.6)', lineHeight: 1.6, maxWidth: 680, margin: '0 auto' }}>
-            We're building something new. Not another loyalty app, not another map—just a better way to discover what's around you.
+            A proximity-based platform that connects you with nearby places, exclusive offers, and local experiences—all in real-time, right when you need them.
           </p>
         </div>
       </section>
