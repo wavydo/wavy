@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
-import { EnvelopeSimple, PaperPlaneTilt, Trash, Eye, ArrowsClockwise, Plus, X } from 'phosphor-react';
+import { EnvelopeSimple, PaperPlaneTilt, Trash, ArrowsClockwise, Plus, X } from 'phosphor-react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 interface Email {
   id: string;
@@ -15,24 +17,40 @@ interface Email {
   readAt: string | null;
 }
 
-interface EmailOption {
-  value: string;
-  label: string;
-}
-
 export default function EmailsTab() {
   const [emails, setEmails] = useState<Email[]>([]);
-  const [emailOptions, setEmailOptions] = useState<EmailOption[]>([]);
   const [loading, setLoading] = useState(false);
   const [showCompose, setShowCompose] = useState(false);
   const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
   
   // Form states
-  const [from, setFrom] = useState('');
+  const [fromAlias, setFromAlias] = useState('');
   const [to, setTo] = useState('');
   const [subject, setSubject] = useState('');
   const [body, setBody] = useState('');
   const [sending, setSending] = useState(false);
+
+  // Quill modules configuration
+  const modules = {
+    toolbar: [
+      [{ 'header': [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'align': [] }],
+      ['link', 'image'],
+      ['clean']
+    ],
+  };
+
+  const formats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike',
+    'list', 'bullet',
+    'color', 'background',
+    'align',
+    'link', 'image'
+  ];
 
   // Fetch emails
   const fetchEmails = async () => {
@@ -53,28 +71,8 @@ export default function EmailsTab() {
     }
   };
 
-  // Fetch email options
-  const fetchEmailOptions = async () => {
-    try {
-      const res = await fetch('/api/admin/emails/options', {
-        credentials: 'include',
-      });
-      const data = await res.json();
-      
-      if (data.success) {
-        setEmailOptions(data.options);
-        if (data.options.length > 0) {
-          setFrom(data.options[0].value);
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching email options:', error);
-    }
-  };
-
   useEffect(() => {
     fetchEmails();
-    fetchEmailOptions();
   }, []);
 
   // Send email
@@ -82,12 +80,14 @@ export default function EmailsTab() {
     e.preventDefault();
     setSending(true);
 
+    const fullFrom = `${fromAlias}@wavy.do`;
+
     try {
       const res = await fetch('/api/admin/emails/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ from, to, subject, body }),
+        body: JSON.stringify({ from: fullFrom, to, subject, body }),
       });
 
       const data = await res.json();
@@ -95,6 +95,7 @@ export default function EmailsTab() {
       if (data.success) {
         alert('Email sent successfully!');
         setShowCompose(false);
+        setFromAlias('');
         setTo('');
         setSubject('');
         setBody('');
@@ -273,7 +274,7 @@ export default function EmailsTab() {
               background: 'white',
               padding: '30px',
               borderRadius: '12px',
-              maxWidth: '600px',
+              maxWidth: '900px',
               width: '100%',
               maxHeight: '90vh',
               overflow: 'auto',
@@ -305,6 +306,7 @@ export default function EmailsTab() {
             </div>
 
             <form onSubmit={handleSendEmail}>
+              {/* From Field with Alias */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ 
                   display: 'block', 
@@ -315,28 +317,48 @@ export default function EmailsTab() {
                 }}>
                   From
                 </label>
-                <select
-                  value={from}
-                  onChange={(e) => setFrom(e.target.value)}
-                  required
-                  style={{
-                    width: '100%',
-                    padding: '10px 12px',
-                    borderRadius: '6px',
-                    border: '1px solid #e0e0e0',
-                    fontSize: '14px',
-                    color: '#333',
-                    background: 'white'
-                  }}
-                >
-                  {emailOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center',
+                  gap: '8px',
+                  border: '1px solid #e0e0e0',
+                  borderRadius: '6px',
+                  padding: '10px 12px',
+                  background: 'white'
+                }}>
+                  <input
+                    type="text"
+                    value={fromAlias}
+                    onChange={(e) => setFromAlias(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
+                    required
+                    placeholder="alias"
+                    style={{
+                      border: 'none',
+                      outline: 'none',
+                      fontSize: '14px',
+                      color: '#333',
+                      flex: 1,
+                      minWidth: '80px'
+                    }}
+                  />
+                  <span style={{ 
+                    fontSize: '14px', 
+                    color: '#666',
+                    whiteSpace: 'nowrap'
+                  }}>
+                    @wavy.do
+                  </span>
+                </div>
+                <p style={{ 
+                  margin: '6px 0 0 0', 
+                  fontSize: '12px', 
+                  color: '#999'
+                }}>
+                  Examples: support, noreply, hello, team, info
+                </p>
               </div>
 
+              {/* To Field */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ 
                   display: 'block', 
@@ -364,6 +386,7 @@ export default function EmailsTab() {
                 />
               </div>
 
+              {/* Subject Field */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ 
                   display: 'block', 
@@ -391,6 +414,7 @@ export default function EmailsTab() {
                 />
               </div>
 
+              {/* Rich Text Editor */}
               <div style={{ marginBottom: '25px' }}>
                 <label style={{ 
                   display: 'block', 
@@ -399,27 +423,36 @@ export default function EmailsTab() {
                   fontSize: '14px',
                   color: '#333'
                 }}>
-                  Message (HTML supported)
+                  Message
                 </label>
-                <textarea
-                  value={body}
-                  onChange={(e) => setBody(e.target.value)}
-                  required
-                  rows={10}
-                  placeholder="Email body (HTML supported)"
-                  style={{
-                    width: '100%',
-                    padding: '10px 12px',
-                    borderRadius: '6px',
-                    border: '1px solid #e0e0e0',
-                    fontSize: '14px',
-                    fontFamily: 'monospace',
-                    color: '#333',
-                    resize: 'vertical'
-                  }}
-                />
+                <div style={{ 
+                  border: '1px solid #e0e0e0',
+                  borderRadius: '6px',
+                  overflow: 'hidden'
+                }}>
+                  <ReactQuill
+                    theme="snow"
+                    value={body}
+                    onChange={setBody}
+                    modules={modules}
+                    formats={formats}
+                    placeholder="Write your email message here..."
+                    style={{ 
+                      minHeight: '300px',
+                      background: 'white'
+                    }}
+                  />
+                </div>
+                <p style={{ 
+                  margin: '6px 0 0 0', 
+                  fontSize: '12px', 
+                  color: '#999'
+                }}>
+                  Use the toolbar to format text, add links, and insert images
+                </p>
               </div>
 
+              {/* Action Buttons */}
               <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
                 <button
                   type="button"
