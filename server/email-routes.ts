@@ -64,6 +64,8 @@ router.post('/admin/emails/send', async (req, res) => {
   try {
     const { from, to, cc, subject, body } = req.body;
 
+    console.log('📧 Sending email request:', { from, to: Array.isArray(to) ? to : [to], cc, subject });
+
     // Validar campos requeridos
     if (!from || !subject || !body) {
       return res.status(400).json({
@@ -73,19 +75,26 @@ router.post('/admin/emails/send', async (req, res) => {
     }
 
     // Validar que to sea un array o string
-    const recipients = Array.isArray(to) ? to : [to];
+    const recipients = Array.isArray(to) ? to.filter(r => r && r.trim()) : (to ? [to] : []);
     
-    if (recipients.length === 0 || !recipients[0]) {
+    if (recipients.length === 0) {
       return res.status(400).json({
         success: false,
-        error: 'At least one recipient is required',
+        error: 'At least one valid recipient is required',
       });
     }
 
-    // Preparar CC si existe
-    const ccRecipients = cc && Array.isArray(cc) ? cc : (cc ? [cc] : undefined);
+    // Preparar CC si existe - filtrar vacíos
+    let ccRecipients = undefined;
+    if (cc) {
+      const ccArray = Array.isArray(cc) ? cc : [cc];
+      const validCC = ccArray.filter(c => c && c.trim());
+      if (validCC.length > 0) {
+        ccRecipients = validCC;
+      }
+    }
 
-    // Enviar email con Resend
+    // Construir payload para Resend
     const emailPayload: any = {
       from,
       to: recipients,
@@ -93,15 +102,23 @@ router.post('/admin/emails/send', async (req, res) => {
       html: body,
     };
 
-    // Solo agregar CC si existe y no está vacío
-    if (ccRecipients && ccRecipients.length > 0) {
+    // Solo agregar CC si existe
+    if (ccRecipients) {
       emailPayload.cc = ccRecipients;
     }
+
+    console.log('📤 Sending via Resend with payload:', {
+      from: emailPayload.from,
+      to: emailPayload.to,
+      cc: emailPayload.cc,
+      subject: emailPayload.subject,
+      bodyLength: body.length
+    });
 
     const { data, error } = await resend.emails.send(emailPayload);
 
     if (error) {
-      console.error('Resend error:', error);
+      console.error('❌ Resend error:', error);
       
       // Guardar email fallido en la base de datos
       await db.insert(emails).values({
@@ -111,12 +128,13 @@ router.post('/admin/emails/send', async (req, res) => {
         body,
         type: 'sent',
         status: 'failed',
-        error: error.message || 'Unknown error',
+        error: JSON.stringify(error),
       });
 
       return res.status(500).json({
         success: false,
         error: error.message || 'Failed to send email',
+        details: error
       });
     }
 
@@ -131,6 +149,8 @@ router.post('/admin/emails/send', async (req, res) => {
       status: 'sent',
     }).returning();
 
+    console.log('✅ Email sent successfully, ID:', data?.id);
+
     res.json({
       success: true,
       message: 'Email sent successfully',
@@ -138,7 +158,7 @@ router.post('/admin/emails/send', async (req, res) => {
       resendId: data?.id,
     });
   } catch (error: any) {
-    console.error('Error sending email:', error);
+    console.error('❌ Error sending email:', error);
     res.status(500).json({
       success: false,
       error: error.message || 'Failed to send email',

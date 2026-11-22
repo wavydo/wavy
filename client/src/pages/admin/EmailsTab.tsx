@@ -126,9 +126,7 @@ export default function EmailsTab() {
     
     // Filter out empty recipients
     const validRecipients = recipients.filter(r => r.trim() !== '');
-    const validCcEmails = ccEmails.filter(cc => cc.trim() !== '').map(cc => 
-      cc.includes('@wavy.do') ? cc : `${cc}@wavy.do`
-    );
+    const validCcEmails = ccEmails.filter(cc => cc.trim() !== '');
 
     if (validRecipients.length === 0) {
       alert('Please add at least one recipient');
@@ -553,7 +551,7 @@ export default function EmailsTab() {
                 </p>
               </div>
 
-              {/* CC Field - Additional From Emails */}
+              {/* CC Field - Additional Recipients */}
               <div style={{ marginBottom: '20px' }}>
                 <div style={{ 
                   display: 'flex', 
@@ -566,7 +564,7 @@ export default function EmailsTab() {
                     fontSize: '14px',
                     color: '#333'
                   }}>
-                    CC (Optional - Additional Senders)
+                    CC (Optional - Copy Recipients)
                   </label>
                   {ccEmails.length < 2 && (
                     <button
@@ -595,38 +593,20 @@ export default function EmailsTab() {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     {ccEmails.map((cc, index) => (
                       <div key={index} style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                        <div style={{ 
-                          flex: 1,
-                          display: 'flex', 
-                          alignItems: 'center',
-                          gap: '8px',
-                          border: '1px solid #e0e0e0',
-                          borderRadius: '6px',
-                          padding: '10px 12px',
-                          background: 'white'
-                        }}>
-                          <input
-                            type="text"
-                            value={cc}
-                            onChange={(e) => updateCcEmail(index, e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
-                            placeholder="alias"
-                            style={{
-                              border: 'none',
-                              outline: 'none',
-                              fontSize: '14px',
-                              color: '#333',
-                              flex: 1,
-                              minWidth: '80px'
-                            }}
-                          />
-                          <span style={{ 
-                            fontSize: '14px', 
-                            color: '#666',
-                            whiteSpace: 'nowrap'
-                          }}>
-                            @wavy.do
-                          </span>
-                        </div>
+                        <input
+                          type="email"
+                          value={cc}
+                          onChange={(e) => updateCcEmail(index, e.target.value)}
+                          placeholder={`cc${index + 1}@example.com`}
+                          style={{
+                            flex: 1,
+                            padding: '10px 12px',
+                            borderRadius: '6px',
+                            border: '1px solid #e0e0e0',
+                            fontSize: '14px',
+                            color: '#333'
+                          }}
+                        />
                         <button
                           type="button"
                           onClick={() => removeCcEmail(index)}
@@ -652,7 +632,7 @@ export default function EmailsTab() {
                   fontSize: '12px', 
                   color: '#999'
                 }}>
-                  Add up to 2 additional sender emails (CC)
+                  Add up to 2 additional recipients who will receive a copy
                 </p>
               </div>
 
