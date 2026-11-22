@@ -408,82 +408,97 @@ router.post('/auth/forgot-password', async (req: Request, res: Response) => {
     const { Resend } = await import('resend');
     const resend = new Resend(process.env.RESEND_API_KEY);
 
-    const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5000'}/reset-password?token=${resetToken}`;
+    const resetUrl = `https://wavy.do/reset-password?token=${resetToken}`;
     const userName = user.full_name || user.business_name || user.username || 'there';
 
     const { data, error } = await resend.emails.send({
-      from: 'Wavy Account Recovery <recover@wavy.do>',
+      from: 'Wavy Security <recover@wavy.do>',
       to: [email],
-      subject: 'Reset Your Wavy Password',
+      subject: 'Reset Your Password',
       html: `
         <!DOCTYPE html>
-        <html>
+        <html lang="en">
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
         </head>
-        <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f9fafb;">
-          <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f9fafb; padding: 40px 20px;">
+        <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif; background-color: #fafafa;">
+          <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #fafafa; padding: 48px 20px;">
             <tr>
               <td align="center">
-                <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                <!-- Main Container -->
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 560px; background-color: #ffffff; border-radius: 12px; overflow: hidden;">
                   
-                  <!-- Header -->
+                  <!-- Logo Header -->
                   <tr>
-                    <td style="background: linear-gradient(135deg, #5e79db 0%, #4a61c5 100%); padding: 40px 40px 30px 40px; text-align: center;">
-                      <h1 style="margin: 0; font-size: 32px; font-weight: 700; color: #ffffff; letter-spacing: -0.02em;">wavy</h1>
+                    <td align="center" style="padding: 48px 40px 32px 40px;">
+                      <div style="width: 48px; height: 48px; background: #16141f; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;">
+                        <span style="color: white; font-size: 24px; font-weight: 700; font-family: 'Modulus', -apple-system, sans-serif;">W</span>
+                      </div>
+                      <h1 style="margin: 20px 0 0 0; font-size: 24px; font-weight: 700; color: #16141f; letter-spacing: -0.5px;">Reset your password</h1>
                     </td>
                   </tr>
-                  
+
                   <!-- Content -->
                   <tr>
-                    <td style="padding: 40px;">
-                      <h2 style="margin: 0 0 16px 0; font-size: 24px; font-weight: 600; color: #111827;">Reset Your Password</h2>
-                      <p style="margin: 0 0 24px 0; font-size: 16px; line-height: 1.6; color: #6b7280;">
+                    <td style="padding: 0 40px 40px 40px;">
+                      <p style="margin: 0 0 24px 0; font-size: 16px; line-height: 1.6; color: #666;">
                         Hi ${userName},
                       </p>
-                      <p style="margin: 0 0 24px 0; font-size: 16px; line-height: 1.6; color: #6b7280;">
-                        We received a request to reset your password. Click the button below to create a new password:
+                      <p style="margin: 0 0 32px 0; font-size: 16px; line-height: 1.6; color: #666;">
+                        We received a request to reset your password. Click the button below to create a new password. This link will expire in 1 hour.
                       </p>
-                      
-                      <!-- Button -->
-                      <table width="100%" cellpadding="0" cellspacing="0" style="margin: 0 0 24px 0;">
+
+                      <!-- CTA Button -->
+                      <table width="100%" cellpadding="0" cellspacing="0" border="0">
                         <tr>
-                          <td align="center" style="padding: 20px 0;">
-                            <a href="${resetUrl}" style="display: inline-block; padding: 16px 32px; background-color: #5e79db; color: #ffffff; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 16px;">Reset Password</a>
+                          <td align="center" style="padding: 0 0 32px 0;">
+                            <a href="${resetUrl}" style="display: inline-block; padding: 14px 32px; background-color: #16141f; color: #ffffff; text-decoration: none; border-radius: 100px; font-size: 15px; font-weight: 600; letter-spacing: -0.2px;">
+                              Reset Password
+                            </a>
                           </td>
                         </tr>
                       </table>
-                      
-                      <p style="margin: 0 0 16px 0; font-size: 14px; line-height: 1.6; color: #6b7280;">
-                        Or copy and paste this link into your browser:
+
+                      <!-- Fallback Link -->
+                      <p style="margin: 0 0 24px 0; font-size: 14px; line-height: 1.6; color: #999;">
+                        If the button doesn't work, copy and paste this link into your browser:
                       </p>
-                      <p style="margin: 0 0 24px 0; font-size: 14px; line-height: 1.6; color: #5e79db; word-break: break-all;">
+                      <p style="margin: 0 0 32px 0; font-size: 13px; line-height: 1.6; color: #5e79db; word-break: break-all;">
                         ${resetUrl}
                       </p>
-                      
-                      <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid #e5e7eb;">
-                        <p style="margin: 0 0 8px 0; font-size: 14px; line-height: 1.6; color: #6b7280;">
-                          <strong>This link will expire in 1 hour.</strong>
-                        </p>
-                        <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #6b7280;">
-                          If you didn't request a password reset, you can safely ignore this email. Your password will remain unchanged.
+
+                      <!-- Security Notice -->
+                      <div style="padding: 16px; background-color: #f9fafb; border-radius: 8px; border-left: 3px solid #16141f;">
+                        <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #666;">
+                          <strong style="color: #16141f;">Didn't request this?</strong><br>
+                          You can safely ignore this email. Your password will remain unchanged.
                         </p>
                       </div>
                     </td>
                   </tr>
-                  
+
                   <!-- Footer -->
                   <tr>
-                    <td style="background-color: #f9fafb; padding: 24px 40px; text-align: center; border-top: 1px solid #e5e7eb;">
-                      <p style="margin: 0 0 8px 0; font-size: 14px; color: #6b7280;">
-                        Wavy - Discover places and offers around you
-                      </p>
-                      <p style="margin: 0; font-size: 12px; color: #9ca3af;">
-                        © ${new Date().getFullYear()} Wavy. All rights reserved.
-                      </p>
+                    <td style="padding: 32px 40px; background-color: #fafafa; border-top: 1px solid #f0f0f0;">
+                      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                          <td align="center">
+                            <p style="margin: 0 0 12px 0; font-size: 13px; color: #999;">
+                              Wavy · El mundo se mueve contigo
+                            </p>
+                            <p style="margin: 0; font-size: 12px; color: #999;">
+                              <a href="https://wavy.do/help" style="color: #999; text-decoration: none; margin: 0 8px;">Help Center</a>
+                              <span style="color: #ddd;">·</span>
+                              <a href="https://wavy.do/contact" style="color: #999; text-decoration: none; margin: 0 8px;">Contact Us</a>
+                            </p>
+                          </td>
+                        </tr>
+                      </table>
                     </td>
                   </tr>
+
                 </table>
               </td>
             </tr>
@@ -491,6 +506,15 @@ router.post('/auth/forgot-password', async (req: Request, res: Response) => {
         </body>
         </html>
       `,
+      headers: {
+        'X-Entity-Ref-ID': `reset-${user.id}`,
+      },
+      tags: [
+        {
+          name: 'category',
+          value: 'password_reset'
+        }
+      ]
     });
 
     if (error) {
