@@ -24,6 +24,7 @@ export default function EmailsTab() {
   const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
   
   // Form states
+  const [fromName, setFromName] = useState('');
   const [fromAlias, setFromAlias] = useState('');
   const [to, setTo] = useState('');
   const [subject, setSubject] = useState('');
@@ -80,7 +81,7 @@ export default function EmailsTab() {
     e.preventDefault();
     setSending(true);
 
-    const fullFrom = `${fromAlias}@wavy.do`;
+    const fullFrom = fromName ? `${fromName} <${fromAlias}@wavy.do>` : `${fromAlias}@wavy.do`;
 
     try {
       const res = await fetch('/api/admin/emails/send', {
@@ -95,6 +96,7 @@ export default function EmailsTab() {
       if (data.success) {
         alert('Email sent successfully!');
         setShowCompose(false);
+        setFromName('');
         setFromAlias('');
         setTo('');
         setSubject('');
@@ -306,6 +308,40 @@ export default function EmailsTab() {
             </div>
 
             <form onSubmit={handleSendEmail}>
+              {/* From Name Field */}
+              <div style={{ marginBottom: '20px' }}>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: '8px', 
+                  fontWeight: 600,
+                  fontSize: '14px',
+                  color: '#333'
+                }}>
+                  From Name (optional)
+                </label>
+                <input
+                  type="text"
+                  value={fromName}
+                  onChange={(e) => setFromName(e.target.value)}
+                  placeholder="Wavy Team"
+                  style={{
+                    width: '100%',
+                    padding: '10px 12px',
+                    borderRadius: '6px',
+                    border: '1px solid #e0e0e0',
+                    fontSize: '14px',
+                    color: '#333'
+                  }}
+                />
+                <p style={{ 
+                  margin: '6px 0 0 0', 
+                  fontSize: '12px', 
+                  color: '#999'
+                }}>
+                  The display name that appears in the recipient's inbox
+                </p>
+              </div>
+
               {/* From Field with Alias */}
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ 
@@ -315,7 +351,7 @@ export default function EmailsTab() {
                   fontSize: '14px',
                   color: '#333'
                 }}>
-                  From
+                  From Email
                 </label>
                 <div style={{ 
                   display: 'flex', 
@@ -356,6 +392,19 @@ export default function EmailsTab() {
                 }}>
                   Examples: support, noreply, hello, team, info
                 </p>
+                {fromName && fromAlias && (
+                  <div style={{
+                    marginTop: '10px',
+                    padding: '8px 12px',
+                    background: '#f0f9ff',
+                    border: '1px solid #bae6fd',
+                    borderRadius: '6px',
+                    fontSize: '13px',
+                    color: '#0369a1'
+                  }}>
+                    <strong>Preview:</strong> {fromName} &lt;{fromAlias}@wavy.do&gt;
+                  </div>
+                )}
               </div>
 
               {/* To Field */}
