@@ -26,10 +26,51 @@ export default function EmailsTab() {
   // Form states
   const [fromName, setFromName] = useState('');
   const [fromAlias, setFromAlias] = useState('');
-  const [to, setTo] = useState('');
+  const [ccEmails, setCcEmails] = useState<string[]>([]);
+  const [recipients, setRecipients] = useState<string[]>(['']);
   const [subject, setSubject] = useState('');
   const [body, setBody] = useState('');
   const [sending, setSending] = useState(false);
+
+  // Add recipient field
+  const addRecipient = () => {
+    if (recipients.length < 5) {
+      setRecipients([...recipients, '']);
+    }
+  };
+
+  // Remove recipient field
+  const removeRecipient = (index: number) => {
+    if (recipients.length > 1) {
+      setRecipients(recipients.filter((_, i) => i !== index));
+    }
+  };
+
+  // Update recipient value
+  const updateRecipient = (index: number, value: string) => {
+    const newRecipients = [...recipients];
+    newRecipients[index] = value;
+    setRecipients(newRecipients);
+  };
+
+  // Add CC email
+  const addCcEmail = () => {
+    if (ccEmails.length < 2) {
+      setCcEmails([...ccEmails, '']);
+    }
+  };
+
+  // Remove CC email
+  const removeCcEmail = (index: number) => {
+    setCcEmails(ccEmails.filter((_, i) => i !== index));
+  };
+
+  // Update CC email value
+  const updateCcEmail = (index: number, value: string) => {
+    const newCcEmails = [...ccEmails];
+    newCcEmails[index] = value;
+    setCcEmails(newCcEmails);
+  };
 
   // Quill modules configuration
   const modules = {
@@ -82,13 +123,31 @@ export default function EmailsTab() {
     setSending(true);
 
     const fullFrom = fromName ? `${fromName} <${fromAlias}@wavy.do>` : `${fromAlias}@wavy.do`;
+    
+    // Filter out empty recipients
+    const validRecipients = recipients.filter(r => r.trim() !== '');
+    const validCcEmails = ccEmails.filter(cc => cc.trim() !== '').map(cc => 
+      cc.includes('@wavy.do') ? cc : `${cc}@wavy.do`
+    );
+
+    if (validRecipients.length === 0) {
+      alert('Please add at least one recipient');
+      setSending(false);
+      return;
+    }
 
     try {
       const res = await fetch('/api/admin/emails/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ from: fullFrom, to, subject, body }),
+        body: JSON.stringify({ 
+          from: fullFrom, 
+          to: validRecipients, 
+          cc: validCcEmails.length > 0 ? validCcEmails : undefined,
+          subject, 
+          body 
+        }),
       });
 
       const data = await res.json();
@@ -98,7 +157,8 @@ export default function EmailsTab() {
         setShowCompose(false);
         setFromName('');
         setFromAlias('');
-        setTo('');
+        setRecipients(['']);
+        setCcEmails([]);
         setSubject('');
         setBody('');
         fetchEmails();
@@ -407,32 +467,193 @@ export default function EmailsTab() {
                 )}
               </div>
 
-              {/* To Field */}
+              {/* To Field - Multiple Recipients */}
               <div style={{ marginBottom: '20px' }}>
-                <label style={{ 
-                  display: 'block', 
-                  marginBottom: '8px', 
-                  fontWeight: 600,
-                  fontSize: '14px',
-                  color: '#333'
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'center',
+                  marginBottom: '8px'
                 }}>
-                  To
-                </label>
-                <input
-                  type="email"
-                  value={to}
-                  onChange={(e) => setTo(e.target.value)}
-                  required
-                  placeholder="recipient@example.com"
-                  style={{
-                    width: '100%',
-                    padding: '10px 12px',
-                    borderRadius: '6px',
-                    border: '1px solid #e0e0e0',
+                  <label style={{ 
+                    fontWeight: 600,
                     fontSize: '14px',
                     color: '#333'
-                  }}
-                />
+                  }}>
+                    To (Recipients)
+                  </label>
+                  {recipients.length < 5 && (
+                    <button
+                      type="button"
+                      onClick={addRecipient}
+                      style={{
+                        padding: '4px 12px',
+                        background: '#f0f9ff',
+                        border: '1px solid #bae6fd',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontSize: '12px',
+                        fontWeight: 600,
+                        color: '#0369a1',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px'
+                      }}
+                    >
+                      <Plus size={14} weight="bold" />
+                      Add Recipient
+                    </button>
+                  )}
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {recipients.map((recipient, index) => (
+                    <div key={index} style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                      <input
+                        type="email"
+                        value={recipient}
+                        onChange={(e) => updateRecipient(index, e.target.value)}
+                        required={index === 0}
+                        placeholder={`recipient${index + 1}@example.com`}
+                        style={{
+                          flex: 1,
+                          padding: '10px 12px',
+                          borderRadius: '6px',
+                          border: '1px solid #e0e0e0',
+                          fontSize: '14px',
+                          color: '#333'
+                        }}
+                      />
+                      {recipients.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeRecipient(index)}
+                          style={{
+                            padding: '8px',
+                            background: '#fee2e2',
+                            border: 'none',
+                            borderRadius: '6px',
+                            cursor: 'pointer',
+                            color: '#dc2626',
+                            display: 'flex',
+                            alignItems: 'center'
+                          }}
+                        >
+                          <X size={18} weight="bold" />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <p style={{ 
+                  margin: '6px 0 0 0', 
+                  fontSize: '12px', 
+                  color: '#999'
+                }}>
+                  Add up to 5 recipients
+                </p>
+              </div>
+
+              {/* CC Field - Additional From Emails */}
+              <div style={{ marginBottom: '20px' }}>
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'center',
+                  marginBottom: '8px'
+                }}>
+                  <label style={{ 
+                    fontWeight: 600,
+                    fontSize: '14px',
+                    color: '#333'
+                  }}>
+                    CC (Optional - Additional Senders)
+                  </label>
+                  {ccEmails.length < 2 && (
+                    <button
+                      type="button"
+                      onClick={addCcEmail}
+                      style={{
+                        padding: '4px 12px',
+                        background: '#f0fdf4',
+                        border: '1px solid #bbf7d0',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontSize: '12px',
+                        fontWeight: 600,
+                        color: '#15803d',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px'
+                      }}
+                    >
+                      <Plus size={14} weight="bold" />
+                      Add CC
+                    </button>
+                  )}
+                </div>
+                {ccEmails.length > 0 && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    {ccEmails.map((cc, index) => (
+                      <div key={index} style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                        <div style={{ 
+                          flex: 1,
+                          display: 'flex', 
+                          alignItems: 'center',
+                          gap: '8px',
+                          border: '1px solid #e0e0e0',
+                          borderRadius: '6px',
+                          padding: '10px 12px',
+                          background: 'white'
+                        }}>
+                          <input
+                            type="text"
+                            value={cc}
+                            onChange={(e) => updateCcEmail(index, e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
+                            placeholder="alias"
+                            style={{
+                              border: 'none',
+                              outline: 'none',
+                              fontSize: '14px',
+                              color: '#333',
+                              flex: 1,
+                              minWidth: '80px'
+                            }}
+                          />
+                          <span style={{ 
+                            fontSize: '14px', 
+                            color: '#666',
+                            whiteSpace: 'nowrap'
+                          }}>
+                            @wavy.do
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => removeCcEmail(index)}
+                          style={{
+                            padding: '8px',
+                            background: '#fee2e2',
+                            border: 'none',
+                            borderRadius: '6px',
+                            cursor: 'pointer',
+                            color: '#dc2626',
+                            display: 'flex',
+                            alignItems: 'center'
+                          }}
+                        >
+                          <X size={18} weight="bold" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <p style={{ 
+                  margin: '6px 0 0 0', 
+                  fontSize: '12px', 
+                  color: '#999'
+                }}>
+                  Add up to 2 additional sender emails (CC)
+                </p>
               </div>
 
               {/* Subject Field */}
