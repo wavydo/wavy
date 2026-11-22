@@ -603,7 +603,9 @@ export function hppProtection(req: Request, res: Response, next: NextFunction) {
   // Detectar parámetros duplicados
   const checkForDuplicates = (obj: any, objName: string) => {
     for (const key in obj) {
-      if (Array.isArray(obj[key]) && key !== 'items' && key !== 'tags') {
+      // Arrays legítimos permitidos
+      const allowedArrays = ['items', 'tags', 'to', 'cc', 'recipients'];
+      if (Array.isArray(obj[key]) && !allowedArrays.includes(key)) {
         // Parámetro duplicado detectado (excepto arrays legítimos)
         logSecurityEvent('http_parameter_pollution', req, { 
           parameter: key, 

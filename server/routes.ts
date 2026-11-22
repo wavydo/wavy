@@ -532,6 +532,49 @@ router.post('/auth/forgot-password', async (req: Request, res: Response) => {
 });
 
 // Reset Password - Verify token and update password
+// ============================================
+// Verify Reset Token
+// ============================================
+router.post('/auth/verify-reset-token', async (req: Request, res: Response) => {
+  try {
+    const { token } = req.body;
+    
+    if (!token) {
+      return res.status(400).json({ valid: false, error: 'Token is required' });
+    }
+
+    // Hash the token to compare with database
+    const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+
+    // Check in all three tables
+    const normalUsers = await db.execute(
+      sql`SELECT id FROM users WHERE reset_token = ${tokenHash} AND reset_token_expiry > NOW() LIMIT 1`
+    );
+    if (normalUsers.rows && normalUsers.rows.length > 0) {
+      return res.json({ valid: true });
+    }
+    
+    const estUsers = await db.execute(
+      sql`SELECT id FROM establishments WHERE reset_token = ${tokenHash} AND reset_token_expiry > NOW() LIMIT 1`
+    );
+    if (estUsers.rows && estUsers.rows.length > 0) {
+      return res.json({ valid: true });
+    }
+    
+    const adminUsers = await db.execute(
+      sql`SELECT id FROM admins WHERE reset_token = ${tokenHash} AND reset_token_expiry > NOW() LIMIT 1`
+    );
+    if (adminUsers.rows && adminUsers.rows.length > 0) {
+      return res.json({ valid: true });
+    }
+
+    return res.json({ valid: false, error: 'Invalid or expired reset token' });
+  } catch (error) {
+    console.error('Error verifying reset token:', error);
+    return res.status(500).json({ valid: false, error: 'Server error' });
+  }
+});
+
 router.post('/auth/reset-password', async (req: Request, res: Response) => {
   try {
     const { token, newPassword } = req.body;
