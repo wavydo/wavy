@@ -64,6 +64,7 @@ router.post('/admin/emails/send', async (req, res) => {
   try {
     const { from, to, cc, subject, body } = req.body;
 
+    console.log('📧 RAW REQUEST BODY:', JSON.stringify(req.body, null, 2));
     console.log('📧 Sending email request:', { from, to: Array.isArray(to) ? to : [to], cc, subject });
 
     // Validar campos requeridos

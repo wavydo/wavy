@@ -128,27 +128,46 @@ export default function EmailsTab() {
     const validRecipients = recipients.filter(r => r.trim() !== '');
     const validCcEmails = ccEmails.filter(cc => cc.trim() !== '');
 
+    console.log('🔍 Frontend - Preparing to send email:', {
+      fromName,
+      fromAlias,
+      fullFrom,
+      recipients,
+      validRecipients,
+      ccEmails,
+      validCcEmails,
+      subject,
+      bodyLength: body.length
+    });
+
     if (validRecipients.length === 0) {
       alert('Please add at least one recipient');
       setSending(false);
       return;
     }
 
+    const payload = { 
+      from: fullFrom, 
+      to: validRecipients, 
+      cc: validCcEmails.length > 0 ? validCcEmails : undefined,
+      subject, 
+      body 
+    };
+
+    console.log('🔍 Frontend - Sending payload:', JSON.stringify(payload, null, 2));
+
     try {
       const res = await fetch('/api/admin/emails/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ 
-          from: fullFrom, 
-          to: validRecipients, 
-          cc: validCcEmails.length > 0 ? validCcEmails : undefined,
-          subject, 
-          body 
-        }),
+        body: JSON.stringify(payload),
       });
 
+      console.log('🔍 Frontend - Response status:', res.status);
+
       const data = await res.json();
+      console.log('🔍 Frontend - Response data:', data);
 
       if (data.success) {
         alert('Email sent successfully!');
@@ -164,7 +183,7 @@ export default function EmailsTab() {
         alert('Failed to send email: ' + data.error);
       }
     } catch (error) {
-      console.error('Error sending email:', error);
+      console.error('🔍 Frontend - Error sending email:', error);
       alert('Failed to send email');
     } finally {
       setSending(false);
