@@ -62,23 +62,43 @@ router.get('/admin/emails', async (req, res) => {
 // ============================================
 router.post('/admin/emails/send', async (req, res) => {
   try {
-    const { from, to, subject, body } = req.body;
+    const { from, to, cc, subject, body } = req.body;
 
     // Validar campos requeridos
-    if (!from || !to || !subject || !body) {
+    if (!from || !subject || !body) {
       return res.status(400).json({
         success: false,
-        error: 'Missing required fields: from, to, subject, body',
+        error: 'Missing required fields: from, subject, body',
       });
     }
 
+    // Validar que to sea un array o string
+    const recipients = Array.isArray(to) ? to : [to];
+    
+    if (recipients.length === 0 || !recipients[0]) {
+      return res.status(400).json({
+        success: false,
+        error: 'At least one recipient is required',
+      });
+    }
+
+    // Preparar CC si existe
+    const ccRecipients = cc && Array.isArray(cc) ? cc : (cc ? [cc] : undefined);
+
     // Enviar email con Resend
-    const { data, error } = await resend.emails.send({
+    const emailPayload: any = {
       from,
-      to,
+      to: recipients,
       subject,
       html: body,
-    });
+    };
+
+    // Solo agregar CC si existe y no está vacío
+    if (ccRecipients && ccRecipients.length > 0) {
+      emailPayload.cc = ccRecipients;
+    }
+
+    const { data, error } = await resend.emails.send(emailPayload);
 
     if (error) {
       console.error('Resend error:', error);
@@ -86,7 +106,7 @@ router.post('/admin/emails/send', async (req, res) => {
       // Guardar email fallido en la base de datos
       await db.insert(emails).values({
         from,
-        to,
+        to: recipients.join(', '),
         subject,
         body,
         type: 'sent',
@@ -103,7 +123,7 @@ router.post('/admin/emails/send', async (req, res) => {
     // Guardar email enviado en la base de datos
     const [savedEmail] = await db.insert(emails).values({
       from,
-      to,
+      to: recipients.join(', '),
       subject,
       body,
       type: 'sent',
@@ -117,11 +137,11 @@ router.post('/admin/emails/send', async (req, res) => {
       email: savedEmail,
       resendId: data?.id,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error sending email:', error);
     res.status(500).json({
       success: false,
-      error: 'Failed to send email',
+      error: error.message || 'Failed to send email',
     });
   }
 });
