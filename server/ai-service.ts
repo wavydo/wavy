@@ -81,7 +81,7 @@ Always respond in Spanish and be conversational.`;
           content: query
         }
       ],
-      model: "llama-3.1-70b-versatile", // Fast and powerful
+      model: "openai/gpt-oss-20b", // OpenAI GPT OSS 20B - 1000 tokens/sec - FREE
       temperature: 0.7,
       max_tokens: 400,
       top_p: 1,
