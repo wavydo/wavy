@@ -36,9 +36,31 @@ router.post('/ai/search', async (req: Request, res: Response) => {
       userContext
     );
 
+    // Check if response is an action (JSON format)
+    let actionData = null;
+    let message = response;
+    
+    try {
+      // Try to parse as JSON to detect actions
+      const jsonMatch = response.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        const parsed = JSON.parse(jsonMatch[0]);
+        if (parsed.type === 'action') {
+          actionData = parsed;
+          message = parsed.message;
+        }
+      }
+    } catch (e) {
+      // Not JSON, treat as normal text
+    }
+
     res.json({
       success: true,
-      response,
+      response: message,
+      action: actionData ? {
+        type: actionData.action,
+        data: actionData.data
+      } : null,
       timestamp: new Date().toISOString()
     });
   } catch (error: any) {
