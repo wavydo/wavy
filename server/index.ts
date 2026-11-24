@@ -15,6 +15,7 @@ import cardRequestRoutes from './card-request-routes.js';
 import adminCardRoutes from './admin-card-routes.js';
 import supportChatRoutes from './support-chat-routes.js';
 import emailRoutes from './email-routes.js';
+import aiRoutes from './ai-routes.js';
 import { initializeWebSocket } from './websocket.js';
 
 // ============================================
@@ -301,6 +302,9 @@ async function startServer() {
 
   // Import and mount email routes
   app.use('/api', emailRoutes);
+  
+  // Import and mount AI routes  
+  app.use('/api', aiRoutes);
 
   if (process.env.NODE_ENV === 'development') {
     // ===== CRITICAL: Redirect ALL business dashboard URLs to React =====
